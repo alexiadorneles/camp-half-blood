@@ -1,9 +1,18 @@
 import React from 'react'
 import { CHBLogo } from '../../generics'
+import { Button } from '@material-ui/core'
 
 import './Login.scss'
+import { useHistory } from 'react-router'
+import { ROUTES } from '../../../config/Routes'
 
 export function Login() {
+	const history = useHistory()
+
+	function goToHomePage() {
+		history.push(ROUTES.HOME)
+	}
+
 	return (
 		<div className='Login'>
 			<CHBLogo />
@@ -11,6 +20,9 @@ export function Login() {
 				Bem vindo ao <br />
 				Acampamento Meio-Sangue
 			</p>
+			<Button variant='contained' onClick={goToHomePage}>
+				Login
+			</Button>
 		</div>
 	)
 }

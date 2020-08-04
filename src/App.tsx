@@ -1,9 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.scss'
-import { Login } from './components/screens'
-const About = lazy(() => import('./About'))
-const Home = lazy(() => import('./Home'))
+import { Login, Home } from './components/screens'
 
 const App: React.FC = () => (
 	<Router>
@@ -19,12 +17,11 @@ const App: React.FC = () => (
 				</ul>
 			</nav> */}
 			<Switch>
-				<Route path='/about'>
-					<About />
+				<Route path='/home'>
+					<Home />
 				</Route>
 				<Route path='/'>
 					<Login />
-					{/* <Home /> */}
 				</Route>
 			</Switch>
 		</Suspense>
