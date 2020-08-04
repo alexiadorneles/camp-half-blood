@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { Login } from './components/screens/Login'
 const About = lazy(() => import('./About'))
 const Home = lazy(() => import('./Home'))
 
@@ -21,7 +22,8 @@ const App: React.FC = () => (
 					<About />
 				</Route>
 				<Route path='/'>
-					<Home />
+					<Login />
+					{/* <Home /> */}
 				</Route>
 			</Switch>
 		</Suspense>
