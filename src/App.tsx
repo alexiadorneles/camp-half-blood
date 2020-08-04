@@ -1,13 +1,14 @@
 import React, { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import { Login } from './components/screens/Login'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import './App.scss'
+import { Login } from './components/screens'
 const About = lazy(() => import('./About'))
 const Home = lazy(() => import('./Home'))
 
 const App: React.FC = () => (
 	<Router>
 		<Suspense fallback={<div>Loading...</div>}>
-			<nav>
+			{/* <nav>
 				<ul>
 					<li>
 						<Link to='/'>Home</Link>
@@ -16,7 +17,7 @@ const App: React.FC = () => (
 						<Link to='/about'>About</Link>
 					</li>
 				</ul>
-			</nav>
+			</nav> */}
 			<Switch>
 				<Route path='/about'>
 					<About />
