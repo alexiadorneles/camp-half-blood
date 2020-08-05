@@ -4,13 +4,13 @@ import { Button } from '@material-ui/core'
 
 import './Login.scss'
 import { useHistory } from 'react-router'
-import { ROUTES } from '../../../config/Routes'
+import { SECURED_ROUTES } from '../../../config/Routes'
 
 export function Login() {
 	const history = useHistory()
 
 	function goToHomePage() {
-		history.push(ROUTES.HOME)
+		history.push(SECURED_ROUTES.HOME)
 	}
 
 	return (

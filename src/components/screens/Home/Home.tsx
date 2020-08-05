@@ -1,5 +1,9 @@
 import React from 'react'
 
 export function Home() {
-	return <h2>HOME</h2>
+	return (
+		<div>
+			<h2 style={{ margin: 0, padding: 20 }}>HOME</h2>
+		</div>
+	)
 }
