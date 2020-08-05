@@ -4,8 +4,11 @@
 	font-family: 'Sora', sans-serif;
 }
 
-.App {
+#root {
 	text-align: center;
+	min-height: 100vh;
+	height: 100%;
+	position: relative;
 }
 
 .App-logo {

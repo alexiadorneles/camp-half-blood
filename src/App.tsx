@@ -1,24 +1,20 @@
-import React, { lazy, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.scss'
-import { Login, Home } from './components/screens'
+import { CHBBottomNav } from './components/generics'
+import { Home, Login } from './components/screens'
 
 const App: React.FC = () => (
 	<Router>
 		<Suspense fallback={<div>Loading...</div>}>
-			{/* <nav>
-				<ul>
-					<li>
-						<Link to='/'>Home</Link>
-					</li>
-					<li>
-						<Link to='/about'>About</Link>
-					</li>
-				</ul>
-			</nav> */}
 			<Switch>
-				<Route path='/home'>
-					<Home />
+				<Route path='/secured'>
+					<Switch>
+						<Route path='/secured/home'>
+							<Home />
+						</Route>
+					</Switch>
+					<CHBBottomNav />
 				</Route>
 				<Route path='/'>
 					<Login />
