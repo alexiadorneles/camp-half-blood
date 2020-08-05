@@ -1,0 +1,57 @@
+.Profile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	max-height: 90vh;
+
+	&__photoAndNameContainer {
+		display: flex;
+		justify-items: center;
+		flex-direction: column;
+		align-items: center;
+
+		&--photo {
+			height: 150px !important;
+			width: 150px !important;
+		}
+
+		p {
+			margin-top: 15px;
+			margin-bottom: 0;
+		}
+
+		&--cabin {
+			font-size: 12px;
+			margin-top: 5px !important;
+			margin-bottom: 15px !important;
+		}
+	}
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100vw;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		overflow-y: scroll;
+
+		&--formItem {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			padding-left: 15px;
+			padding-right: 15px;
+			margin: 7px 0;
+			label {
+				font-size: 15px;
+			}
+
+			p {
+				font-size: 14px;
+				margin: 0 8px;
+			}
+		}
+	}
+}
