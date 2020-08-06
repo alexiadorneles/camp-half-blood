@@ -1,3 +1,3 @@
 export * from './Login/Login'
-export * from './Home/Home'
+export * from './CabinChoice/CabinChoice'
 export * from './Profile/Profile'
