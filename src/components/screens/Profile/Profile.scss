@@ -17,6 +17,8 @@
 		p {
 			margin-top: 15px;
 			margin-bottom: 0;
+			flex-grow: 1;
+			width: 100%;
 		}
 
 		&--cabin {
@@ -39,16 +41,19 @@
 			margin: 7px 0;
 			label {
 				font-size: 15px;
+				flex: 2;
 			}
 
 			p {
 				font-size: 14px;
 				margin: 0 8px;
 				word-break: break-all;
+				flex: 2;
 			}
 
 			&-textField {
 				margin-left: 10px !important;
+				flex: 3;
 			}
 		}
 
@@ -56,6 +61,8 @@
 			@extend .Profile__container--formItem;
 			flex-direction: column;
 			align-items: stretch;
+			margin-bottom: 30px;
+
 			label {
 				margin-bottom: 7px;
 			}
@@ -74,7 +81,7 @@
 			justify-content: center;
 			width: 80%;
 			align-self: center;
-			margin-top: 10px;
+			margin-top: 30px;
 		}
 	}
 }

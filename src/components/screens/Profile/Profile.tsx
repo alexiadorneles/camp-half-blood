@@ -39,7 +39,7 @@ export function Profile() {
 	function renderDisplayMode() {
 		return (
 			<>
-				<div className='Profile__container--formItem'>
+				<div className='Profile__container--formItem-down'>
 					<label>Descrição: </label>
 					<p>{camper.dsDescription}</p>
 				</div>
