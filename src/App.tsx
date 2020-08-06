@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.scss'
 import { CHBBottomNav } from './components/generics'
-import { Home, Login, Profile } from './components/screens'
+import { Cabin, Login, Profile } from './components/screens'
 
 const App: React.FC = () => (
 	<Router>
@@ -10,8 +10,8 @@ const App: React.FC = () => (
 			<Switch>
 				<Route path='/secured'>
 					<Switch>
-						<Route path='/secured/home'>
-							<Home />
+						<Route path='/secured/cabin'>
+							<Cabin />
 						</Route>
 						<Route path='/secured/profile'>
 							<Profile />

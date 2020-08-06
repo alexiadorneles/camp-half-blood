@@ -1,5 +1,5 @@
 export const SECURED_ROUTES = {
-	HOME: '/secured/home',
+	CABIN: '/secured/cabin',
 	PROFILE: '/secured/profile',
 	RANKING: '/secured/ranking',
 	GAMES: '/secured/games',
