@@ -1,10 +1,7 @@
+@import '../../../App.scss';
+
 .Profile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	max-height: 90vh;
-	height: calc(var(--vh, 1vh) * 90);
+	@extend .page;
 
 	&__photoAndNameContainer {
 		display: flex;
@@ -30,14 +27,7 @@
 	}
 
 	&__container {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		max-width: 100vw;
-		width: 90%;
-		padding-top: 10px;
-		padding-bottom: 10px;
-		overflow-y: scroll;
+		@extend .pageContainer;
 
 		&--formItem {
 			display: flex;
