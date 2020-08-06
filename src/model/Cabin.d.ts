@@ -6,3 +6,7 @@ export interface Cabin {
 	tpDivinityRelated: Divinity
 	dsImageURL: string
 }
+
+export interface CabinUserCount {
+	nrCampers: number
+}

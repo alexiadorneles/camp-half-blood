@@ -1,4 +1,4 @@
-export const enum Divinity {
+export enum Divinity {
 	ATHENA = 'Atena',
 	ARES = 'Ares',
 	APOLLO = 'Apolo',
