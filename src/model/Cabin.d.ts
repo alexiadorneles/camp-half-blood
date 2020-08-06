@@ -1,4 +1,5 @@
 import { Divinity } from './Mythology'
+import { Camper } from './Camper'
 
 export interface Cabin {
 	idCabin: string
@@ -7,6 +8,6 @@ export interface Cabin {
 	dsImageURL: string
 }
 
-export interface CabinUserCount {
-	nrCampers: number
+export interface CabinCampers {
+	campers: Camper[]
 }

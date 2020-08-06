@@ -1,24 +1,27 @@
 import { Avatar, Button, Fab } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
 import React, { useState } from 'react'
-import { Cabin, CabinUserCount } from '../../../model/Cabin'
+import { Cabin, CabinCampers } from '../../../model/Cabin'
 import { Edition } from '../../../model/Edicao'
 import { Divinity } from '../../../model/Mythology'
 import './CabinChoice.scss'
+import { Camper } from '../../../model/Camper'
+import camperMock from '../../../mocks/camper.json'
+;(camperMock as any).dtBirth = new Date(camperMock.dtBirth)
 
 const editionMock: Partial<Edition> = {
-	dtBegin: new Date(),
+	dtBegin: null,
 	nrCabinLimit: 25,
 }
 
-const cabinsMock: Array<Cabin & CabinUserCount> = [
+const cabinsMock: Array<Cabin & CabinCampers> = [
 	{
 		dsName: 'Chalé 1 - Zeus',
 		idCabin: '1',
 		tpDivinityRelated: Divinity.ZEUS,
 		dsImageURL:
 			'https://cdna.artstation.com/p/assets/images/images/011/621/560/medium/elinor-riley-cabin-1-concept-2.jpg?1530538576',
-		nrCampers: 15,
+		campers: new Array(15),
 	},
 	{
 		dsName: 'Chalé 2 - Hera',
@@ -26,7 +29,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.HERA,
 		dsImageURL:
 			'https://cdna.artstation.com/p/assets/images/images/011/621/570/large/elinor-riley-cabin-2-concept-finished.jpg?1530538598',
-		nrCampers: 8,
+		campers: new Array(8),
 	},
 
 	{
@@ -35,7 +38,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.POSEIDON,
 		dsImageURL:
 			'https://cdna.artstation.com/p/assets/images/images/011/621/578/small/elinor-riley-cabin-3-concept-complete.jpg?1530538627',
-		nrCampers: 25,
+		campers: new Array(25),
 	},
 	{
 		dsName: 'Calé 4 - Deméter',
@@ -43,7 +46,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.DEMETER,
 		dsImageURL:
 			'https://cdnb.artstation.com/p/assets/images/images/011/621/585/small/elinor-riley-cabin-4-concept-croped.jpg?1530538665',
-		nrCampers: 20,
+		campers: new Array(20),
 	},
 	{
 		dsName: 'Chalé 5 - Ares',
@@ -51,7 +54,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.ARES,
 		dsImageURL:
 			'https://cdnb.artstation.com/p/assets/images/images/011/621/589/small/elinor-riley-cabin-5-concept.jpg?1530538681',
-		nrCampers: 20,
+		campers: new Array(20),
 	},
 	{
 		dsName: 'Chalé 6 - Atena',
@@ -59,7 +62,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.ATHENA,
 		dsImageURL:
 			'https://cdnb.artstation.com/p/assets/images/images/011/621/599/small/elinor-riley-cabin-6-concept.jpg?1530538696',
-		nrCampers: 25,
+		campers: [...new Array(25), '1'],
 	},
 	{
 		dsName: 'Chalé 7 - Apolo',
@@ -67,7 +70,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.APOLLO,
 		dsImageURL:
 			'https://cdna.artstation.com/p/assets/images/images/012/833/146/small/elinor-riley-cabin-7-cocnept.jpg?1536747378',
-		nrCampers: 25,
+		campers: new Array(25),
 	},
 	{
 		dsName: 'Chalé 8 - Ártemis',
@@ -75,7 +78,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.ARTEMIS,
 		dsImageURL:
 			'https://cdna.artstation.com/p/assets/images/images/012/833/148/small/elinor-riley-cabin-8-concept.jpg?1536746958',
-		nrCampers: 20,
+		campers: new Array(20),
 	},
 	{
 		dsName: 'Chalé 9 - Hefesto',
@@ -83,7 +86,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.HEPHAESTUS,
 		dsImageURL:
 			'https://cdnb.artstation.com/p/assets/images/images/012/833/149/small/elinor-riley-cabin-9-concept.jpg?1536746961',
-		nrCampers: 23,
+		campers: new Array(23),
 	},
 	{
 		dsName: 'Chalé 10 - Afrodite',
@@ -91,7 +94,7 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.APHRODITE,
 		dsImageURL:
 			'https://cdna.artstation.com/p/assets/images/images/012/833/152/small/elinor-riley-cabin-10-concpet.jpg?1536746965',
-		nrCampers: 25,
+		campers: new Array(25),
 	},
 	{
 		dsName: 'Chalé 11 - Hermes',
@@ -99,15 +102,15 @@ const cabinsMock: Array<Cabin & CabinUserCount> = [
 		tpDivinityRelated: Divinity.HERMES,
 		dsImageURL:
 			'https://cdnb.artstation.com/p/assets/images/images/012/833/153/small/elinor-riley-cabin-11-concept.jpg?1536746971',
-		nrCampers: 10,
+		campers: new Array(10),
 	},
 	{
 		dsName: 'Chalé 12 - Dionísio',
-		idCabin: '11',
+		idCabin: '12',
 		tpDivinityRelated: Divinity.DIONYSUS,
 		dsImageURL:
 			'https://cdnb.artstation.com/p/assets/images/images/012/833/145/small/elinor-riley-cabin-12-concept.jpg?1536746941',
-		nrCampers: 10,
+		campers: new Array(10),
 	},
 ]
 
@@ -116,9 +119,10 @@ export function CabinChoice() {
 	const [edition, setEdition] = useState(editionMock)
 	const [option, setOption] = useState(1)
 	const [selectedCabinsIds, setSelectedCabinsIds] = useState<string[]>([])
-	const [singleCabinSelected, setSingleCabinSelected] = useState<(Cabin & CabinUserCount) | null>(null)
+	const [singleCabinSelected, setSingleCabinSelected] = useState<(Cabin & CabinCampers) | null>(null)
+	const [camper, setCamper] = useState<Camper>(camperMock as any)
 
-	function selectSingleCabin(cabin: Cabin & CabinUserCount): void {
+	function selectSingleCabin(cabin: Cabin & CabinCampers): void {
 		setSingleCabinSelected(cabin)
 	}
 
@@ -133,9 +137,9 @@ export function CabinChoice() {
 		setSelectedCabinsIds([...newValue])
 	}
 
-	function renderButtonCabinAction(cabin: Cabin & CabinUserCount) {
+	function renderButtonCabinAction(cabin: Cabin & CabinCampers) {
 		const isSelected = selectedCabinsIds.includes(cabin.idCabin) || singleCabinSelected === cabin
-		const isFull = cabin.nrCampers >= edition.nrCabinLimit!
+		const isFull = cabin.campers.length >= edition.nrCabinLimit!
 		const editionStarted = Boolean(edition.dtBegin)
 
 		if (isSelected && !editionStarted) {
@@ -173,11 +177,11 @@ export function CabinChoice() {
 		)
 	}
 
-	function renderCabin(cabin: Cabin & CabinUserCount) {
+	function renderCabin(cabin: Cabin & CabinCampers) {
 		const isSelected = selectedCabinsIds.includes(cabin.idCabin)
 		return (
-			<div className={`CabinPage__cabin${isSelected ? '--selected' : ''}`}>
-				<Avatar className='CabinPage__cabin--image' key={cabin.idCabin} src={cabin.dsImageURL} alt='imagem do chalé' />
+			<div key={cabin.idCabin} className={`CabinPage__cabin${isSelected ? '--selected' : ''}`}>
+				<Avatar className='CabinPage__cabin--image' src={cabin.dsImageURL} alt='imagem do chalé' />
 				<p>{cabin.dsName}</p>
 				{renderButtonCabinAction(cabin)}
 			</div>
@@ -236,5 +240,44 @@ export function CabinChoice() {
 		)
 	}
 
-	return <div>{!edition.dtBegin ? renderCabinChoiceBeforeGameStarts() : renderCabinChoiceAfterGameStarted()}</div>
+	function renderCabinRequestPending() {
+		return (
+			<div className='CabinPage'>
+				<div className='CabinPage__container'>
+					<div className='CabinPage__container--inner-textOnly'>
+						<p>
+							Você já escolheu os seus chalés, agora é com a gente!
+							<br />
+							Assim que tivermos novidades sobre os chalés, você será notificado.
+							<br />
+							Enquanto isso que tal passar o tempo?
+							<br />
+							<br />
+							Verifique o nosso <a href='https://instagram.com/portalpercyjackson'>Instagram</a>
+							<br />
+							<br />
+							Verifique a nossa <a href='https://facebook.com/portalpercyjackson'>página no Facebook</a>
+							<br />
+							<br />
+							Verifique o nosso <a href='https://twitter.com/Portal_PJO'>Twitter</a>
+							<br />
+							<br />
+							Participe a nossa <a href='https://discord.gg/9WZD77C'>comunidade do Discord</a>
+							<br />
+						</p>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	function renderBeforeGameStarted() {
+		const campersID = cabins.flatMap(cabin => cabin.campers.map(camper => camper && camper.idCamper))
+		console.log(campersID)
+		const hasRequested = campersID.some(id => camper.idCamper)
+		console.log(hasRequested)
+		return hasRequested ? renderCabinRequestPending() : renderCabinChoiceBeforeGameStarts()
+	}
+
+	return <div>{!edition.dtBegin ? renderBeforeGameStarted() : renderCabinChoiceAfterGameStarted()}</div>
 }

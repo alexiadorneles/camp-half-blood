@@ -9,6 +9,14 @@
 		&--inner {
 			padding-left: 15px;
 			padding-right: 15px;
+
+			&-textOnly {
+				@extend .CabinPage__container--inner;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100%;
+			}
 		}
 	}
 
