@@ -17,7 +17,7 @@ interface MenuItem {
 	label: string
 	value: string
 	route: string
-	if: () => boolean
+	visibilityFunction: () => boolean
 }
 
 export function CHBBottomNav() {
@@ -30,28 +30,28 @@ export function CHBBottomNav() {
 			label: ITEM_LABEL.CABIN,
 			value: ITEM_LABEL.CABIN,
 			route: SECURED_ROUTES.HOME,
-			if: () => true,
+			visibilityFunction: () => true,
 		},
 		{
 			icon: <BarChart />,
 			label: ITEM_LABEL.RANKING,
 			value: ITEM_LABEL.RANKING,
 			route: SECURED_ROUTES.RANKING,
-			if: () => true,
+			visibilityFunction: () => true,
 		},
 		{
 			icon: <TouchApp />,
 			label: ITEM_LABEL.GAMES,
 			value: ITEM_LABEL.GAMES,
 			route: SECURED_ROUTES.GAMES,
-			if: () => true,
+			visibilityFunction: () => true,
 		},
 		{
 			icon: <AssignmentInd />,
 			label: ITEM_LABEL.PROFILE,
 			value: ITEM_LABEL.PROFILE,
 			route: SECURED_ROUTES.PROFILE,
-			if: () => true,
+			visibilityFunction: () => true,
 		},
 	]
 
@@ -65,9 +65,9 @@ export function CHBBottomNav() {
 		<div className='CHBBottomNav'>
 			<BottomNavigation value={value} onChange={onChange} showLabels color='red'>
 				{menuItems
-					.filter(item => item.if())
-					.map(item => (
-						<BottomNavigationAction {...item} />
+					.filter(item => item.visibilityFunction())
+					.map(({ visibilityFunction, ...actionProps }) => (
+						<BottomNavigationAction key={actionProps.route} {...actionProps} />
 					))}
 			</BottomNavigation>
 		</div>

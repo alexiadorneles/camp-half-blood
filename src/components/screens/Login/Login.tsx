@@ -9,8 +9,8 @@ import { SECURED_ROUTES } from '../../../config/Routes'
 export function Login() {
 	const history = useHistory()
 
-	function goToHomePage() {
-		history.push(SECURED_ROUTES.HOME)
+	function goToProfilePage() {
+		history.push(SECURED_ROUTES.PROFILE)
 	}
 
 	return (
@@ -20,7 +20,7 @@ export function Login() {
 				Bem vindo ao <br />
 				Acampamento Meio-Sangue
 			</p>
-			<Button variant='contained' onClick={goToHomePage}>
+			<Button size="large" variant='contained' color="secondary" onClick={goToProfilePage}>
 				Login
 			</Button>
 		</div>

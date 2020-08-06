@@ -1,11 +1,13 @@
 .Login {
 	display: flex;
 	height: 100vh;
+	height: calc(var(--vh, 1vh) * 100);
 	width: 100vw;
 	justify-content: center;
 	align-items: center;
 	background-image: linear-gradient(to bottom right, #ee5958, #f9b25c);
 	flex-direction: column;
+	overflow: hidden;
 
 	&__welcomeText {
 		text-align: center;

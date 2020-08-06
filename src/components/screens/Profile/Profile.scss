@@ -4,6 +4,7 @@
 	justify-content: center;
 	flex-direction: column;
 	max-height: 90vh;
+	height: calc(var(--vh, 1vh) * 90);
 
 	&__photoAndNameContainer {
 		display: flex;
@@ -32,7 +33,8 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		width: 100vw;
+		max-width: 100vw;
+		width: 90%;
 		padding-top: 10px;
 		padding-bottom: 10px;
 		overflow-y: scroll;
@@ -41,6 +43,7 @@
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
+			align-items: center;
 			padding-left: 15px;
 			padding-right: 15px;
 			margin: 7px 0;
@@ -51,7 +54,37 @@
 			p {
 				font-size: 14px;
 				margin: 0 8px;
+				word-break: break-all;
 			}
+
+			&-textField {
+				margin-left: 10px !important;
+			}
+		}
+
+		&--formItem-down {
+			@extend .Profile__container--formItem;
+			flex-direction: column;
+			align-items: stretch;
+			label {
+				margin-bottom: 7px;
+			}
+			p {
+				word-break: break-all;
+			}
+
+			textarea {
+				padding: 10px;
+				min-height: 80px;
+			}
+		}
+
+		&--actionButtonContainer {
+			display: flex;
+			justify-content: center;
+			width: 80%;
+			align-self: center;
+			margin-top: 10px;
 		}
 	}
 }
