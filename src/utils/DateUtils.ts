@@ -1,4 +1,6 @@
 export class DateUtils {
+	private constructor() {}
+	
 	public static calculateAgeFromBirthDate(birthDate: Date) {
 		const today = new Date()
 		let age = today.getFullYear() - birthDate.getFullYear()

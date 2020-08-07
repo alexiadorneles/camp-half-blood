@@ -4,7 +4,7 @@ import { Avatar, Button, TextField, TextareaAutosize, Select, MenuItem } from '@
 import './Profile.scss'
 import { Camper } from '../../../model/Camper'
 import { Country, BrazilianState } from '../../../model/Places'
-import { DateUtils } from '../../../utils/DateUtils'
+import { DateUtils } from '../../../utils'
 import { Edit, Done } from '@material-ui/icons'
 
 const camperMock: Camper = {
