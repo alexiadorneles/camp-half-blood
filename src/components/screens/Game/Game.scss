@@ -1,3 +1,36 @@
-.Game {
+@import '../../../App.scss';
 
+.Game {
+	@extend .page;
+
+	&__container {
+		@extend .pageContainer;
+
+		&--inner {
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: stretch;
+			height: 100%;
+		}
+	}
+
+	&__dialog {
+		&--titleContainer {
+			display: flex;
+			flex-direction: column;
+			p {
+				margin: 2px;
+			}
+
+			small {
+				font-size: 16px;
+			}
+		}
+
+		&--timer {
+			font-size: 14px;
+		}
+	}
 }
