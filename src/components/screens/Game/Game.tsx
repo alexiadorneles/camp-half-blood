@@ -12,7 +12,7 @@ import {
 	AnswerType,
 	BaseActivity,
 } from '../../../model/Activity'
-import { Edition } from '../../../model/Edicao'
+import { Edition } from '../../../model/Edition'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import './Game.scss'
 import { CHBQuizDisplayer } from '../../generics'
