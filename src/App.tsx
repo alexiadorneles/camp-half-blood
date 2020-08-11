@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.scss'
 import { CHBBottomNav, CHBLoader } from './components/generics'
 import { CabinChoice, Game, Login, Profile } from './components/screens'
-import { CamperService, HttpService } from './services'
+import { CamperService, HttpService, CabinService, CabinRequestService } from './services'
 import { LocalStorageUtils } from './utils/LocalStorageUtils'
 import { EditionService } from './services/EditionService'
 
@@ -13,6 +13,8 @@ LocalStorageUtils.setItem('idCamper', 1)
 const httpService = new HttpService()
 const camperService = new CamperService(httpService)
 const editionService = new EditionService(httpService)
+const cabinService = new CabinService(httpService)
+const cabinRequestService = new CabinRequestService(httpService)
 
 const App: React.FC = () => (
 	<>
