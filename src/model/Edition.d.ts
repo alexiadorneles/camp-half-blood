@@ -1,5 +1,5 @@
 export interface Edition {
-	idEdition: string
+	idEdition: number
 	dtBegin: Date | null
 	dtEnd: Date | null
 	dsName: string

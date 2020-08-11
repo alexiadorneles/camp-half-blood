@@ -1,7 +1,7 @@
 export interface CabinRequest {
-	idCamper: string
-	idEdition: string
-	idFirstOptionCabin: string
-	idSecondOptionCabin: string
-	idThirdOptionCabin: string
+	idCamper: number
+	idEdition: number
+	idFirstOptionCabin: number
+	idSecondOptionCabin: number
+	idThirdOptionCabin: number
 }

@@ -1,32 +1,29 @@
 import { Button } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
 import {
-	Level,
-	ObjectiveAnswer,
-	ObjectiveQuestion,
-	Round,
-	QuestionsWithAnswers,
-	QuestionWithAnswersAndActivity,
 	ActivityType,
 	AnswerType,
 	BaseActivity,
+	Level,
+	QuestionWithAnswersAndActivity,
+	Round,
 } from '../../../model/Activity'
 import { Edition } from '../../../model/Edition'
 import { CustomSwal } from '../../../providers/SwalProvider'
-import './Game.scss'
-import { CHBQuizDisplayer } from '../../generics'
 import { TimeUtils } from '../../../utils'
+import { CHBQuizDisplayer } from '../../generics'
+import './Game.scss'
 
 const editionMock: Partial<Edition> = {
-	idEdition: '1',
+	idEdition: 1,
 	dtBegin: null,
 	nrCabinLimit: 25,
 }
 
 type RoundActivities = Round & { activities: QuestionWithAnswersAndActivity[] }
 const quizActivity: BaseActivity = {
-	idActivity: '1',
+	idActivity: 1,
 	tpType: ActivityType.QUIZ,
 	tpAnswer: AnswerType.OBJECTIVE,
 }
@@ -35,71 +32,71 @@ const roundMock: RoundActivities = {
 	dtBegin: new Date(),
 	dtEnd: null,
 	idEdition: editionMock.idEdition!,
-	idRound: '1',
+	idRound: 1,
 	activities: [
 		{
 			dsQuestion: 'Quem é o pai de Percy Jackson?',
-			idActivity: '1',
-			idQuestion: '1',
+			idActivity: 1,
+			idQuestion: 1,
 			tpLevel: Level.EASY,
 			activity: quizActivity,
 			options: [
 				{
 					blCorrect: false,
 					dsAlternative: 'Atena',
-					idAlternative: '1',
-					idQuestion: '1',
+					idAlternative: 1,
+					idQuestion: 1,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Hermes',
-					idAlternative: '2',
-					idQuestion: '1',
+					idAlternative: 2,
+					idQuestion: 1,
 				},
 				{
 					blCorrect: true,
 					dsAlternative: 'Poseidon',
-					idAlternative: '3',
-					idQuestion: '1',
+					idAlternative: 3,
+					idQuestion: 1,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Hades',
-					idAlternative: '4',
-					idQuestion: '1',
+					idAlternative: 4,
+					idQuestion: 1,
 				},
 			],
 		},
 		{
 			dsQuestion: 'Quem dá Anaklusmos à Percy?',
-			idActivity: '1',
-			idQuestion: '2',
+			idActivity: 1,
+			idQuestion: 2,
 			tpLevel: Level.EASY,
 			activity: quizActivity,
 			options: [
 				{
 					blCorrect: true,
 					dsAlternative: 'Quíron',
-					idAlternative: '5',
-					idQuestion: '2',
+					idAlternative: 5,
+					idQuestion: 2,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Poseidon',
-					idAlternative: '6',
-					idQuestion: '2',
+					idAlternative: 6,
+					idQuestion: 2,
 				},
 				{
 					blCorrect: true,
 					dsAlternative: 'Sally',
-					idAlternative: '7',
-					idQuestion: '2',
+					idAlternative: 7,
+					idQuestion: 2,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Annabeth',
-					idAlternative: '8',
-					idQuestion: '2',
+					idAlternative: 8,
+					idQuestion: 2,
 				},
 			],
 		},

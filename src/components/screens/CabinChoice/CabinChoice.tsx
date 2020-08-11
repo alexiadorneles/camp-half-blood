@@ -22,7 +22,7 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 	const [selectedCabinsIds, setSelectedCabinsIds] = useState<number[]>([])
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
 
-	const idCamper = LocalStorageUtils.getItem('idCamper')
+	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
 	useEffect(() => {
 		async function getEdition() {
@@ -59,7 +59,7 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 
 	async function saveCabinRequest() {
 		const cabinRequest: CabinRequest = {
-			idCamper: Number(idCamper),
+			idCamper,
 			idEdition: edition!.idEdition,
 			idFirstOptionCabin: selectedCabinsIds[0],
 			idSecondOptionCabin: selectedCabinsIds[1],

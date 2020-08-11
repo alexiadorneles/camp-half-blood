@@ -1,8 +1,8 @@
 import { BrazilianState, Country } from './Places'
 
 export interface Camper {
-	idCamper: string
-	idCabin: string
+	idCamper: number
+	idCabin: number
 	dsName: string
 	nrDiscordID: number
 	dsInstagramNick: string

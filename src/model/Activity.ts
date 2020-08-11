@@ -12,20 +12,20 @@ export enum AnswerType {
 }
 
 export interface Round {
-	idRound: string
-	idEdition: string
+	idRound: number
+	idEdition: number
 	dtBegin: Date
 	dtEnd: Date | null
 	blFinished: boolean
 }
 
 export interface RoundActivity {
-	idRound: string
-	idActivity: string
+	idRound: number
+	idActivity: number
 }
 
 export interface BaseActivity {
-	idActivity: string
+	idActivity: number
 	tpType: ActivityType
 	tpAnswer: AnswerType
 }
@@ -37,28 +37,28 @@ export enum Level {
 }
 
 export interface ObjectiveQuestion {
-	idQuestion: string
-	idActivity: string
+	idQuestion: number
+	idActivity: number
 	dsQuestion: string
 	tpLevel: Level
 }
 
 export interface ObjectiveAnswer {
-	idAlternative: string
-	idQuestion: string
+	idAlternative: number
+	idQuestion: number
 	dsAlternative: string
 	blCorrect: boolean
 }
 
 export interface EssayActivity {
-	idQuestion: string
-	idActivity: string
+	idQuestion: number
+	idActivity: number
 	dsQuestion: string
 }
 
 export interface CamperActivity {
-	idCamper: string
-	idActivity: string
+	idCamper: number
+	idActivity: number
 	blCorrect: boolean
 }
 
