@@ -29,7 +29,7 @@ export function CHBBottomNav() {
 			icon: <AccountBalance />,
 			label: ITEM_LABEL.CABIN,
 			value: ITEM_LABEL.CABIN,
-			route: SECURED_ROUTES.CABIN,
+			route: SECURED_ROUTES.CABIN_CHOICE,
 			visibilityFunction: () => true,
 		},
 		{
