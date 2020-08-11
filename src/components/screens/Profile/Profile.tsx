@@ -1,26 +1,12 @@
-import React, { useState, ChangeEvent } from 'react'
-import { Avatar, Button, TextField, TextareaAutosize, Select, MenuItem } from '@material-ui/core'
-
-import './Profile.scss'
+import { Avatar, Button, MenuItem, Select, TextareaAutosize, TextField } from '@material-ui/core'
+import { Done, Edit } from '@material-ui/icons'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Camper } from '../../../model/Camper'
-import { Country, BrazilianState } from '../../../model/Places'
+import { BrazilianState, Country } from '../../../model/Places'
+import { CRUDService } from '../../../services'
 import { DateUtils } from '../../../utils'
-import { Edit, Done } from '@material-ui/icons'
-
-const camperMock: Camper = {
-	dsName: 'Aléxia Dorneles',
-	nrDiscordID: 1234,
-	dsInstagramNick: 'dornelesalexia',
-	dtBirth: new Date(2000, 2, 14),
-	dsDescription:
-		'Amo a Annabeth e Mitologia Grega, conheço a saga Percy Jackson há cerca de 8 anos e cada vez me apaixono ainda mais',
-	tpCountry: Country.BRAZIL,
-	tpState: BrazilianState.RS,
-	dsImageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRiJEwdHt9yU8zgfWKMm1WW5Gnh3p8pA9IqLQ&usqp=CAU',
-	dsPronouns: 'ela/dela',
-	idCabin: '6',
-	idCamper: '1',
-}
+import './Profile.scss'
+import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 
 enum ScreenMode {
 	DISPLAY = 'Display',
@@ -32,11 +18,26 @@ type FieldChangeEvent = ChangeEvent<{
 	value: unknown
 }>
 
-export function Profile() {
-	const [camper, setCamper] = useState<Camper>(camperMock)
+export interface ProfilePropTypes {
+	camperService: CRUDService<Camper>
+}
+
+export function Profile({ camperService }: ProfilePropTypes) {
+	const [camper, setCamper] = useState<Camper | null>(null)
 	const [screenMode, setScreenMode] = useState(ScreenMode.DISPLAY)
 
+	useEffect(() => {
+		const camperId = LocalStorageUtils.getItem('idCamper')
+		getCamper(Number(camperId))
+	}, [])
+
+	async function getCamper(camperId: number): Promise<void> {
+		const camper = await camperService.findOne(camperId)
+		setCamper(camper)
+	}
+
 	function renderDisplayMode() {
+		if (!camper) return null
 		return (
 			<>
 				<div className='Profile__container--formItem-down'>
@@ -84,6 +85,8 @@ export function Profile() {
 	}
 
 	function renderEditMode() {
+		if (!camper) return null
+
 		return (
 			<>
 				<div className='Profile__container--formItem-down'>
@@ -183,20 +186,22 @@ export function Profile() {
 	function onFieldChanged(event: FieldChangeEvent): void {
 		const value = event.target.value
 		const name = event.target.name!
-		setCamper(oldCamper => ({ ...oldCamper, [name]: value }))
+		setCamper(oldCamper => ({ ...oldCamper!, [name]: value }))
 	}
 
 	return (
-		<div className='Profile'>
-			<div className='Profile__container'>
-				<div className='Profile__photoAndNameContainer'>
-					<Avatar className='Profile__photoAndNameContainer--photo' alt='foto de perfil' src={camper.dsImageURL} />
-					<p>{camper.dsName}</p>
-					<p className='Profile__photoAndNameContainer--cabin'>Chalé 6</p>
-				</div>
+		camper && (
+			<div className='Profile'>
+				<div className='Profile__container'>
+					<div className='Profile__photoAndNameContainer'>
+						<Avatar className='Profile__photoAndNameContainer--photo' alt='foto de perfil' src={camper.dsImageURL} />
+						<p>{camper.dsName}</p>
+						<p className='Profile__photoAndNameContainer--cabin'>Chalé 6</p>
+					</div>
 
-				{screenMode === ScreenMode.DISPLAY ? renderDisplayMode() : renderEditMode()}
+					{screenMode === ScreenMode.DISPLAY ? renderDisplayMode() : renderEditMode()}
+				</div>
 			</div>
-		</div>
+		)
 	)
 }
