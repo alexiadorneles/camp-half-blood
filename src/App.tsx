@@ -29,6 +29,7 @@ const App: React.FC = () => (
 									cabinRequestService={cabinRequestService}
 									cabinService={cabinService}
 									editionService={editionService}
+									camperService={camperService}
 								/>
 							</Route>
 							<Route path='/secured/profile'>

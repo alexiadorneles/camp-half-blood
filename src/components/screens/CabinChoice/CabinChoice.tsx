@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Cabin } from '../../../model/Cabin'
 import { CabinRequest, Status } from '../../../model/CabinRequest'
 import { Edition } from '../../../model/Edition'
-import { CabinRequestService, CRUDService, EditionService } from '../../../services'
+import { CabinRequestService, CRUDService, EditionService, CamperService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
 
@@ -12,9 +12,15 @@ export interface CabinChoicePropTypes {
 	editionService: EditionService
 	cabinService: CRUDService<Cabin>
 	cabinRequestService: CabinRequestService
+	camperService: CamperService
 }
 
-export function CabinChoice({ editionService, cabinService, cabinRequestService }: CabinChoicePropTypes) {
+export function CabinChoice({
+	editionService,
+	cabinService,
+	cabinRequestService,
+	camperService,
+}: CabinChoicePropTypes) {
 	const [cabins, setCabins] = useState<Cabin[]>([])
 	const [edition, setEdition] = useState<Edition | null>(null)
 	const [option, setOption] = useState(1)
@@ -64,6 +70,12 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 		setOption(option - 1)
 		const newValue = selectedCabinsIds.filter(id => id !== cabin.idCabin)
 		setSelectedCabinsIds([...newValue])
+	}
+
+	async function setCabinToCamper() {
+		if (edition!.dtBegin && singleCabinSelected) {
+			await camperService.setCabin(idCamper, singleCabinSelected.idCabin)
+		}
 	}
 
 	async function saveCabinRequest() {
@@ -175,7 +187,7 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 						{cabins.map(renderCabin)}
 					</div>
 				</div>
-				<Fab className='bottom-floating-button' color='secondary'>
+				<Fab onClick={setCabinToCamper} className='bottom-floating-button' color='secondary'>
 					<Done />
 				</Fab>
 			</div>
