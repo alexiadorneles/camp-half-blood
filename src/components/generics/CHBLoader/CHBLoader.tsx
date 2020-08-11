@@ -15,12 +15,16 @@ CHBLoader.show = (): void => {
 	const loader = document.getElementById(LOADER_ID)
 	// const app = document.getElementsByClassName('App')[0];
 	// (app as any).style.overflow = 'hidden'
-	loader!.style.display = 'flex'
+	if (loader) {
+		loader!.style.display = 'flex'
+	}
 }
 
 CHBLoader.hide = (): void => {
 	const loader = document.getElementById(LOADER_ID)
 	// const app = document.getElementsByClassName('App')[0];
 	// (app as any).style = ''
-	loader!.style.display = 'none'
+	if (loader) {
+		loader!.style.display = 'none'
+	}
 }
