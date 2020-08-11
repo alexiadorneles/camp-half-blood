@@ -65,10 +65,12 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					<p>{camper.tpCountry}</p>
 				</div>
 
-				<div className='Profile__container--formItem'>
-					<label>Estado: </label>
-					<p>{camper.tpState}</p>
-				</div>
+				{camper.tpCountry === Country.BRAZIL && (
+					<div className='Profile__container--formItem'>
+						<label>Estado: </label>
+						<p>{camper.tpState}</p>
+					</div>
+				)}
 
 				<div className='Profile__container--formItem'>
 					<label>Idade: </label>
@@ -179,8 +181,14 @@ export function Profile({ camperService }: ProfilePropTypes) {
 		setScreenMode(ScreenMode.EDITION)
 	}
 
-	function saveChanges() {
-		setScreenMode(ScreenMode.DISPLAY)
+	async function saveChanges() {
+		try {
+			const camperId = LocalStorageUtils.getItem('idCamper')
+			await camperService.update(Number(camperId), camper!)
+			setScreenMode(ScreenMode.DISPLAY)
+		} catch (err) {
+			console.error(err)
+		}
 	}
 
 	function onFieldChanged(event: FieldChangeEvent): void {
