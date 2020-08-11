@@ -2,12 +2,11 @@ import { Avatar, Button, Fab } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import { Cabin } from '../../../model/Cabin'
+import { CabinRequest, Status } from '../../../model/CabinRequest'
 import { Edition } from '../../../model/Edition'
-import { CRUDService, EditionService, CabinRequestService } from '../../../services'
+import { CabinRequestService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
-import { CabinRequest } from '../../../model/CabinRequest'
-import { CustomSwal } from '../../../providers/SwalProvider'
 
 export interface CabinChoicePropTypes {
 	editionService: EditionService
@@ -21,6 +20,7 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 	const [option, setOption] = useState(1)
 	const [selectedCabinsIds, setSelectedCabinsIds] = useState<number[]>([])
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
+	const [userRequestedCabins, setUserRequestedCabins] = useState(false)
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
@@ -40,6 +40,15 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 		}
 
 		getCabins()
+	}, [])
+
+	useEffect(() => {
+		async function checkRequest() {
+			const value = await cabinRequestService.checkUserHasRequests(idCamper)
+			setUserRequestedCabins(value)
+		}
+
+		checkRequest()
 	}, [])
 
 	function selectSingleCabin(cabin: Cabin): void {
@@ -64,9 +73,10 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 			idFirstOptionCabin: selectedCabinsIds[0],
 			idSecondOptionCabin: selectedCabinsIds[1],
 			idThirdOptionCabin: selectedCabinsIds[2],
+			status: Status.UNRESOLVED,
 		}
 		await cabinRequestService.create(cabinRequest)
-		CustomSwal.fire('Sucesso!', 'Sua escolha foi registrada com sucesso, agora é só aguardar', 'success')
+		setUserRequestedCabins(true)
 	}
 
 	function renderButtonCabinAction(cabin: Cabin) {
@@ -204,10 +214,7 @@ export function CabinChoice({ editionService, cabinService, cabinRequestService 
 	}
 
 	function renderBeforeGameStarted() {
-		const campersID = cabins.flatMap(cabin => cabin.campers!.map(cabinCamper => cabinCamper && cabinCamper.idCamper))
-		const hasRequested = campersID.some(id => id === idCamper)
-		console.log(hasRequested)
-		return hasRequested ? renderCabinRequestPending() : renderCabinChoiceBeforeGameStarts()
+		return userRequestedCabins ? renderCabinRequestPending() : renderCabinChoiceBeforeGameStarts()
 	}
 
 	return !edition ? null : (
