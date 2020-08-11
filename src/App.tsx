@@ -5,12 +5,14 @@ import { CHBBottomNav, CHBLoader } from './components/generics'
 import { CabinChoice, Game, Login, Profile } from './components/screens'
 import { CamperService, HttpService } from './services'
 import { LocalStorageUtils } from './utils/LocalStorageUtils'
+import { EditionService } from './services/EditionService'
 
 // TODO: remove it as soon as login starts working
 LocalStorageUtils.setItem('idCamper', 1)
 
 const httpService = new HttpService()
 const camperService = new CamperService(httpService)
+const editionService = new EditionService(httpService)
 
 const App: React.FC = () => (
 	<>
@@ -20,7 +22,7 @@ const App: React.FC = () => (
 				<Switch>
 					<Route path='/secured'>
 						<Switch>
-							<Route path='/secured/cabin' component={CabinChoice} />
+							<Route path='/secured/cabin-choice' component={CabinChoice} />
 							<Route path='/secured/profile'>
 								<Profile camperService={camperService} />
 							</Route>

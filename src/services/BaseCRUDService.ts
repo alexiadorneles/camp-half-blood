@@ -2,7 +2,7 @@ import { CRUDService } from './CRUDService'
 import { HttpService } from './HttpService'
 
 export class BaseCRUDService<T> implements CRUDService<T> {
-	constructor(private httpService: HttpService, private controllerPrefix: string) {}
+	constructor(protected httpService: HttpService, private controllerPrefix: string) {}
 
 	public create(obj: T): Promise<T> {
 		return this.httpService.post(`${this.controllerPrefix}`, obj)
