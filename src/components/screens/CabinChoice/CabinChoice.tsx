@@ -1,128 +1,48 @@
 import { Avatar, Button, Fab } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
-import React, { useState } from 'react'
-import { Cabin, CabinCampers } from '../../../model/Cabin'
+import React, { useEffect, useState } from 'react'
+import { Cabin } from '../../../model/Cabin'
 import { Edition } from '../../../model/Edition'
-import { Divinity } from '../../../model/Mythology'
+import { CRUDService, EditionService, CabinRequestService } from '../../../services'
+import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
-import { Camper } from '../../../model/Camper'
-import camperMock from '../../../mocks/camper.json'
-;(camperMock as any).dtBirth = new Date(camperMock.dtBirth)
+import { CabinRequest } from '../../../model/CabinRequest'
+import { CustomSwal } from '../../../providers/SwalProvider'
 
-const editionMock: Partial<Edition> = {
-	dtBegin: null,
-	nrCabinLimit: 25,
+export interface CabinChoicePropTypes {
+	editionService: EditionService
+	cabinService: CRUDService<Cabin>
+	cabinRequestService: CabinRequestService
 }
 
-const cabinsMock: Array<Cabin & CabinCampers> = [
-	{
-		dsName: 'Chalé 1 - Zeus',
-		idCabin: '1',
-		tpDivinityRelated: Divinity.ZEUS,
-		dsImageURL:
-			'https://cdna.artstation.com/p/assets/images/images/011/621/560/medium/elinor-riley-cabin-1-concept-2.jpg?1530538576',
-		campers: new Array(15),
-	},
-	{
-		dsName: 'Chalé 2 - Hera',
-		idCabin: '2',
-		tpDivinityRelated: Divinity.HERA,
-		dsImageURL:
-			'https://cdna.artstation.com/p/assets/images/images/011/621/570/large/elinor-riley-cabin-2-concept-finished.jpg?1530538598',
-		campers: new Array(8),
-	},
-
-	{
-		dsName: 'Chalé 3 - Poseidon',
-		idCabin: '3',
-		tpDivinityRelated: Divinity.POSEIDON,
-		dsImageURL:
-			'https://cdna.artstation.com/p/assets/images/images/011/621/578/small/elinor-riley-cabin-3-concept-complete.jpg?1530538627',
-		campers: new Array(25),
-	},
-	{
-		dsName: 'Calé 4 - Deméter',
-		idCabin: '4',
-		tpDivinityRelated: Divinity.DEMETER,
-		dsImageURL:
-			'https://cdnb.artstation.com/p/assets/images/images/011/621/585/small/elinor-riley-cabin-4-concept-croped.jpg?1530538665',
-		campers: new Array(20),
-	},
-	{
-		dsName: 'Chalé 5 - Ares',
-		idCabin: '5',
-		tpDivinityRelated: Divinity.ARES,
-		dsImageURL:
-			'https://cdnb.artstation.com/p/assets/images/images/011/621/589/small/elinor-riley-cabin-5-concept.jpg?1530538681',
-		campers: new Array(20),
-	},
-	{
-		dsName: 'Chalé 6 - Atena',
-		idCabin: '6',
-		tpDivinityRelated: Divinity.ATHENA,
-		dsImageURL:
-			'https://cdnb.artstation.com/p/assets/images/images/011/621/599/small/elinor-riley-cabin-6-concept.jpg?1530538696',
-		campers: [...new Array(25), '1'],
-	},
-	{
-		dsName: 'Chalé 7 - Apolo',
-		idCabin: '7',
-		tpDivinityRelated: Divinity.APOLLO,
-		dsImageURL:
-			'https://cdna.artstation.com/p/assets/images/images/012/833/146/small/elinor-riley-cabin-7-cocnept.jpg?1536747378',
-		campers: new Array(25),
-	},
-	{
-		dsName: 'Chalé 8 - Ártemis',
-		idCabin: '8',
-		tpDivinityRelated: Divinity.ARTEMIS,
-		dsImageURL:
-			'https://cdna.artstation.com/p/assets/images/images/012/833/148/small/elinor-riley-cabin-8-concept.jpg?1536746958',
-		campers: new Array(20),
-	},
-	{
-		dsName: 'Chalé 9 - Hefesto',
-		idCabin: '9',
-		tpDivinityRelated: Divinity.HEPHAESTUS,
-		dsImageURL:
-			'https://cdnb.artstation.com/p/assets/images/images/012/833/149/small/elinor-riley-cabin-9-concept.jpg?1536746961',
-		campers: new Array(23),
-	},
-	{
-		dsName: 'Chalé 10 - Afrodite',
-		idCabin: '10',
-		tpDivinityRelated: Divinity.APHRODITE,
-		dsImageURL:
-			'https://cdna.artstation.com/p/assets/images/images/012/833/152/small/elinor-riley-cabin-10-concpet.jpg?1536746965',
-		campers: new Array(25),
-	},
-	{
-		dsName: 'Chalé 11 - Hermes',
-		idCabin: '11',
-		tpDivinityRelated: Divinity.HERMES,
-		dsImageURL:
-			'https://cdnb.artstation.com/p/assets/images/images/012/833/153/small/elinor-riley-cabin-11-concept.jpg?1536746971',
-		campers: new Array(10),
-	},
-	{
-		dsName: 'Chalé 12 - Dionísio',
-		idCabin: '12',
-		tpDivinityRelated: Divinity.DIONYSUS,
-		dsImageURL:
-			'https://cdnb.artstation.com/p/assets/images/images/012/833/145/small/elinor-riley-cabin-12-concept.jpg?1536746941',
-		campers: new Array(10),
-	},
-]
-
-export function CabinChoice() {
-	const [cabins, setCabins] = useState(cabinsMock)
-	const [edition, setEdition] = useState(editionMock)
+export function CabinChoice({ editionService, cabinService, cabinRequestService }: CabinChoicePropTypes) {
+	const [cabins, setCabins] = useState<Cabin[]>([])
+	const [edition, setEdition] = useState<Edition | null>(null)
 	const [option, setOption] = useState(1)
-	const [selectedCabinsIds, setSelectedCabinsIds] = useState<string[]>([])
-	const [singleCabinSelected, setSingleCabinSelected] = useState<(Cabin & CabinCampers) | null>(null)
-	const [camper, setCamper] = useState<Camper>(camperMock as any)
+	const [selectedCabinsIds, setSelectedCabinsIds] = useState<number[]>([])
+	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
 
-	function selectSingleCabin(cabin: Cabin & CabinCampers): void {
+	const idCamper = LocalStorageUtils.getItem('idCamper')
+
+	useEffect(() => {
+		async function getEdition() {
+			const edition = await editionService.findCurrent()
+			setEdition(edition)
+		}
+
+		getEdition()
+	}, [])
+
+	useEffect(() => {
+		async function getCabins() {
+			const cabins = (await cabinService.findAll()) as Cabin[]
+			setCabins(cabins)
+		}
+
+		getCabins()
+	}, [])
+
+	function selectSingleCabin(cabin: Cabin): void {
 		setSingleCabinSelected(cabin)
 	}
 
@@ -137,10 +57,22 @@ export function CabinChoice() {
 		setSelectedCabinsIds([...newValue])
 	}
 
-	function renderButtonCabinAction(cabin: Cabin & CabinCampers) {
+	async function saveCabinRequest() {
+		const cabinRequest: CabinRequest = {
+			idCamper: Number(idCamper),
+			idEdition: edition!.idEdition,
+			idFirstOptionCabin: selectedCabinsIds[0],
+			idSecondOptionCabin: selectedCabinsIds[1],
+			idThirdOptionCabin: selectedCabinsIds[2],
+		}
+		await cabinRequestService.create(cabinRequest)
+		CustomSwal.fire('Sucesso!', 'Sua escolha foi registrada com sucesso, agora é só aguardar', 'success')
+	}
+
+	function renderButtonCabinAction(cabin: Cabin) {
 		const isSelected = selectedCabinsIds.includes(cabin.idCabin) || singleCabinSelected === cabin
-		const isFull = cabin.campers.length >= edition.nrCabinLimit!
-		const editionStarted = Boolean(edition.dtBegin)
+		const isFull = cabin.campers!.length >= edition!.nrCabinLimit!
+		const editionStarted = Boolean(edition!.dtBegin)
 
 		if (isSelected && !editionStarted) {
 			return (
@@ -177,7 +109,7 @@ export function CabinChoice() {
 		)
 	}
 
-	function renderCabin(cabin: Cabin & CabinCampers) {
+	function renderCabin(cabin: Cabin) {
 		const isSelected = selectedCabinsIds.includes(cabin.idCabin)
 		return (
 			<div key={cabin.idCabin} className={`CabinPage__cabin${isSelected ? '--selected' : ''}`}>
@@ -197,7 +129,7 @@ export function CabinChoice() {
 							Bem vindo a escolha de chalés!
 							<br />
 							<br />
-							Temos uma limitação de {edition.nrCabinLimit} pessoas por chalé nessa edição, então NÃO podemos garantir
+							Temos uma limitação de {edition!.nrCabinLimit} pessoas por chalé nessa edição, então NÃO podemos garantir
 							que você consiga ficar na primeira opção. Qualquer dúvida sobre a escolha só mandar uma mensagem para{' '}
 							<a target='blank' href='https://instagram.com/portalpercyjackson'>
 								Portal Percy Jackson
@@ -209,7 +141,7 @@ export function CabinChoice() {
 						{cabins.map(renderCabin)}
 					</div>
 				</div>
-				<Fab className='bottom-floating-button' color='secondary'>
+				<Fab onClick={saveCabinRequest} className='bottom-floating-button' color='secondary'>
 					<Done />
 				</Fab>
 			</div>
@@ -272,12 +204,13 @@ export function CabinChoice() {
 	}
 
 	function renderBeforeGameStarted() {
-		const campersID = cabins.flatMap(cabin => cabin.campers.map(camper => camper && camper.idCamper))
-		console.log(campersID)
-		const hasRequested = campersID.some(id => camper.idCamper)
+		const campersID = cabins.flatMap(cabin => cabin.campers!.map(cabinCamper => cabinCamper && cabinCamper.idCamper))
+		const hasRequested = campersID.some(id => id === idCamper)
 		console.log(hasRequested)
 		return hasRequested ? renderCabinRequestPending() : renderCabinChoiceBeforeGameStarts()
 	}
 
-	return <div>{!edition.dtBegin ? renderBeforeGameStarted() : renderCabinChoiceAfterGameStarted()}</div>
+	return !edition ? null : (
+		<div>{!edition.dtBegin ? renderBeforeGameStarted() : renderCabinChoiceAfterGameStarted()}</div>
+	)
 }

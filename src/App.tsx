@@ -24,7 +24,13 @@ const App: React.FC = () => (
 				<Switch>
 					<Route path='/secured'>
 						<Switch>
-							<Route path='/secured/cabin-choice' component={CabinChoice} />
+							<Route path='/secured/cabin-choice'>
+								<CabinChoice
+									cabinRequestService={cabinRequestService}
+									cabinService={cabinService}
+									editionService={editionService}
+								/>
+							</Route>
 							<Route path='/secured/profile'>
 								<Profile camperService={camperService} />
 							</Route>
