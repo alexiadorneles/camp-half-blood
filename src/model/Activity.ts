@@ -24,28 +24,23 @@ export interface RoundActivity {
 	idActivity: number
 }
 
-export interface BaseActivity {
-	idActivity: number
-	tpType: ActivityType
-	tpAnswer: AnswerType
-}
-
 export enum Level {
 	EASY,
 	MEDIUM,
 	HARD,
 }
 
-export interface ObjectiveQuestion {
+export interface Activity {
 	idQuestion: number
 	idActivity: number
 	dsQuestion: string
 	tpLevel: Level
+	tpActivity: ActivityType
 }
 
-export interface ObjectiveAnswer {
-	idAlternative: number
-	idQuestion: number
+export interface ActivityOption {
+	idActivityOption: number
+	idActivity: number
 	dsAlternative: string
 	blCorrect: boolean
 }
@@ -62,5 +57,4 @@ export interface CamperActivity {
 	blCorrect: boolean
 }
 
-export type QuestionsWithAnswers = ObjectiveQuestion & { options?: ObjectiveAnswer[] }
-export type QuestionWithAnswersAndActivity = QuestionsWithAnswers & { activity: BaseActivity }
+export type ActivityWithAnswers = Activity & { options?: ActivityOption[] }

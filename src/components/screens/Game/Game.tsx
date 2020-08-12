@@ -1,14 +1,7 @@
 import { Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
-import {
-	ActivityType,
-	AnswerType,
-	BaseActivity,
-	Level,
-	QuestionWithAnswersAndActivity,
-	Round,
-} from '../../../model/Activity'
+import { ActivityType, AnswerType, Level, Round, ActivityWithAnswers } from '../../../model/Activity'
 import { Edition } from '../../../model/Edition'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { TimeUtils } from '../../../utils'
@@ -21,12 +14,7 @@ const editionMock: Partial<Edition> = {
 	nrCabinLimit: 25,
 }
 
-type RoundActivities = Round & { activities: QuestionWithAnswersAndActivity[] }
-const quizActivity: BaseActivity = {
-	idActivity: 1,
-	tpType: ActivityType.QUIZ,
-	tpAnswer: AnswerType.OBJECTIVE,
-}
+type RoundActivities = Round & { activities: ActivityWithAnswers[] }
 const roundMock: RoundActivities = {
 	blFinished: false,
 	dtBegin: new Date(),
@@ -39,31 +27,31 @@ const roundMock: RoundActivities = {
 			idActivity: 1,
 			idQuestion: 1,
 			tpLevel: Level.EASY,
-			activity: quizActivity,
+			tpActivity: ActivityType.QUIZ,
 			options: [
 				{
 					blCorrect: false,
 					dsAlternative: 'Atena',
-					idAlternative: 1,
-					idQuestion: 1,
+					idActivityOption: 1,
+					idActivity: 1,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Hermes',
-					idAlternative: 2,
-					idQuestion: 1,
+					idActivityOption: 2,
+					idActivity: 1,
 				},
 				{
 					blCorrect: true,
 					dsAlternative: 'Poseidon',
-					idAlternative: 3,
-					idQuestion: 1,
+					idActivityOption: 3,
+					idActivity: 1,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Hades',
-					idAlternative: 4,
-					idQuestion: 1,
+					idActivityOption: 4,
+					idActivity: 1,
 				},
 			],
 		},
@@ -72,31 +60,31 @@ const roundMock: RoundActivities = {
 			idActivity: 1,
 			idQuestion: 2,
 			tpLevel: Level.EASY,
-			activity: quizActivity,
+			tpActivity: ActivityType.QUIZ,
 			options: [
 				{
 					blCorrect: true,
 					dsAlternative: 'Quíron',
-					idAlternative: 5,
-					idQuestion: 2,
+					idActivityOption: 5,
+					idActivity: 2,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Poseidon',
-					idAlternative: 6,
-					idQuestion: 2,
+					idActivityOption: 6,
+					idActivity: 2,
 				},
 				{
 					blCorrect: true,
 					dsAlternative: 'Sally',
-					idAlternative: 7,
-					idQuestion: 2,
+					idActivityOption: 7,
+					idActivity: 2,
 				},
 				{
 					blCorrect: false,
 					dsAlternative: 'Annabeth',
-					idAlternative: 8,
-					idQuestion: 2,
+					idActivityOption: 8,
+					idActivity: 2,
 				},
 			],
 		},
@@ -106,9 +94,9 @@ const roundMock: RoundActivities = {
 export function Game() {
 	const [edition, setEdition] = useState(editionMock)
 	const [round, setRound] = useState(roundMock)
-	const [currentQuestion, setCurrentQuestion] = useState<
-		(QuestionWithAnswersAndActivity & { hasSelected?: boolean }) | null
-	>(null)
+	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithAnswers & { hasSelected?: boolean }) | null>(
+		null,
+	)
 	const [questionNumber, setQuestionNumber] = useState(0)
 
 	useEffect(() => {
@@ -179,7 +167,7 @@ export function Game() {
 			title: (
 				<div className='Game__dialog--titleContainer'>
 					<p>Atividade {questionNumber}</p>
-					<small>{currentQuestion!.activity.tpType}</small>
+					<small>{currentQuestion!.tpActivity}</small>
 				</div>
 			),
 			html: (

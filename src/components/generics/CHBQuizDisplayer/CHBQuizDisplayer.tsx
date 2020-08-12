@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { QuestionsWithAnswers, ObjectiveAnswer } from '../../../model/Activity'
+import { ActivityWithAnswers, ActivityOption } from '../../../model/Activity'
 import { Paper } from '@material-ui/core'
 
 import './CHBQuizDisplayer.scss'
 
 interface CHBQuizDisplayerPropTypes {
-	quiz: QuestionsWithAnswers
-	onAnswerChosen: (answer: ObjectiveAnswer) => void
+	quiz: ActivityWithAnswers
+	onAnswerChosen: (answer: ActivityOption) => void
 }
 
 export function CHBQuizDisplayer({ quiz, onAnswerChosen }: CHBQuizDisplayerPropTypes) {
-	const [selectedAlternative, setSelectedAlternative] = useState<ObjectiveAnswer | null>(null)
+	const [selectedAlternative, setSelectedAlternative] = useState<ActivityOption | null>(null)
 
-	function chooseAlternative(answer: ObjectiveAnswer): void {
+	function chooseAlternative(answer: ActivityOption): void {
 		setSelectedAlternative(answer)
 		onAnswerChosen(answer)
 	}
@@ -28,7 +28,7 @@ export function CHBQuizDisplayer({ quiz, onAnswerChosen }: CHBQuizDisplayerPropT
 							selectedAlternative === op ? 'CHBQuizDisplayer__option--selected' : 'CHBQuizDisplayer__option'
 						}`}
 						onClick={chooseAlternative.bind(null, op)}
-						key={op.idAlternative}
+						key={op.idActivityOption}
 						elevation={3}>
 						{op.dsAlternative}
 					</Paper>
