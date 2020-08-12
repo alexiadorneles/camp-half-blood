@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
-import { ActivityType, AnswerType, Level, Round, ActivityWithAnswers } from '../../../model/Activity'
+import { ActivityType, AnswerType, Level, Round, ActivityWithOptions } from '../../../model/Activity'
 import { Edition } from '../../../model/Edition'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { TimeUtils } from '../../../utils'
@@ -14,7 +14,7 @@ const editionMock: Partial<Edition> = {
 	nrCabinLimit: 25,
 }
 
-type RoundActivities = Round & { activities: ActivityWithAnswers[] }
+type RoundActivities = Round & { activities: ActivityWithOptions[] }
 const roundMock: RoundActivities = {
 	blFinished: false,
 	dtBegin: new Date(),
@@ -94,7 +94,7 @@ const roundMock: RoundActivities = {
 export function Game() {
 	const [edition, setEdition] = useState(editionMock)
 	const [round, setRound] = useState(roundMock)
-	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithAnswers & { hasSelected?: boolean }) | null>(
+	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithOptions & { hasSelected?: boolean }) | null>(
 		null,
 	)
 	const [questionNumber, setQuestionNumber] = useState(0)

@@ -57,4 +57,16 @@ export interface CamperActivity {
 	blCorrect: boolean
 }
 
-export type ActivityWithAnswers = Activity & { options?: ActivityOption[] }
+export type ActivityWithOptions = Activity & { options?: ActivityOption[] }
+
+export interface ActivityConfig {
+	tpActivity: ActivityType
+	tpLevel: Level
+	nrActivities: number
+}
+
+export interface RoundConfig {}
+
+/*
+		ROUND (linked to edition) -> RoundConfig (activity specified) -> 
+*/

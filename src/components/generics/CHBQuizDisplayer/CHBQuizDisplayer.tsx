@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { ActivityWithAnswers, ActivityOption } from '../../../model/Activity'
+import { ActivityWithOptions, ActivityOption } from '../../../model/Activity'
 import { Paper } from '@material-ui/core'
 
 import './CHBQuizDisplayer.scss'
 
 interface CHBQuizDisplayerPropTypes {
-	quiz: ActivityWithAnswers
+	quiz: ActivityWithOptions
 	onAnswerChosen: (answer: ActivityOption) => void
 }
 
