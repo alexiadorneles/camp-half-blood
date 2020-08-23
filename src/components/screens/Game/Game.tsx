@@ -1,29 +1,23 @@
 import { Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
-import { ActivityWithOptions, Round } from '../../../model/Activity'
-import { Edition } from '../../../model/Edition'
+import { ActivityWithOptions, Round, ActivityOption, CamperActivity } from '../../../model/Activity'
 import { CustomSwal } from '../../../providers/SwalProvider'
-import { RoundService } from '../../../services'
+import { RoundService, CamperService } from '../../../services'
 import { TimeUtils } from '../../../utils'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import { CHBQuizDisplayer } from '../../generics'
 import './Game.scss'
 
-const editionMock: Partial<Edition> = {
-	idEdition: 1,
-	dtBegin: null,
-	nrCabinLimit: 25,
-}
-
 type RoundActivities = Round & { activities: ActivityWithOptions[] }
 
 export interface GamePropTypes {
 	roundService: RoundService
+	camperService: CamperService
 }
 
-export function Game({ roundService }: GamePropTypes) {
-	const [edition, setEdition] = useState(editionMock)
+export function Game({ roundService, camperService }: GamePropTypes) {
+	let currentOptionChosen: ActivityOption | null = null
 	const [round, setRound] = useState<RoundActivities | null>(null)
 	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithOptions & { hasSelected?: boolean }) | null>(null)
 	const [questionNumber, setQuestionNumber] = useState(0)
@@ -53,9 +47,25 @@ export function Game({ roundService }: GamePropTypes) {
 		}
 	}, [questionNumber])
 
+	function answerQuestion(): void {
+		if (!currentOptionChosen) return
+		const answer: Partial<CamperActivity> = {
+			idActivity: currentOptionChosen!.idActivity,
+			idActivityOption: currentOptionChosen!.idActivityOption,
+			idEdition: (round && round.idEdition) || 0,
+			blCorrect: currentOptionChosen!.blCorrect,
+		}
+		camperService.answerActivity(idCamper, answer)
+	}
+
 	function runNextQuestion() {
+		answerQuestion()
 		setQuestionNumber(questionNumber + 1)
 		setCurrentQuestion(round && round.activities[questionNumber])
+	}
+
+	function onAnswerChosen(optionChosen: ActivityOption): void {
+		currentOptionChosen = optionChosen
 	}
 
 	function renderPopupInformation(): void {
@@ -112,7 +122,7 @@ export function Game({ roundService }: GamePropTypes) {
 			),
 			html: (
 				<div>
-					<CHBQuizDisplayer quiz={currentQuestion!} onAnswerChosen={() => {}} />
+					<CHBQuizDisplayer quiz={currentQuestion!} onAnswerChosen={onAnswerChosen} />
 					<span className='Game__dialog--timer'>
 						Você tem <b>40</b> segundos para responder.
 					</span>

@@ -37,7 +37,7 @@ const App: React.FC = () => (
 								<Profile camperService={camperService} />
 							</Route>
 							<Route path='/secured/games'>
-								<Game roundService={roundService} />
+								<Game roundService={roundService} camperService={camperService} />
 							</Route>
 						</Switch>
 						<CHBBottomNav />
