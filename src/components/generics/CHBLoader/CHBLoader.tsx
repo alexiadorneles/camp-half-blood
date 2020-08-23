@@ -1,7 +1,7 @@
 import React from 'react'
 import Loader from 'react-loader-spinner'
 import './CHBLoader.scss'
-const LOADER_ID = 'phoenix-loader'
+const LOADER_ID = 'camp-loader'
 
 export const CHBLoader = () => {
 	return (

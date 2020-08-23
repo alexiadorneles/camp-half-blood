@@ -1,107 +1,42 @@
 import { Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
-import { ActivityType, AnswerType, Level, Round, ActivityWithOptions } from '../../../model/Activity'
-import { Edition } from '../../../model/Edition'
+import { ActivityOption, ActivityWithOptions, CamperActivity, Round } from '../../../model/Activity'
 import { CustomSwal } from '../../../providers/SwalProvider'
+import { CamperService, RoundService } from '../../../services'
 import { TimeUtils } from '../../../utils'
+import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import { CHBQuizDisplayer } from '../../generics'
 import './Game.scss'
 
-const editionMock: Partial<Edition> = {
-	idEdition: 1,
-	dtBegin: null,
-	nrCabinLimit: 25,
-}
-
 type RoundActivities = Round & { activities: ActivityWithOptions[] }
-const roundMock: RoundActivities = {
-	blFinished: false,
-	dtBegin: new Date(),
-	dtEnd: null,
-	idEdition: editionMock.idEdition!,
-	idRound: 1,
-	activities: [
-		{
-			dsQuestion: 'Quem é o pai de Percy Jackson?',
-			idActivity: 1,
-			idQuestion: 1,
-			tpLevel: Level.EASY,
-			tpActivity: ActivityType.QUIZ,
-			options: [
-				{
-					blCorrect: false,
-					dsAlternative: 'Atena',
-					idActivityOption: 1,
-					idActivity: 1,
-				},
-				{
-					blCorrect: false,
-					dsAlternative: 'Hermes',
-					idActivityOption: 2,
-					idActivity: 1,
-				},
-				{
-					blCorrect: true,
-					dsAlternative: 'Poseidon',
-					idActivityOption: 3,
-					idActivity: 1,
-				},
-				{
-					blCorrect: false,
-					dsAlternative: 'Hades',
-					idActivityOption: 4,
-					idActivity: 1,
-				},
-			],
-		},
-		{
-			dsQuestion: 'Quem dá Anaklusmos à Percy?',
-			idActivity: 1,
-			idQuestion: 2,
-			tpLevel: Level.EASY,
-			tpActivity: ActivityType.QUIZ,
-			options: [
-				{
-					blCorrect: true,
-					dsAlternative: 'Quíron',
-					idActivityOption: 5,
-					idActivity: 2,
-				},
-				{
-					blCorrect: false,
-					dsAlternative: 'Poseidon',
-					idActivityOption: 6,
-					idActivity: 2,
-				},
-				{
-					blCorrect: true,
-					dsAlternative: 'Sally',
-					idActivityOption: 7,
-					idActivity: 2,
-				},
-				{
-					blCorrect: false,
-					dsAlternative: 'Annabeth',
-					idActivityOption: 8,
-					idActivity: 2,
-				},
-			],
-		},
-	],
+
+export interface GamePropTypes {
+	roundService: RoundService
+	camperService: CamperService
 }
 
-export function Game() {
-	const [edition, setEdition] = useState(editionMock)
-	const [round, setRound] = useState(roundMock)
-	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithOptions & { hasSelected?: boolean }) | null>(
-		null,
-	)
+export function Game({ roundService, camperService }: GamePropTypes) {
+	let currentOptionChosen: ActivityOption | null = null
+	const [round, setRound] = useState<RoundActivities | null>(null)
+	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithOptions & { hasSelected?: boolean }) | null>(null)
 	const [questionNumber, setQuestionNumber] = useState(0)
 
+	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
+
 	useEffect(() => {
-		if (questionNumber > round.activities.length) {
+		async function loadCurrentRound(): Promise<void> {
+			const round = await roundService.findByCamper(idCamper)
+			setRound(round)
+		}
+
+		loadCurrentRound()
+	}, [])
+
+	useEffect(() => {
+		if (round && questionNumber > round.activities.length) {
 			CustomSwal.close()
+			finishRound()
 			setTimeout(() => {
 				CustomSwal.fire({
 					title: 'Pronto!',
@@ -113,9 +48,29 @@ export function Game() {
 		}
 	}, [questionNumber])
 
+	function finishRound(): void {
+		roundService.finish(round!.idRound)
+	}
+
+	function answerQuestion(): void {
+		if (!currentOptionChosen) return
+		const answer: Partial<CamperActivity> = {
+			idActivity: currentOptionChosen!.idActivity,
+			idActivityOption: currentOptionChosen!.idActivityOption,
+			idEdition: (round && round.idEdition) || 0,
+			blCorrect: currentOptionChosen!.blCorrect,
+		}
+		camperService.answerActivity(idCamper, answer)
+	}
+
 	function runNextQuestion() {
+		answerQuestion()
 		setQuestionNumber(questionNumber + 1)
-		setCurrentQuestion(round.activities[questionNumber])
+		setCurrentQuestion(round && round.activities[questionNumber])
+	}
+
+	function onAnswerChosen(optionChosen: ActivityOption): void {
+		currentOptionChosen = optionChosen
 	}
 
 	function renderPopupInformation(): void {
@@ -138,10 +93,10 @@ export function Game() {
 			<>
 				<p>RODADA DISPONÍVEIS</p>
 				<p>
-					Nessa rodada temos {round.activities.length} atividades que acontecem uma após a outra
+					Nessa rodada temos {round && round.activities.length} atividades que acontecem uma após a outra
 					<br />
-					Você deve demorar cerca de {TimeUtils.formatTimeFromSeconds(round.activities.length * 40)} nessa tarefa.
-					Apenas a inicie quando tiver tempo de concluir ela no momento
+					Você deve demorar cerca de {TimeUtils.formatTimeFromSeconds(round ? round.activities.length * 40 : 0)} nessa
+					tarefa. Apenas a inicie quando tiver tempo de concluir ela no momento
 				</p>
 				<Button size='large' onClick={renderPopupInformation} variant='outlined' color='secondary'>
 					Começar
@@ -172,7 +127,7 @@ export function Game() {
 			),
 			html: (
 				<div>
-					<CHBQuizDisplayer quiz={currentQuestion!} onAnswerChosen={() => {}} />
+					<CHBQuizDisplayer quiz={currentQuestion!} onAnswerChosen={onAnswerChosen} />
 					<span className='Game__dialog--timer'>
 						Você tem <b>40</b> segundos para responder.
 					</span>
@@ -198,8 +153,8 @@ export function Game() {
 
 		const result = await CustomSwal.fire(swalArgs)
 		if (result.dismiss === CustomSwal.DismissReason.timer) {
-			console.log('I was closed by the timer')
-			if (questionNumber >= round.activities.length) {
+			camperService.answerTimedOut(idCamper, currentQuestion!.idActivity, round!.idEdition)
+			if (round && questionNumber >= round.activities.length) {
 				CustomSwal.close()
 				setQuestionNumber(questionNumber + 100)
 			}
@@ -214,7 +169,7 @@ export function Game() {
 		return null
 	}
 
-	const allQuestionsAnswered = questionNumber > round.activities.length
+	const allQuestionsAnswered = round === null || questionNumber > round.activities.length
 
 	return (
 		<div className='Game'>

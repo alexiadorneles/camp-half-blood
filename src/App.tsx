@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.scss'
 import { CHBBottomNav, CHBLoader } from './components/generics'
 import { CabinChoice, Game, Login, Profile } from './components/screens'
-import { CamperService, HttpService, CabinService, CabinRequestService } from './services'
+import { CamperService, HttpService, CabinService, CabinRequestService, RoundService } from './services'
 import { LocalStorageUtils } from './utils/LocalStorageUtils'
 import { EditionService } from './services/EditionService'
 
@@ -15,6 +15,7 @@ const camperService = new CamperService(httpService)
 const editionService = new EditionService(httpService)
 const cabinService = new CabinService(httpService)
 const cabinRequestService = new CabinRequestService(httpService)
+const roundService = new RoundService(httpService)
 
 const App: React.FC = () => (
 	<>
@@ -35,11 +36,15 @@ const App: React.FC = () => (
 							<Route path='/secured/profile'>
 								<Profile camperService={camperService} />
 							</Route>
-							<Route path='/secured/games' component={Game} />
+							<Route path='/secured/games'>
+								<Game roundService={roundService} camperService={camperService} />
+							</Route>
 						</Switch>
 						<CHBBottomNav />
 					</Route>
-					<Route path='/' component={Login} />
+					<Route path='/'>
+						<Login />
+					</Route>
 				</Switch>
 			</Suspense>
 		</Router>

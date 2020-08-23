@@ -41,7 +41,7 @@ export interface Activity {
 export interface ActivityOption {
 	idActivityOption: number
 	idActivity: number
-	dsAlternative: string
+	dsOption: string
 	blCorrect: boolean
 }
 
@@ -52,8 +52,11 @@ export interface EssayActivity {
 }
 
 export interface CamperActivity {
+	idCamperActivity: number
 	idCamper: number
 	idActivity: number
+	idActivityOption: number
+	idEdition: number
 	blCorrect: boolean
 }
 
