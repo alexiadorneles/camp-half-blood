@@ -52,8 +52,11 @@ export interface EssayActivity {
 }
 
 export interface CamperActivity {
+	idCamperActivity: number
 	idCamper: number
 	idActivity: number
+	idActivityOption: number
+	idEdition: number
 	blCorrect: boolean
 }
 
