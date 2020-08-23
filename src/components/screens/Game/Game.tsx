@@ -1,9 +1,9 @@
 import { Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
-import { ActivityWithOptions, Round, ActivityOption, CamperActivity } from '../../../model/Activity'
+import { ActivityOption, ActivityWithOptions, CamperActivity, Round } from '../../../model/Activity'
 import { CustomSwal } from '../../../providers/SwalProvider'
-import { RoundService, CamperService } from '../../../services'
+import { CamperService, RoundService } from '../../../services'
 import { TimeUtils } from '../../../utils'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import { CHBQuizDisplayer } from '../../generics'
@@ -36,6 +36,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 	useEffect(() => {
 		if (round && questionNumber > round.activities.length) {
 			CustomSwal.close()
+			finishRound()
 			setTimeout(() => {
 				CustomSwal.fire({
 					title: 'Pronto!',
@@ -46,6 +47,10 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 			})
 		}
 	}, [questionNumber])
+
+	function finishRound(): void {
+		roundService.finish(round!.idRound)
+	}
 
 	function answerQuestion(): void {
 		if (!currentOptionChosen) return
@@ -148,7 +153,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 
 		const result = await CustomSwal.fire(swalArgs)
 		if (result.dismiss === CustomSwal.DismissReason.timer) {
-			console.log('I was closed by the timer')
+			camperService.answerTimedOut(idCamper, currentQuestion!.idActivity, round!.idEdition)
 			if (round && questionNumber >= round.activities.length) {
 				CustomSwal.close()
 				setQuestionNumber(questionNumber + 100)
