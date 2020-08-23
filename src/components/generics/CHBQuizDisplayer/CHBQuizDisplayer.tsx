@@ -30,7 +30,7 @@ export function CHBQuizDisplayer({ quiz, onAnswerChosen }: CHBQuizDisplayerPropT
 						onClick={chooseAlternative.bind(null, op)}
 						key={op.idActivityOption}
 						elevation={3}>
-						{op.dsAlternative}
+						{op.dsOption}
 					</Paper>
 				))}
 			</div>

@@ -41,7 +41,7 @@ export interface Activity {
 export interface ActivityOption {
 	idActivityOption: number
 	idActivity: number
-	dsAlternative: string
+	dsOption: string
 	blCorrect: boolean
 }
 
