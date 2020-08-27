@@ -1,13 +1,41 @@
 import React from 'react'
-import { CHBLogo } from '../../generics'
-import { Button } from '@material-ui/core'
-
-import './Login.scss'
+import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
+import { CustomSwal } from '../../../providers/SwalProvider'
+import { CHBLogo } from '../../generics'
+import './Login.scss'
+import { GOOGLE_ID } from '../../../config/keys'
+import { Camper } from '../../../model/Camper'
+import { CamperService } from '../../../services'
+import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 
-export function Login() {
+export interface LoginPropTypes {
+	camperService: CamperService
+}
+
+export function Login({ camperService }: LoginPropTypes) {
 	const history = useHistory()
+
+	async function successCallbackGoogle(response: GoogleLoginResponse | GoogleLoginResponseOffline) {
+		const onlineResponse = response as GoogleLoginResponse
+		const idGoogle = onlineResponse.googleId
+		const profile = onlineResponse.getBasicProfile()
+		const camper: Partial<Camper> = {
+			idGoogle,
+			dsImageURL: profile.getImageUrl(),
+			dsName: profile.getName(),
+			dsEmail: profile.getEmail(),
+		}
+		const createdCamper = await camperService.create(camper)
+		LocalStorageUtils.setItem('idCamper', createdCamper.idCamper)
+		goToProfilePage()
+	}
+
+	function errorCallbackGoogle({ error }: any) {
+		if ((error = 'popup_closed_by_user')) return
+		CustomSwal.fire('ERRO', 'Erro inesperado no login, contate o admin do site', 'error')
+	}
 
 	function goToProfilePage() {
 		history.push(SECURED_ROUTES.PROFILE)
@@ -20,9 +48,13 @@ export function Login() {
 				Bem vindo ao <br />
 				Acampamento Meio-Sangue
 			</p>
-			<Button size='large' variant='contained' color='secondary' onClick={goToProfilePage}>
-				Login
-			</Button>
+			<GoogleLogin
+				clientId={GOOGLE_ID}
+				buttonText='Login'
+				onSuccess={successCallbackGoogle}
+				onFailure={errorCallbackGoogle}
+				cookiePolicy={'single_host_origin'}
+			/>
 		</div>
 	)
 }
