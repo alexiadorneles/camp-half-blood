@@ -4,7 +4,7 @@ import { HttpService } from './HttpService'
 export class BaseCRUDService<T> implements CRUDService<T> {
 	constructor(protected httpService: HttpService, private controllerPrefix: string) {}
 
-	public create(obj: T): Promise<T> {
+	public create(obj: Partial<T>): Promise<T> {
 		return this.httpService.post(`${this.controllerPrefix}`, obj)
 	}
 
