@@ -1,12 +1,14 @@
-import { Avatar, Button, MenuItem, Select, TextareaAutosize, TextField } from '@material-ui/core'
+import { Avatar, Button, MenuItem, Select, TextareaAutosize, TextField, Checkbox, InputLabel } from '@material-ui/core'
 import { Done, Edit } from '@material-ui/icons'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Camper } from '../../../model/Camper'
 import { BrazilianState, Country } from '../../../model/Places'
 import { CRUDService } from '../../../services'
 import { DateUtils } from '../../../utils'
-import './Profile.scss'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
+import './Profile.scss'
+import { CustomSwal } from '../../../providers/SwalProvider'
 
 enum ScreenMode {
 	DISPLAY = 'Display',
@@ -24,16 +26,33 @@ export interface ProfilePropTypes {
 
 export function Profile({ camperService }: ProfilePropTypes) {
 	const [camper, setCamper] = useState<Camper | null>(null)
-	const [screenMode, setScreenMode] = useState(ScreenMode.DISPLAY)
+	const [camperLoaded, setCamperLoaded] = useState(false)
+	const [screenMode, setScreenMode] = useState(ScreenMode.EDITION)
+	const [agreeAllDataIsTrue, setAgreeAllDataIsTrue] = useState(false)
 
 	useEffect(() => {
 		const camperId = LocalStorageUtils.getItem('idCamper')
 		getCamper(Number(camperId))
 	}, [])
 
+	useEffect(() => {
+		if (camperLoaded && !camper!.blRegisterCompleted) {
+			CustomSwal.fire({
+				title: 'Bem vindo!',
+				text:
+					'Precisamos que você informe alguns dados pra gente antes de continuarmos. Por favor informe dados verdadeiros, ou pode acabar sendo desclassificado no processo, tudo bem? Esses dados são usados para sabermos quem está participando e evitar contas fakes entrando no nosso Acampamento',
+				icon: 'info',
+				showConfirmButton: true,
+				focusConfirm: false,
+				confirmButtonText: `Entendi!`,
+			})
+		}
+	}, [camperLoaded])
+
 	async function getCamper(camperId: number): Promise<void> {
 		const camper = await camperService.findOne(camperId)
 		setCamper(camper)
+		setCamperLoaded(true)
 	}
 
 	function renderDisplayMode() {
@@ -88,61 +107,64 @@ export function Profile({ camperService }: ProfilePropTypes) {
 		)
 	}
 
+	function firstTimeFragment() {
+		return (
+			<>
+				<div className='Profile__container--formItem'>
+					<KeyboardDatePicker
+						className='Profile__container--formItem-textField'
+						inputVariant='outlined'
+						name='dtBirth'
+						required
+						disableToolbar
+						variant='inline'
+						format='dd/MM/yyyy'
+						margin='normal'
+						id='date-picker-inline'
+						label='Data de Nascimento'
+						value={camper!.dtBirth}
+						onChange={date => onFieldChanged({ target: { name: 'dtBirth', value: date } } as any)}
+						KeyboardButtonProps={{
+							'aria-label': 'change date',
+						}}
+					/>
+				</div>
+				<div className='Profile__container--formItem'>
+					<label htmlFor='check'>Eu declaro que os dados acima são verdadeiros</label>
+					<Checkbox
+						id='check'
+						name='check'
+						checked={agreeAllDataIsTrue}
+						onChange={(event, value) => setAgreeAllDataIsTrue(value)}
+					/>
+				</div>
+			</>
+		)
+	}
+
 	function renderEditMode() {
 		if (!camper) return null
 
 		return (
 			<>
 				<div className='Profile__container--formItem-down'>
-					<label>Descrição: </label>
 					<TextareaAutosize
+						placeholder='Conta um pouco sobre você, máximo 200 caracteres'
 						onChange={onFieldChanged}
 						name='dsDescription'
 						maxLength={200}
-						value={camper.dsDescription}
+						value={camper.dsDescription || ''}
 					/>
 				</div>
 
 				<div className='Profile__container--formItem'>
-					<label>Pronomes: </label>
-					<TextField
-						variant='outlined'
-						name='dsPronouns'
-						onChange={onFieldChanged}
-						className='Profile__container--formItem-textField'
-						value={camper.dsPronouns}
-					/>
-				</div>
-
-				<div className='Profile__container--formItem'>
-					<label>Instagram: </label>
-					<TextField
-						name='dsInstagramNick'
-						onChange={onFieldChanged}
-						variant='outlined'
-						className='Profile__container--formItem-textField'
-						value={camper.dsInstagramNick}
-					/>
-				</div>
-
-				<div className='Profile__container--formItem'>
-					<label>Discord ID: </label>
-					<TextField
-						onChange={onFieldChanged}
-						name='nrDiscordID'
-						variant='outlined'
-						className='Profile__container--formItem-textField'
-						value={camper.nrDiscordID}
-					/>
-				</div>
-
-				<div className='Profile__container--formItem'>
-					<label>País: </label>
+					<InputLabel htmlFor={'País'}>País*: </InputLabel>
 					<Select
+						required
 						variant='outlined'
 						name='tpCountry'
 						className='Profile__container--formItem-textField'
-						value={camper.tpCountry}
+						value={camper.tpCountry || ''}
 						onChange={onFieldChanged}>
 						{Object.values(Country).map(v => (
 							<MenuItem key={v} value={v}>
@@ -154,8 +176,9 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 				{camper.tpCountry === Country.BRAZIL && (
 					<div className='Profile__container--formItem'>
-						<label>Estado: </label>
+						<InputLabel htmlFor={'Estado'}>Estado*: </InputLabel>
 						<Select
+							required
 							variant='outlined'
 							name='tpState'
 							className='Profile__container--formItem-textField'
@@ -170,12 +193,64 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					</div>
 				)}
 
+				<div className='Profile__container--formItem'>
+					<TextField
+						required
+						label='Nome de Usuário no Instagram:'
+						name='dsInstagramNick'
+						onChange={onFieldChanged}
+						variant='outlined'
+						className='Profile__container--formItem-textField'
+						value={camper.dsInstagramNick || ''}
+					/>
+				</div>
+
+				<div className='Profile__container--formItem'>
+					<TextField
+						label='Pronomes'
+						variant='outlined'
+						name='dsPronouns'
+						onChange={onFieldChanged}
+						className='Profile__container--formItem-textField'
+						value={camper.dsPronouns || ''}
+					/>
+				</div>
+
+				<div className='Profile__container--formItem'>
+					<TextField
+						label='Discord ID'
+						onChange={onFieldChanged}
+						name='nrDiscordID'
+						variant='outlined'
+						className='Profile__container--formItem-textField'
+						value={camper.nrDiscordID || ''}
+					/>
+				</div>
+
+				{!camper.blRegisterCompleted && firstTimeFragment()}
+
 				<div className='Profile__container--actionButtonContainer'>
-					<Button size='medium' variant='outlined' color='primary' endIcon={<Done />} onClick={saveChanges}>
+					<Button
+						size='medium'
+						disabled={isButtonDisabled()}
+						variant='outlined'
+						color='primary'
+						endIcon={<Done />}
+						onClick={saveChanges}>
 						Salvar Alterações
 					</Button>
 				</div>
 			</>
+		)
+	}
+
+	function isButtonDisabled(): boolean {
+		return (
+			!agreeAllDataIsTrue ||
+			!camper!.dsDescription ||
+			!camper!.dsInstagramNick ||
+			!camper!.dtBirth ||
+			!camper!.tpCountry
 		)
 	}
 
@@ -206,7 +281,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					<div className='Profile__photoAndNameContainer'>
 						<Avatar className='Profile__photoAndNameContainer--photo' alt='foto de perfil' src={camper.dsImageURL} />
 						<p>{camper.dsName}</p>
-						<p className='Profile__photoAndNameContainer--cabin'>Chalé 6</p>
+						{/* <p className='Profile__photoAndNameContainer--cabin'>Chalé 6</p> */}
 					</div>
 
 					{screenMode === ScreenMode.DISPLAY ? renderDisplayMode() : renderEditMode()}

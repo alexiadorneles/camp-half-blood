@@ -39,6 +39,13 @@
 			padding-left: 15px;
 			padding-right: 15px;
 			margin: 7px 0;
+			justify-content: center;
+
+			.MuiFormControl-root.MuiTextField-root.MuiFormControl-marginNormal {
+				width: 97%;
+				margin-top: 0;
+			}
+
 			label {
 				font-size: 15px;
 				flex: 2;
@@ -61,11 +68,13 @@
 			@extend .Profile__container--formItem;
 			flex-direction: column;
 			align-items: stretch;
-			margin-bottom: 30px;
+			margin-bottom: 10px;
+			padding: 0 20px;
 
 			label {
 				margin-bottom: 7px;
 			}
+
 			p {
 				word-break: break-all;
 			}
@@ -73,6 +82,8 @@
 			textarea {
 				padding: 10px;
 				min-height: 80px;
+				border-color: rgba(0, 0, 0, 0.23);
+				background-color: none;
 			}
 		}
 
