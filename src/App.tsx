@@ -8,7 +8,7 @@ import { LocalStorageUtils } from './utils/LocalStorageUtils'
 import { EditionService } from './services/EditionService'
 
 // TODO: remove it as soon as login starts working
-LocalStorageUtils.setItem('idCamper', 1)
+// LocalStorageUtils.setItem('idCamper', 1)
 
 const httpService = new HttpService()
 const camperService = new CamperService(httpService)
@@ -43,7 +43,7 @@ const App: React.FC = () => (
 						<CHBBottomNav />
 					</Route>
 					<Route path='/'>
-						<Login />
+						<Login camperService={camperService} />
 					</Route>
 				</Switch>
 			</Suspense>
