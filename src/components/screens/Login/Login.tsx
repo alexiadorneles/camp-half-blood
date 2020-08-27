@@ -20,7 +20,7 @@ export function Login() {
 				Bem vindo ao <br />
 				Acampamento Meio-Sangue
 			</p>
-			<Button size="large" variant='contained' color="secondary" onClick={goToProfilePage}>
+			<Button size='large' variant='contained' color='secondary' onClick={goToProfilePage}>
 				Login
 			</Button>
 		</div>
