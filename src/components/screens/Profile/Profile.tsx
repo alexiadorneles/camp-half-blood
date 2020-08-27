@@ -27,7 +27,7 @@ export interface ProfilePropTypes {
 export function Profile({ camperService }: ProfilePropTypes) {
 	const [camper, setCamper] = useState<Camper | null>(null)
 	const [camperLoaded, setCamperLoaded] = useState(false)
-	const [screenMode, setScreenMode] = useState(ScreenMode.EDITION)
+	const [screenMode, setScreenMode] = useState(ScreenMode.DISPLAY)
 	const [agreeAllDataIsTrue, setAgreeAllDataIsTrue] = useState(false)
 
 	useEffect(() => {
@@ -47,6 +47,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				confirmButtonText: `Entendi!`,
 			})
 		}
+
+		setScreenMode(ScreenMode.EDITION)
 	}, [camperLoaded])
 
 	async function getCamper(camperId: number): Promise<void> {
