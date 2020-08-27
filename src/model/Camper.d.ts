@@ -14,4 +14,5 @@ export interface Camper {
 	dsImageURL: string
 	dsEmail: string
 	idGoogle: string
+	blRegisterCompleted: boolean
 }
