@@ -65,7 +65,6 @@ export class HttpService {
 
 	getConfig() {
 		if (!CONFIG.headers.authorization) {
-			console.log(LocalStorageUtils.getToken())
 			this.setHeader({
 				authorization: LocalStorageUtils.getToken(),
 			})
