@@ -72,10 +72,12 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					</div>
 				)}
 
-				<div className='Profile__container--formItem'>
-					<label>Idade: </label>
-					<p>{DateUtils.calculateAgeFromBirthDate(camper.dtBirth)}</p>
-				</div>
+				{camper.dtBirth && (
+					<div className='Profile__container--formItem'>
+						<label>Idade: </label>
+						<p>{DateUtils.calculateAgeFromBirthDate(camper.dtBirth)}</p>
+					</div>
+				)}
 
 				<div className='Profile__container--actionButtonContainer'>
 					<Button size='medium' variant='outlined' endIcon={<Edit />} onClick={changeToEditionMode}>
