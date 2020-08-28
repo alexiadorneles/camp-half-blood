@@ -1,14 +1,14 @@
-import { Avatar, Button, MenuItem, Select, TextareaAutosize, TextField, Checkbox, InputLabel } from '@material-ui/core'
+import { Avatar, Button, Checkbox, InputLabel, MenuItem, Select, TextareaAutosize, TextField } from '@material-ui/core'
 import { Done, Edit } from '@material-ui/icons'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Camper } from '../../../model/Camper'
 import { BrazilianState, Country } from '../../../model/Places'
-import { CRUDService } from '../../../services'
+import { CustomSwal } from '../../../providers/SwalProvider'
+import { CamperService } from '../../../services'
 import { DateUtils } from '../../../utils'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './Profile.scss'
-import { CustomSwal } from '../../../providers/SwalProvider'
 
 enum ScreenMode {
 	DISPLAY = 'Display',
@@ -21,7 +21,7 @@ type FieldChangeEvent = ChangeEvent<{
 }>
 
 export interface ProfilePropTypes {
-	camperService: CRUDService<Camper>
+	camperService: CamperService
 }
 
 export function Profile({ camperService }: ProfilePropTypes) {
@@ -33,7 +33,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	useEffect(() => {
 		const camperId = LocalStorageUtils.getItem('idCamper')
 		getCamper(Number(camperId))
-	}, [])
+	}, [screenMode])
 
 	useEffect(() => {
 		if (camperLoaded && !camper!.blRegisterCompleted) {
@@ -46,9 +46,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				focusConfirm: false,
 				confirmButtonText: `Entendi!`,
 			})
+			setScreenMode(ScreenMode.EDITION)
 		}
-
-		setScreenMode(ScreenMode.EDITION)
 	}, [camperLoaded])
 
 	async function getCamper(camperId: number): Promise<void> {
@@ -220,6 +219,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 				<div className='Profile__container--formItem'>
 					<TextField
+						type='number'
 						label='Discord ID'
 						onChange={onFieldChanged}
 						name='nrDiscordID'
@@ -234,7 +234,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				<div className='Profile__container--actionButtonContainer'>
 					<Button
 						size='medium'
-						disabled={isButtonDisabled()}
+						disabled={!camper!.blRegisterCompleted ? isButtonDisabled() : false}
 						variant='outlined'
 						color='primary'
 						endIcon={<Done />}
@@ -262,8 +262,11 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 	async function saveChanges() {
 		try {
-			const camperId = LocalStorageUtils.getItem('idCamper')
-			await camperService.update(Number(camperId), camper!)
+			if (camper!.blRegisterCompleted) {
+				await camperService.update(camper!)
+			} else {
+				await camperService.completeRegister(camper!)
+			}
 			setScreenMode(ScreenMode.DISPLAY)
 		} catch (err) {
 			console.error(err)
