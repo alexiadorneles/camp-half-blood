@@ -1,4 +1,4 @@
-import { Avatar, Button, Checkbox, InputLabel, MenuItem, Select, TextareaAutosize, TextField } from '@material-ui/core'
+import { Avatar, Button, Checkbox, InputLabel, MenuItem, Select, TextField } from '@material-ui/core'
 import { Done, Edit } from '@material-ui/icons'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import React, { ChangeEvent, useEffect, useState } from 'react'
@@ -149,7 +149,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 		return (
 			<>
 				<div className='Profile__container--formItem-down'>
-					<TextareaAutosize
+					<textarea
 						placeholder='Conta um pouco sobre você, máximo 200 caracteres'
 						onChange={onFieldChanged}
 						name='dsDescription'
