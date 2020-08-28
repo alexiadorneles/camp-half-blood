@@ -3,6 +3,7 @@ import { Route, Switch, useHistory } from 'react-router'
 import { CHBBottomNav, CHBHeader } from './components/generics'
 import { CabinChoice, Game, Login, Profile } from './components/screens'
 import { CabinRequestService, CabinService, CamperService, EditionService, HttpService, RoundService } from './services'
+import { PrivateRoute } from './components/PrivateRoute'
 
 export function Middleware() {
 	const history = useHistory()
@@ -16,7 +17,7 @@ export function Middleware() {
 
 	return (
 		<Switch>
-			<Route path='/secured'>
+			<PrivateRoute path='/secured'>
 				<CHBHeader />
 				<Switch>
 					<Route path='/secured/cabin-choice'>
@@ -35,7 +36,7 @@ export function Middleware() {
 					</Route>
 				</Switch>
 				<CHBBottomNav />
-			</Route>
+			</PrivateRoute>
 			<Route path='/'>
 				<Login camperService={camperService} />
 			</Route>
