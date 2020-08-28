@@ -9,7 +9,7 @@ export class LocalStorageUtils {
 	}
 
 	public static setItem(key: string, value: any): void {
-		localStorage.setItem(PREFIX + key, JSON.stringify(value))
+		localStorage.setItem(PREFIX + key, typeof value === 'string' ? value : JSON.stringify(value))
 	}
 
 	public static getToken(): string {
@@ -17,6 +17,6 @@ export class LocalStorageUtils {
 	}
 
 	public static setToken(token: string): void {
-		this.setItem(USER_AUTH_TOKEN, token)
+		this.setItem(USER_AUTH_TOKEN, `Bearer ${token}`)
 	}
 }

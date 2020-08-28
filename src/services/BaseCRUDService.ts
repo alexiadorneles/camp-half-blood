@@ -4,7 +4,7 @@ import { HttpService } from './HttpService'
 export class BaseCRUDService<T> implements CRUDService<T> {
 	constructor(protected httpService: HttpService, private controllerPrefix: string) {}
 
-	public create(obj: T): Promise<T> {
+	public create(obj: Partial<T>): Promise<T> {
 		return this.httpService.post(`${this.controllerPrefix}`, obj)
 	}
 
@@ -16,8 +16,8 @@ export class BaseCRUDService<T> implements CRUDService<T> {
 		return this.httpService.get(`${this.controllerPrefix}`)
 	}
 
-	public update(key: number, obj: T): Promise<T> {
-		return this.httpService.put(`${this.controllerPrefix}/${key}`, obj)
+	public update(obj: T): Promise<T> {
+		return this.httpService.put(this.controllerPrefix, obj)
 	}
 
 	public delete(key: number): Promise<boolean> {

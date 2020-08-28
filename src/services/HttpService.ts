@@ -1,7 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios'
-import { LocalStorageUtils } from '../utils/LocalStorageUtils'
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import _ from 'lodash'
 import { CHBLoader } from '../components/generics'
 import { CustomSwal } from '../providers/SwalProvider'
+import { LocalStorageUtils } from '../utils/LocalStorageUtils'
 
 const CONTENT_TYPE = { 'Content-Type': 'application/json' }
 const CONFIG: Partial<AxiosRequestConfig> = {
@@ -28,11 +29,19 @@ export class HttpService {
 
 	public async get(url: string) {
 		const response = await this.axios.get(`${BASE_URL}${url}`, this.getConfig())
+		if (_.get(response, 'data.token')) {
+			LocalStorageUtils.setToken(response.data.token)
+			delete response.data.token
+		}
 		return response && response.data
 	}
 
 	public async post(url: string, data = {}, config = this.getConfig()) {
 		const response = await this.axios.post(`${BASE_URL}${url}`, data, config)
+		if (_.get(response, 'data.token')) {
+			LocalStorageUtils.setToken(response.data.token)
+			delete response.data.token
+		}
 		return response && response.data
 	}
 

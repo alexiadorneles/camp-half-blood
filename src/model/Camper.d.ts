@@ -12,4 +12,7 @@ export interface Camper {
 	dsPronouns: string
 	dsDescription: string
 	dsImageURL: string
+	dsEmail: string
+	idGoogle: string
+	blRegisterCompleted: boolean
 }
