@@ -43,18 +43,25 @@ export function Login({ camperService }: LoginPropTypes) {
 
 	return (
 		<div className='Login'>
-			<CHBLogo />
+			<CHBLogo isPrimaryColor />
 			<p className='Login__welcomeText'>
-				Bem vindo ao <br />
-				Acampamento Meio-Sangue
+				Bem vindo ao
+				<br />
+				Acampamento
+				<br />
+				Meio-Sangue
 			</p>
-			<GoogleLogin
-				clientId={GOOGLE_ID}
-				buttonText='Login'
-				onSuccess={successCallbackGoogle}
-				onFailure={errorCallbackGoogle}
-				cookiePolicy={'single_host_origin'}
-			/>
+			<div className='Login__google'>
+				<GoogleLogin
+					icon={true}
+					className='Login__google--button'
+					clientId={GOOGLE_ID}
+					buttonText='Entrar'
+					onSuccess={successCallbackGoogle}
+					onFailure={errorCallbackGoogle}
+					cookiePolicy={'single_host_origin'}
+				/>
+			</div>
 		</div>
 	)
 }
