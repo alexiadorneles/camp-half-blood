@@ -26,28 +26,28 @@ export function CHBBottomNav() {
 
 	const menuItems: MenuItem[] = [
 		{
-			icon: <AccountBalance />,
+			icon: <AccountBalance color='primary' />,
 			label: ITEM_LABEL.CABIN,
 			value: ITEM_LABEL.CABIN,
 			route: SECURED_ROUTES.CABIN_CHOICE,
 			visibilityFunction: () => true,
 		},
 		{
-			icon: <BarChart />,
+			icon: <BarChart color='primary' />,
 			label: ITEM_LABEL.RANKING,
 			value: ITEM_LABEL.RANKING,
 			route: SECURED_ROUTES.RANKING,
 			visibilityFunction: () => true,
 		},
 		{
-			icon: <TouchApp />,
+			icon: <TouchApp color='primary' />,
 			label: ITEM_LABEL.GAMES,
 			value: ITEM_LABEL.GAMES,
 			route: SECURED_ROUTES.GAMES,
 			visibilityFunction: () => true,
 		},
 		{
-			icon: <AssignmentInd />,
+			icon: <AssignmentInd color='primary' />,
 			label: ITEM_LABEL.PROFILE,
 			value: ITEM_LABEL.PROFILE,
 			route: SECURED_ROUTES.PROFILE,
@@ -63,7 +63,7 @@ export function CHBBottomNav() {
 
 	return (
 		<div className='CHBBottomNav'>
-			<BottomNavigation value={value} onChange={onChange} showLabels color='red'>
+			<BottomNavigation value={value} onChange={onChange} showLabels>
 				{menuItems
 					.filter(item => item.visibilityFunction())
 					.map(({ visibilityFunction, ...actionProps }) => (
