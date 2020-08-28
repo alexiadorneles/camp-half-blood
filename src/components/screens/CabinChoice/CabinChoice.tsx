@@ -117,7 +117,7 @@ export function CabinChoice({
 				<Button
 					onClick={selectCabin.bind(null, cabin)}
 					disabled={selectedCabinsIds.length >= 3}
-					variant='outlined'
+					variant='contained'
 					color='secondary'>
 					{option < 4 ? `Escolher como ${option}a opção` : 'Você já selecionou suas 3 opções'}
 				</Button>
@@ -163,7 +163,7 @@ export function CabinChoice({
 						{cabins.map(renderCabin)}
 					</div>
 				</div>
-				<Fab onClick={saveCabinRequest} className='bottom-floating-button' color='secondary'>
+				<Fab onClick={saveCabinRequest} className='bottom-floating-button' color='primary'>
 					<Done />
 				</Fab>
 			</div>
