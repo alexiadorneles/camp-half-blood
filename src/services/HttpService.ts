@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import { History } from 'history'
 import _ from 'lodash'
 import { CHBLoader } from '../components/generics'
 import { CustomSwal } from '../providers/SwalProvider'
@@ -23,43 +24,27 @@ export enum HTTPMethod {
 export class HttpService {
 	private axios: AxiosInstance
 
-	constructor() {
+	constructor(private history: History) {
 		this.axios = this.generateAxiosInstance()
 	}
 
 	public async get(url: string) {
-		const response = await this.axios.get(`${BASE_URL}${url}`, this.getConfig())
-		if (_.get(response, 'data.token')) {
-			LocalStorageUtils.setToken(response.data.token)
-			delete response.data.token
-		}
-		return response && response.data
+		return this.handleRequest(() => this.axios.get(`${BASE_URL}${url}`, this.getConfig()))
 	}
 
 	public async post(url: string, data = {}, config = this.getConfig()) {
-		const response = await this.axios.post(`${BASE_URL}${url}`, data, config)
-		if (_.get(response, 'data.token')) {
-			LocalStorageUtils.setToken(response.data.token)
-			delete response.data.token
-		}
-		return response && response.data
+		return this.handleRequest(() => this.axios.post(`${BASE_URL}${url}`, data, config))
 	}
 
 	public async put(url: string, data = {}) {
-		const response = await this.axios.put(`${BASE_URL}${url}`, data, this.getConfig())
-		return response && response.data
+		return this.handleRequest(() => this.axios.put(`${BASE_URL}${url}`, data, this.getConfig()))
 	}
 
 	public async delete(url: string) {
-		const response = await this.axios.delete(`${BASE_URL}${url}`, this.getConfig())
-		return response && response.data
+		return this.handleRequest(() => this.axios.delete(`${BASE_URL}${url}`, this.getConfig()))
 	}
 
-	async health() {
-		return this.get('health')
-	}
-
-	protected setHeader(header = {}) {
+	private setHeader(header = {}) {
 		CONFIG.headers = { ...CONTENT_TYPE, ...header }
 	}
 
@@ -95,9 +80,30 @@ export class HttpService {
 			},
 			error => {
 				CHBLoader.hide()
-				CustomSwal.fire({ title: 'Erro', text: 'Um erro ocorreu. Tente novamente mais tarde', icon: 'error' })
-				Promise.reject(error)
+				return Promise.reject(error)
 			},
 		)
+	}
+
+	private async handleRequest(fn: Function) {
+		try {
+			const response = await fn()
+			if (_.get(response, 'data.token')) this.saveTokenAndRemoveIt(response)
+			return response && response.data
+		} catch (err) {
+			return this.handleError(err)
+		}
+	}
+
+	private handleError(err: any) {
+		const isTokenError = _.get(err, 'response.data.error.name') === 'JsonWebTokenError'
+		return isTokenError
+			? this.history!.push('/')
+			: CustomSwal.fire({ title: 'Erro', text: 'Um erro ocorreu. Tente novamente mais tarde', icon: 'error' })
+	}
+
+	private saveTokenAndRemoveIt(response: any) {
+		LocalStorageUtils.setToken(response.data.token)
+		delete response.data.token
 	}
 }
