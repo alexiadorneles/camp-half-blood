@@ -30,6 +30,7 @@
 
 	&__container {
 		@extend .pageContainer;
+		margin-top: 10px;
 
 		&--formItem {
 			display: flex;

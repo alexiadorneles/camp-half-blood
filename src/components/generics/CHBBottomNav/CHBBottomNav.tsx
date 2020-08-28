@@ -32,13 +32,13 @@ export function CHBBottomNav() {
 			route: SECURED_ROUTES.CABIN_CHOICE,
 			visibilityFunction: () => true,
 		},
-		{
-			icon: <BarChart color='primary' />,
-			label: ITEM_LABEL.RANKING,
-			value: ITEM_LABEL.RANKING,
-			route: SECURED_ROUTES.RANKING,
-			visibilityFunction: () => true,
-		},
+		// {
+		// 	icon: <BarChart color='primary' />,
+		// 	label: ITEM_LABEL.RANKING,
+		// 	value: ITEM_LABEL.RANKING,
+		// 	route: SECURED_ROUTES.RANKING,
+		// 	visibilityFunction: () => true,
+		// },
 		{
 			icon: <TouchApp color='primary' />,
 			label: ITEM_LABEL.GAMES,
