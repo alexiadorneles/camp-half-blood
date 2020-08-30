@@ -3,8 +3,9 @@ import { Done } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import { Cabin } from '../../../model/Cabin'
 import { CabinRequest, Status } from '../../../model/CabinRequest'
+import { Camper } from '../../../model/Camper'
 import { Edition } from '../../../model/Edition'
-import { CabinRequestService, CRUDService, EditionService, CamperService } from '../../../services'
+import { CabinRequestService, CamperService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
 
@@ -27,6 +28,7 @@ export function CabinChoice({
 	const [selectedCabinsIds, setSelectedCabinsIds] = useState<number[]>([])
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
 	const [userRequestedCabins, setUserRequestedCabins] = useState(false)
+	const [camper, setCamper] = useState<Camper | null>(null)
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
@@ -55,6 +57,15 @@ export function CabinChoice({
 		}
 
 		checkRequest()
+	}, [])
+
+	useEffect(() => {
+		async function getCamper() {
+			const result = await camperService.getProfile()
+			setCamper(result)
+		}
+
+		getCamper()
 	}, [])
 
 	function selectSingleCabin(cabin: Cabin): void {
@@ -176,6 +187,11 @@ export function CabinChoice({
 				<div className='CabinPage__container'>
 					<div className='CabinPage__container--inner'>
 						<p>
+							Bem vindo! Nossa edição já começou e nenhum participante poderá entrar no momento. Mas fique tranquilo,
+							você pode voltar a participar na nova edição que acontecerá em alguns meses. Fique ligado nas notícias do
+							Instagram
+						</p>
+						{/* <p>
 							Bem vindo a escolha de chalés!
 							<br />
 							<br />
@@ -184,12 +200,12 @@ export function CabinChoice({
 							Escolha um dos chalés disponíveis abaixo e clique no botão flutuante no canto inferior direito para
 							confirmar a sua escolha.
 						</p>
-						{cabins.map(renderCabin)}
+						{cabins.map(renderCabin)} */}
 					</div>
 				</div>
-				<Fab onClick={setCabinToCamper} className='bottom-floating-button' color='secondary'>
+				{/* <Fab onClick={setCabinToCamper} className='bottom-floating-button' color='secondary'>
 					<Done />
-				</Fab>
+				</Fab> */}
 			</div>
 		)
 	}
@@ -225,11 +241,18 @@ export function CabinChoice({
 		)
 	}
 
+	function renderPage() {
+		if (camper && camper.idCabin) {
+			return <h1>Você está no Chalé {camper.idCabin}</h1>
+		}
+		return !edition ? null : (
+			<div>{!edition.dtBegin ? renderBeforeGameStarted() : renderCabinChoiceAfterGameStarted()}</div>
+		)
+	}
+
 	function renderBeforeGameStarted() {
 		return userRequestedCabins ? renderCabinRequestPending() : renderCabinChoiceBeforeGameStarts()
 	}
 
-	return !edition ? null : (
-		<div>{!edition.dtBegin ? renderBeforeGameStarted() : renderCabinChoiceAfterGameStarted()}</div>
-	)
+	return renderPage()
 }
