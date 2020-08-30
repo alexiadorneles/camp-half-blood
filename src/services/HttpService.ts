@@ -89,7 +89,8 @@ export class HttpService {
 			if (_.get(response, 'data.token')) this.saveTokenAndRemoveIt(response)
 			return response && response.data
 		} catch (err) {
-			return this.handleError(err)
+			this.handleError(err)
+			return null
 		}
 	}
 
@@ -99,7 +100,11 @@ export class HttpService {
 			_.get(err, 'response.data.error.name') === 'TokenExpiredError'
 		return isTokenError
 			? this.history!.push('/')
-			: CustomSwal.fire({ title: 'Erro', text: 'Um erro ocorreu. Tente novamente mais tarde', icon: 'error' })
+			: CustomSwal.fire({
+					title: 'Erro',
+					text: err.response.data.error || 'Um erro ocorreu. Tente novamente mais tarde',
+					icon: 'error',
+			  })
 	}
 
 	private saveTokenAndRemoveIt(response: any) {
