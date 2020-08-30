@@ -5,7 +5,6 @@ import { SECURED_ROUTES } from '../../../config/Routes'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CHBLogo } from '../../generics'
 import './Login.scss'
-import { GOOGLE_ID } from '../../../config/keys'
 import { Camper } from '../../../model/Camper'
 import { CamperService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
@@ -13,6 +12,8 @@ import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 export interface LoginPropTypes {
 	camperService: CamperService
 }
+
+const { REACT_APP_GOOGLE_KEY } = process.env
 
 export function Login({ camperService }: LoginPropTypes) {
 	const history = useHistory()
@@ -55,7 +56,7 @@ export function Login({ camperService }: LoginPropTypes) {
 				<GoogleLogin
 					icon={true}
 					className='Login__google--button'
-					clientId={GOOGLE_ID}
+					clientId={REACT_APP_GOOGLE_KEY!}
 					buttonText='Entrar'
 					onSuccess={successCallbackGoogle}
 					onFailure={errorCallbackGoogle}
