@@ -7,7 +7,6 @@ import { BrazilianState, Country } from '../../../model/Places'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { DateUtils } from '../../../utils'
-import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './Profile.scss'
 
 enum ScreenMode {
@@ -31,8 +30,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	const [agreeAllDataIsTrue, setAgreeAllDataIsTrue] = useState(false)
 
 	useEffect(() => {
-		const camperId = LocalStorageUtils.getItem('idCamper')
-		getCamper(Number(camperId))
+		getCamper()
 	}, [screenMode])
 
 	useEffect(() => {
@@ -50,8 +48,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 		}
 	}, [camperLoaded])
 
-	async function getCamper(camperId: number): Promise<void> {
-		const camper = await camperService.findOne(camperId)
+	async function getCamper(): Promise<void> {
+		const camper = await camperService.getProfile()
 		setCamper(camper)
 		setCamperLoaded(true)
 	}

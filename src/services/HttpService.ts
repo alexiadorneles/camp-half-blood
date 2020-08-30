@@ -49,11 +49,9 @@ export class HttpService {
 	}
 
 	getConfig() {
-		if (!CONFIG.headers.authorization) {
-			this.setHeader({
-				authorization: LocalStorageUtils.getToken(),
-			})
-		}
+		this.setHeader({
+			authorization: LocalStorageUtils.getToken(),
+		})
 
 		return CONFIG
 	}
@@ -96,7 +94,9 @@ export class HttpService {
 	}
 
 	private handleError(err: any) {
-		const isTokenError = _.get(err, 'response.data.error.name') === 'JsonWebTokenError'
+		const isTokenError =
+			_.get(err, 'response.data.error.name') === 'JsonWebTokenError' ||
+			_.get(err, 'response.data.error.name') === 'TokenExpiredError'
 		return isTokenError
 			? this.history!.push('/')
 			: CustomSwal.fire({ title: 'Erro', text: 'Um erro ocorreu. Tente novamente mais tarde', icon: 'error' })
@@ -105,5 +105,8 @@ export class HttpService {
 	private saveTokenAndRemoveIt(response: any) {
 		LocalStorageUtils.setToken(response.data.token)
 		delete response.data.token
+		if (response.data.camper) {
+			LocalStorageUtils.setItem('idCamper', response.data.camper.idCamper)
+		}
 	}
 }

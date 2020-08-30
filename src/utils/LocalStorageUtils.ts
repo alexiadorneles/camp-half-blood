@@ -9,6 +9,9 @@ export class LocalStorageUtils {
 	}
 
 	public static setItem(key: string, value: any): void {
+		if (value === null) {
+			return localStorage.removeItem(PREFIX + key)
+		}
 		localStorage.setItem(PREFIX + key, typeof value === 'string' ? value : JSON.stringify(value))
 	}
 
@@ -16,7 +19,7 @@ export class LocalStorageUtils {
 		return this.getItem(USER_AUTH_TOKEN)!
 	}
 
-	public static setToken(token: string): void {
-		this.setItem(USER_AUTH_TOKEN, `Bearer ${token}`)
+	public static setToken(token: string | null): void {
+		this.setItem(USER_AUTH_TOKEN, token ? `Bearer ${token}` : null)
 	}
 }
