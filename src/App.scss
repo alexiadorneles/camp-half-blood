@@ -1,11 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@500&display=swap');
 
+$primary: #ff9800;
+$secondary: rgba(black, 0.8);
+
 * {
 	font-family: 'Sora', sans-serif;
 }
 
-.App {
+#root {
 	text-align: center;
+	min-height: 100vh;
+	min-height: calc(var(--vh, 1vh) * 100);
+	height: 100vh;
+	height: calc(var(--vh, 1vh) * 100);
+	position: relative;
+	overflow: hidden;
+	// background-color: $secondary;
 }
 
 .App-logo {
@@ -13,32 +23,30 @@
 	pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
-}
-
-.App-header {
-	background-color: #282c34;
-	min-height: 100vh;
+.page {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
+	flex-direction: column;
+	max-height: calc(100vh - 112px);
+	max-height: calc(calc(var(--vh, 1vh) * 100) - 112px);
+	height: calc(100vh - 112px);
+	height: calc(calc(var(--vh, 1vh) * 100) - 112px);
 }
 
-.App-link {
-	color: #61dafb;
+.pageContainer {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	max-width: 100vw;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	overflow-y: scroll;
 }
 
-@keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+.bottom-floating-button {
+	position: absolute !important;
+	bottom: 70px;
+	right: 5px;
 }

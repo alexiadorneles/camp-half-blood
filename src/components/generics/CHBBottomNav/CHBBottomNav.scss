@@ -1,0 +1,19 @@
+@import '../../../App.scss';
+
+.CHBBottomNav {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	z-index: 9999999999999;
+
+	.MuiBottomNavigation-root {
+		background-color: $secondary;
+		button {
+			margin-top: 3px;
+		}
+	}
+
+	.MuiBottomNavigationAction-label {
+		color: $primary;
+	}
+}

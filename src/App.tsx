@@ -1,34 +1,39 @@
-import React, { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+// pick a date util library
+import DateFnsUtils from '@date-io/date-fns'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import './App.scss'
-import { Login } from './components/screens'
-const About = lazy(() => import('./About'))
-const Home = lazy(() => import('./Home'))
+import { CHBLoader } from './components/generics'
+import { Middleware } from './Middleware'
 
-const App: React.FC = () => (
-	<Router>
-		<Suspense fallback={<div>Loading...</div>}>
-			{/* <nav>
-				<ul>
-					<li>
-						<Link to='/'>Home</Link>
-					</li>
-					<li>
-						<Link to='/about'>About</Link>
-					</li>
-				</ul>
-			</nav> */}
-			<Switch>
-				<Route path='/about'>
-					<About />
-				</Route>
-				<Route path='/'>
-					<Login />
-					{/* <Home /> */}
-				</Route>
-			</Switch>
-		</Suspense>
-	</Router>
-)
+// TODO: remove it as soon as login starts working
+// LocalStorageUtils.setItem('idCamper', 1)
+
+const App: React.FC = () => {
+	return (
+		<MuiThemeProvider
+			theme={createMuiTheme({
+				palette: {
+					secondary: {
+						main: 'rgba(0, 0, 0, 0.8)',
+					},
+					primary: {
+						main: '#FF9800',
+					},
+				},
+			})}>
+			<MuiPickersUtilsProvider utils={DateFnsUtils}>
+				<>
+					<CHBLoader />
+					<Router>
+						<Middleware />
+					</Router>
+				</>
+			</MuiPickersUtilsProvider>
+		</MuiThemeProvider>
+	)
+}
 
 export default App

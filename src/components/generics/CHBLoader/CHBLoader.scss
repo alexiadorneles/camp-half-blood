@@ -1,0 +1,17 @@
+#camp-loader {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	height: 500vh;
+	width: 500vw;
+	background-color: rgba($color: #000000, $alpha: 0.75);
+	z-index: 999999999999999999999999999;
+
+	svg {
+		position: absolute;
+		top: 50vh;
+		left: 50vw;
+		transform: translate(-50%, -50%);
+	}
+}

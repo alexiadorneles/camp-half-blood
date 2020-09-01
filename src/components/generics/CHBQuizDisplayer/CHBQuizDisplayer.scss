@@ -1,0 +1,14 @@
+.CHBQuizDisplayer {
+	&__optionsContainer {
+		margin: 25px auto;
+	}
+
+	&__option {
+		padding: 10px;
+		margin: 10px;
+		&--selected {
+			@extend .CHBQuizDisplayer__option;
+			background: lightblue !important;
+		}
+	}
+}

@@ -1,0 +1,44 @@
+@import '../../../App.scss';
+
+.CabinPage {
+	@extend .page;
+
+	&__container {
+		@extend .pageContainer;
+
+		&--inner {
+			padding-left: 15px;
+			padding-right: 15px;
+
+			&-textOnly {
+				@extend .CabinPage__container--inner;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100%;
+			}
+		}
+	}
+
+	&__cabin {
+		background-color: rgba(lightgray, 0.2);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 20px 10px;
+		border-radius: 10px;
+		margin: 10px 0px;
+
+		&--selected {
+			@extend .CabinPage__cabin;
+			color: $primary;
+			background-color: $secondary;
+		}
+
+		&--image {
+			height: 150px !important;
+			width: 150px !important;
+		}
+	}
+}
