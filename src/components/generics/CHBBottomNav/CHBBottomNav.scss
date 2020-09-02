@@ -4,9 +4,10 @@
 	width: 100%;
 	position: fixed;
 	bottom: 0;
-	z-index: 9999999999999;
+	z-index: 99;
 
 	.MuiBottomNavigation-root {
+		min-height:65px;
 		background-color: $secondary;
 		button {
 			margin-top: 3px;

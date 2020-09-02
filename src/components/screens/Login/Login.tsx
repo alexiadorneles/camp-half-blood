@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
@@ -17,6 +17,10 @@ const { REACT_APP_GOOGLE_KEY } = process.env
 
 export function Login({ camperService }: LoginPropTypes) {
 	const history = useHistory()
+
+	if (LocalStorageUtils.getToken()) {
+		history.push(SECURED_ROUTES.PROFILE)
+	}
 
 	async function successCallbackGoogle(response: GoogleLoginResponse | GoogleLoginResponseOffline) {
 		const onlineResponse = response as GoogleLoginResponse

@@ -2,6 +2,8 @@ import { Avatar, Button, Checkbox, InputLabel, MenuItem, Select, TextField } fro
 import { Done, Edit } from '@material-ui/icons'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import React, { ChangeEvent, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
+import { SECURED_ROUTES } from '../../../config/Routes'
 import { Camper } from '../../../model/Camper'
 import { BrazilianState, Country } from '../../../model/Places'
 import { CustomSwal } from '../../../providers/SwalProvider'
@@ -24,6 +26,8 @@ export interface ProfilePropTypes {
 }
 
 export function Profile({ camperService }: ProfilePropTypes) {
+	const history = useHistory()
+
 	const [camper, setCamper] = useState<Camper | null>(null)
 	const [camperLoaded, setCamperLoaded] = useState(false)
 	const [screenMode, setScreenMode] = useState(ScreenMode.DISPLAY)
@@ -111,6 +115,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 			<>
 				<div className='Profile__container--formItem'>
 					<KeyboardDatePicker
+						invalidDateMessage='Por favor insira uma data válida!'
 						className='Profile__container--formItem-textField'
 						inputVariant='outlined'
 						name='dtBirth'
@@ -264,6 +269,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				await camperService.update(camper!)
 			} else {
 				await camperService.completeRegister(camper!)
+				history.push(SECURED_ROUTES.CABIN_CHOICE)
 			}
 			setScreenMode(ScreenMode.DISPLAY)
 		} catch (err) {
