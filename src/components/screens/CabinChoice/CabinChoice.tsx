@@ -174,7 +174,11 @@ export function CabinChoice({
 						{cabins.map(renderCabin)}
 					</div>
 				</div>
-				<Fab onClick={saveCabinRequest} className='bottom-floating-button' color='primary'>
+				<Fab
+					onClick={saveCabinRequest}
+					className='bottom-floating-button'
+					color='primary'
+					disabled={selectedCabinsIds.length < 3}>
 					<Done />
 				</Fab>
 			</div>
