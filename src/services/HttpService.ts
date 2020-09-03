@@ -98,13 +98,16 @@ export class HttpService {
 		const isTokenError =
 			_.get(err, 'response.data.error.name') === 'JsonWebTokenError' ||
 			_.get(err, 'response.data.error.name') === 'TokenExpiredError'
-		return isTokenError
-			? this.history!.push('/')
-			: CustomSwal.fire({
-					title: 'Erro',
-					text: err.response.data.error || 'Um erro ocorreu. Tente novamente mais tarde',
-					icon: 'error',
-			  })
+		if (isTokenError) {
+			LocalStorageUtils.setToken(null)
+			this.history!.push('/')
+			return
+		}
+		return CustomSwal.fire({
+			title: 'Erro',
+			text: err.response.data.error || 'Um erro ocorreu. Tente novamente mais tarde',
+			icon: 'error',
+		})
 	}
 
 	private saveTokenAndRemoveIt(response: any) {
