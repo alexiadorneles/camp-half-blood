@@ -62,7 +62,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 		if (!camper) return null
 		return (
 			<>
-				<div className='Profile__container--formItem-down'>
+				{/* TODO: uncoment when screen is ready */}
+				{/* <div className='Profile__container--formItem-down'>
 					<label>Descrição: </label>
 					<p>{camper.dsDescription}</p>
 				</div>
@@ -70,7 +71,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				<div className='Profile__container--formItem'>
 					<label>Pronomes: </label>
 					<p>{camper.dsPronouns}</p>
-				</div>
+				</div> */}
 
 				<div className='Profile__container--formItem'>
 					<label>Instagram: </label>
@@ -151,7 +152,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 		return (
 			<>
-				<div className='Profile__container--formItem-down'>
+				{/* TODO: uncoment when screen is ready */}
+				{/* <div className='Profile__container--formItem-down'>
 					<textarea
 						placeholder='Conta um pouco sobre você, máximo 200 caracteres'
 						onChange={onFieldChanged}
@@ -159,7 +161,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 						maxLength={200}
 						value={camper.dsDescription || ''}
 					/>
-				</div>
+				</div> */}
 
 				<div className='Profile__container--formItem'>
 					<InputLabel htmlFor={'País'}>País*: </InputLabel>
@@ -209,7 +211,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					/>
 				</div>
 
-				<div className='Profile__container--formItem'>
+				{/* TODO: uncoment when screen is ready */}
+				{/* <div className='Profile__container--formItem'>
 					<TextField
 						label='Pronomes'
 						variant='outlined'
@@ -218,7 +221,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 						className='Profile__container--formItem-textField'
 						value={camper.dsPronouns || ''}
 					/>
-				</div>
+				</div> */}
 
 				<div className='Profile__container--formItem'>
 					<TextField
@@ -252,7 +255,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	function isButtonDisabled(): boolean {
 		return (
 			!agreeAllDataIsTrue ||
-			!camper!.dsDescription ||
+			// TODO: uncoment when screen is ready
+			// !camper!.dsDescription ||
 			!camper!.dsInstagramNick ||
 			!camper!.dtBirth ||
 			!camper!.tpCountry
