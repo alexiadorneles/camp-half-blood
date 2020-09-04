@@ -54,6 +54,7 @@ export interface EssayActivity {
 export interface CamperActivity {
 	idCamperActivity: number
 	idCamper: number
+	idRound: number
 	idActivity: number
 	idActivityOption: number
 	idEdition: number

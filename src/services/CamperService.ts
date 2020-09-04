@@ -30,7 +30,12 @@ export class CamperService extends BaseCRUDService<Camper> {
 		return this.httpService.post(`/campers/${idCamper}/answer`, answer)
 	}
 
-	public async answerTimedOut(idCamper: number, idActivity: number, idEdition: number): Promise<CamperActivity> {
-		return this.httpService.post(`/campers/${idCamper}/answer-timed-out`, { idActivity, idEdition })
+	public async answerTimedOut(
+		idCamper: number,
+		idActivity: number,
+		idEdition: number,
+		idRound: number,
+	): Promise<CamperActivity> {
+		return this.httpService.post(`/campers/${idCamper}/answer-timed-out`, { idActivity, idEdition, idRound })
 	}
 }

@@ -55,6 +55,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 	function answerQuestion(): void {
 		if (!currentOptionChosen) return
 		const answer: Partial<CamperActivity> = {
+			idRound: round!.idRound,
 			idActivity: currentOptionChosen!.idActivity,
 			idActivityOption: currentOptionChosen!.idActivityOption,
 			idEdition: (round && round.idEdition) || 0,
@@ -153,7 +154,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 
 		const result = await CustomSwal.fire(swalArgs)
 		if (result.dismiss === CustomSwal.DismissReason.timer) {
-			camperService.answerTimedOut(idCamper, currentQuestion!.idActivity, round!.idEdition)
+			camperService.answerTimedOut(idCamper, currentQuestion!.idActivity, round!.idEdition, round!.idRound)
 			if (round && questionNumber >= round.activities.length) {
 				CustomSwal.close()
 				setQuestionNumber(questionNumber + 100)
