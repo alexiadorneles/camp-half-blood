@@ -4,14 +4,13 @@
 	@extend .page;
 
 	&__photoAndNameContainer {
-		display: flex;
-		justify-items: center;
-		flex-direction: column;
+		display: blow;
 		align-items: center;
 
 		&--photo {
 			height: 150px !important;
 			width: 150px !important;
+			margin: 0 auto !important;
 		}
 
 		p {
@@ -30,7 +29,6 @@
 
 	&__container {
 		@extend .pageContainer;
-		margin-top: 10px;
 
 		&--formItem {
 			display: flex;
@@ -89,7 +87,7 @@
 		}
 
 		&--actionButtonContainer {
-			display: flex;
+			display: block;
 			justify-content: center;
 			width: 80%;
 			align-self: center;
