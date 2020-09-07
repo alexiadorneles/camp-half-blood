@@ -9,6 +9,13 @@ import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import { CHBQuizDisplayer } from '../../generics'
 import './Game.scss'
 
+let scopeRound: any = null
+let scopeChanged: boolean = false
+
+const storeRound = (roundParam: any) => {
+	scopeRound = roundParam
+}
+
 type RoundActivities = Round & { activities: ActivityWithOptions[] }
 
 export interface GamePropTypes {
@@ -19,7 +26,12 @@ export interface GamePropTypes {
 export function Game({ roundService, camperService }: GamePropTypes) {
 	let currentOptionChosen: ActivityOption | null = null
 	const [round, setRound] = useState<RoundActivities | null>(null)
-	const [currentQuestion, setCurrentQuestion] = useState<(ActivityWithOptions & { hasSelected?: boolean }) | null>(null)
+	const [currentQuestion, setCurrentQuestion] = useState<
+		| (ActivityWithOptions & {
+				hasSelected?: boolean
+		  })
+		| null
+	>(null)
 	const [questionNumber, setQuestionNumber] = useState(0)
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
@@ -28,6 +40,20 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 		async function loadCurrentRound(): Promise<void> {
 			const round = await roundService.findByCamper(idCamper)
 			setRound(round)
+			storeRound(round)
+			return round
+		}
+
+		setInterval(checkFocus, 8000)
+
+		function checkFocus() {
+			if (!document.hasFocus() && scopeRound && !scopeChanged) {
+				console.log('trigger change')
+				loadCurrentRound()
+				scopeChanged = true
+				setCurrentQuestion(null)
+				CustomSwal.close()
+			}
 		}
 
 		loadCurrentRound()
@@ -78,7 +104,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 		CustomSwal.fire({
 			title: <strong>Instruções</strong>,
 			icon: 'info',
-			html: `Por favor, leia até o fim. Você está prestes a começar uma <b>rodada dos jogos</b>.
+			html: `Por favor, leia até o fim. Você está prestes a começar uma rodada dos jogos.
              As perguntas todas possuem <b>40 segundos</b> para serem respondidas.
              Se você sair dessa tela depois de clicar em iniciar, <b>você perde a rodada</b>.
              Boa sorte!`,
@@ -167,6 +193,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 
 	function callStart() {
 		renderQuestion()
+		roundService.finish(round!.idRound)
 		return null
 	}
 
