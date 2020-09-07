@@ -48,7 +48,6 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 
 		function checkFocus() {
 			if (!document.hasFocus() && scopeRound && !scopeChanged) {
-				console.log('trigger change')
 				loadCurrentRound()
 				scopeChanged = true
 				setCurrentQuestion(null)
