@@ -247,7 +247,17 @@ export function CabinChoice({
 
 	function renderPage() {
 		if (camper && camper.idCabin) {
-			return <h1>Você está no Chalé {camper.idCabin}</h1>
+			return (
+				<>
+					<h1>Você está no Chalé {camper.idCabin}</h1>
+					<br />
+					<br />
+					<h6>
+						Para conhecer os outros membros do seu chalé, entre no nosso{' '}
+						<a href='https://discord.gg/9WZD77C'>Discord</a>{' '}
+					</h6>
+				</>
+			)
 		}
 		return !edition ? null : (
 			<div>{!edition.dtBegin ? renderBeforeGameStarted() : renderCabinChoiceAfterGameStarted()}</div>
