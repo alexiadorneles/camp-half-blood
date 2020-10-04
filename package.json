@@ -32,6 +32,8 @@
 		"typescript": "~3.7.2"
 	},
 	"scripts": {
+		"postinstall": "npm cache clean --force",
+		"prestart": "npm run buil",
 		"start": "node node_modules/.bin/serve -s build",
 		"dev": "react-scripts start",
 		"build": "react-scripts build",
