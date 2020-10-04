@@ -32,7 +32,7 @@
 		"typescript": "~3.7.2"
 	},
 	"scripts": {
-		"prestart": "npm cache verify && npm i && npm run build",
+		"prestart": "npm i && npm run build",
 		"start": "node node_modules/.bin/serve -s build",
 		"dev": "react-scripts start",
 		"build": "react-scripts build",
