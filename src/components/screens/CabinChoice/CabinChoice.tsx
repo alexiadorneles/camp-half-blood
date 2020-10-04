@@ -191,12 +191,12 @@ export function CabinChoice({
 			<div className='CabinPage'>
 				<div className='CabinPage__container'>
 					<div className='CabinPage__container--inner'>
-						{/* <p>
+						<p>
 							Bem vindo! Nossa edição já começou e nenhum participante poderá entrar no momento. Mas fique tranquilo,
 							você pode voltar a participar na nova edição que acontecerá em alguns meses. Fique ligado nas notícias do
 							Instagram
-						</p> */}
-						<p>
+						</p>
+						{/* <p>
 							Bem vindo a escolha de chalés!
 							<br />
 							<br />
@@ -205,12 +205,12 @@ export function CabinChoice({
 							Escolha um dos chalés disponíveis abaixo e clique no botão flutuante no canto inferior direito para
 							confirmar a sua escolha.
 						</p>
-						{cabins.filter(cabin => cabin.campers!.length < edition!.nrCabinLimit).map(renderCabin)}
+						{cabins.filter(cabin => cabin.campers!.length < edition!.nrCabinLimit).map(renderCabin)} */}
 					</div>
 				</div>
-				<Fab onClick={setCabinToCamper} className='bottom-floating-button' color='secondary'>
+				{/* <Fab onClick={setCabinToCamper} className='bottom-floating-button' color='secondary'>
 					<Done />
-				</Fab>
+				</Fab> */}
 			</div>
 		)
 	}
