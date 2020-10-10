@@ -11,9 +11,15 @@ import './Game.scss'
 
 let scopeRound: any = null
 let scopeChanged: boolean = false
+let started: boolean = false
+let idActivity: number | null = null
 
 const storeRound = (roundParam: any) => {
 	scopeRound = roundParam
+}
+
+const storeActivity = (idActivityParam: any) => {
+	idActivity = idActivityParam
 }
 
 type RoundActivities = Round & { activities: ActivityWithOptions[] }
@@ -47,11 +53,16 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 		setInterval(checkFocus, 8000)
 
 		function checkFocus() {
-			if (!document.hasFocus() && scopeRound && !scopeChanged) {
-				loadCurrentRound()
+			if (!document.hasFocus() && scopeRound && !scopeChanged && started) {
 				scopeChanged = true
-				setCurrentQuestion(null)
 				CustomSwal.close()
+				roundService.finishCurrentActivity(idActivity!)
+				CustomSwal.fire({
+					icon: 'info',
+					title: 'Você saiu da tela',
+					text: 'Você não poderá responder a esta pergunta, mas ainda pode responder as próximas',
+				})
+				setTimeout(() => window.location.reload(), 5000)
 			}
 		}
 
@@ -93,6 +104,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 		answerQuestion()
 		setQuestionNumber(questionNumber + 1)
 		setCurrentQuestion(round && round.activities[questionNumber])
+		storeActivity(round && round.activities[questionNumber].idActivity)
 	}
 
 	function onAnswerChosen(optionChosen: ActivityOption): void {
@@ -191,8 +203,8 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 	}
 
 	function callStart() {
+		started = true
 		renderQuestion()
-		roundService.finish(round!.idRound)
 		return null
 	}
 
