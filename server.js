@@ -10,6 +10,7 @@ const configs = {
   port: process.env.PORT || 3000
 }
 
+console.log("Building...");
 exec("npm run build", () => {
   if (configs.forcarHTTPS) //Se o redirecionamento HTTP estiver habilitado, registra o middleware abaixo
     app.use((req, res, next) => { //Cria um middleware onde todas as requests passam por ele
