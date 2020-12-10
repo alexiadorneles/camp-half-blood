@@ -11,7 +11,10 @@ const configs = {
 }
 
 console.log("Building...");
-exec("npm run build", () => {
+exec("npm run build", (error, stdout, stderr) => {
+  console.error('ERROR', error)
+  console.log('out', stdout)
+  console.error('sterr', stderr)
   if (configs.forcarHTTPS) //Se o redirecionamento HTTP estiver habilitado, registra o middleware abaixo
     app.use((req, res, next) => { //Cria um middleware onde todas as requests passam por ele
       if ((req.headers["x-forwarded-proto"] || "").endsWith("http")) //Checa se o protocolo informado nos headers é HTTP
