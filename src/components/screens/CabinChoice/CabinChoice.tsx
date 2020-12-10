@@ -4,24 +4,18 @@ import React, { useEffect, useState } from 'react'
 import { Cabin } from '../../../model/Cabin'
 import { Camper } from '../../../model/Camper'
 import { Edition } from '../../../model/Edition'
-import { CabinRequestService, CamperService, CRUDService, EditionService } from '../../../services'
+import { CustomSwal } from '../../../providers/SwalProvider'
+import { CamperService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
-import { CustomSwal } from '../../../providers/SwalProvider'
 
 export interface CabinChoicePropTypes {
 	editionService: EditionService
 	cabinService: CRUDService<Cabin>
-	cabinRequestService: CabinRequestService
 	camperService: CamperService
 }
 
-export function CabinChoice({
-	editionService,
-	cabinService,
-	cabinRequestService,
-	camperService,
-}: CabinChoicePropTypes) {
+export function CabinChoice({ editionService, cabinService, camperService }: CabinChoicePropTypes) {
 	const [cabins, setCabins] = useState<Cabin[]>([])
 	const [edition, setEdition] = useState<Edition | null>(null)
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
@@ -69,7 +63,7 @@ export function CabinChoice({
 			await camperService.setCabin(idCamper, singleCabinSelected.idCabin)
 			getCamper()
 		} else {
-			CustomSwal.fire('Por favor escolha um chalé', undefined, 'warning');
+			CustomSwal.fire('Por favor escolha um chalé', undefined, 'warning')
 		}
 	}
 
