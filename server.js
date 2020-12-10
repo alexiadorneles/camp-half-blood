@@ -11,7 +11,7 @@ const configs = {
 }
 
 console.log("Building...");
-exec("npm run build", (error, stdout, stderr) => {
+exec("npm install && npm run build", (error, stdout, stderr) => {
   console.error('ERROR', error)
   console.log('out', stdout)
   console.error('sterr', stderr)
