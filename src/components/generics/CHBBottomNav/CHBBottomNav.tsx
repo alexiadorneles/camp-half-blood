@@ -1,5 +1,5 @@
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core'
-import { AccountBalance, AssignmentInd, TouchApp } from '@material-ui/icons'
+import { AccountBalance, AssignmentInd, EventSeat, TouchApp } from '@material-ui/icons'
 import React, { ChangeEvent, ReactNode, useState } from 'react'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
@@ -8,7 +8,8 @@ import { EditionContext } from '../../../providers/EditionContext'
 import './CHBBottomNav.scss'
 
 const ITEM_LABEL = {
-	CABIN: 'Chalé',
+	CABIN_CHOICE: 'Escolher Chalé',
+	MY_CABIN: 'Meu Chalé',
 	RANKING: 'Ranking',
 	GAMES: 'Jogos',
 	PROFILE: 'Meu Perfil',
@@ -25,15 +26,21 @@ interface MenuItem {
 export function CHBBottomNav() {
 	const [value, setValue] = useState('')
 	const history = useHistory()
-	// const { edition } = useContext(EditionContext)
 
 	const getMenuItems = (edition: Partial<Edition> | undefined): MenuItem[] => [
 		{
-			icon: <AccountBalance color='primary' />,
-			label: ITEM_LABEL.CABIN,
-			value: ITEM_LABEL.CABIN,
+			icon: <EventSeat color='primary' />,
+			label: ITEM_LABEL.CABIN_CHOICE,
+			value: ITEM_LABEL.CABIN_CHOICE,
 			route: SECURED_ROUTES.CABIN_CHOICE,
 			visibilityFunction: () => Boolean(edition && !edition.dtBegin),
+		},
+		{
+			icon: <AccountBalance color='primary' />,
+			label: ITEM_LABEL.MY_CABIN,
+			value: ITEM_LABEL.MY_CABIN,
+			route: SECURED_ROUTES.MY_CABIN,
+			visibilityFunction: () => Boolean(edition && edition.dtBegin),
 		},
 		{
 			icon: <TouchApp color='primary' />,
