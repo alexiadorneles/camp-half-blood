@@ -34,6 +34,7 @@
 		"typescript": "~3.7.2"
 	},
 	"scripts": {
+		"prestart": "npm install",
 		"postinstall": "npm run build",
 		"start": "node server",
 		"dev": "react-scripts start",
