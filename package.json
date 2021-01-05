@@ -35,6 +35,7 @@
 	},
 	"scripts": {
 		"postinstall": "npm run build",
+		"prestart": "npm run build",
 		"start": "node node_modules/.bin/serve -s build",
 		"dev": "react-scripts start",
 		"build": "react-scripts build",
