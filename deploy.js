@@ -37,7 +37,7 @@ async function push() {
 
 async function removeBuildFolderLocally() {
   console.log("Removing build folder...")
-  await execPromised("rf -rf build")
+  await execPromised("rm -rf build")
   console.log("BUILD FOLDER REMOVED")
 }
 
