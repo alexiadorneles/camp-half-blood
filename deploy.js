@@ -12,7 +12,7 @@ async function checkoutToMaster() {
 }
 
 async function rebaseMainIntoMaster() {
-  console.log("Checking out to master")
+  console.log("Rebasing main into master")
   await execPromised("git rebase main")
 }
 
@@ -47,15 +47,18 @@ async function checkoutToMain() {
   console.log("ALL DONE! Back to main")
 }
 
-try {
-  await checkoutToMaster()
-  await rebaseMainIntoMaster()
-  await runBuild()
-  await commitBuildFolder()
-  await push()
-  await removeBuildFolderLocally()
-  await checkoutToMain()
-} catch (err) {
-  console.error(err)
+async function run() {
+  try {
+    await checkoutToMaster()
+    await rebaseMainIntoMaster()
+    await runBuild()
+    await commitBuildFolder()
+    await push()
+    await removeBuildFolderLocally()
+    await checkoutToMain()
+  } catch (err) {
+    console.error(err)
+  }
 }
 
+run()

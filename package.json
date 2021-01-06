@@ -35,8 +35,8 @@
 	},
 	"scripts": {
 		"prestart": "npm install",
-		"postinstall": "npm run build",
 		"start": "node server",
+		"deploy": "node deploy",
 		"dev": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
