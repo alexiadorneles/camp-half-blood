@@ -1,12 +1,15 @@
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core'
-import { AccountBalance, BarChart, TouchApp, AssignmentInd } from '@material-ui/icons'
+import { AccountBalance, AssignmentInd, EventSeat, TouchApp } from '@material-ui/icons'
 import React, { ChangeEvent, ReactNode, useState } from 'react'
-import './CHBBottomNav.scss'
-import { SECURED_ROUTES } from '../../../config/Routes'
 import { useHistory } from 'react-router'
+import { SECURED_ROUTES } from '../../../config/Routes'
+import { Edition } from '../../../model/Edition'
+import { EditionContext } from '../../../providers/EditionContext'
+import './CHBBottomNav.scss'
 
 const ITEM_LABEL = {
-	CABIN: 'Chalé',
+	CABIN_CHOICE: 'Escolher Chalé',
+	MY_CABIN: 'Meu Chalé',
 	RANKING: 'Ranking',
 	GAMES: 'Jogos',
 	PROFILE: 'Meu Perfil',
@@ -24,21 +27,21 @@ export function CHBBottomNav() {
 	const [value, setValue] = useState('')
 	const history = useHistory()
 
-	const menuItems: MenuItem[] = [
+	const getMenuItems = (edition: Partial<Edition> | undefined): MenuItem[] => [
+		{
+			icon: <EventSeat color='primary' />,
+			label: ITEM_LABEL.CABIN_CHOICE,
+			value: ITEM_LABEL.CABIN_CHOICE,
+			route: SECURED_ROUTES.CABIN_CHOICE,
+			visibilityFunction: () => Boolean(edition && !edition.dtBegin),
+		},
 		{
 			icon: <AccountBalance color='primary' />,
-			label: ITEM_LABEL.CABIN,
-			value: ITEM_LABEL.CABIN,
-			route: SECURED_ROUTES.CABIN_CHOICE,
-			visibilityFunction: () => true,
+			label: ITEM_LABEL.MY_CABIN,
+			value: ITEM_LABEL.MY_CABIN,
+			route: SECURED_ROUTES.MY_CABIN,
+			visibilityFunction: () => Boolean(edition && edition.dtBegin),
 		},
-		// {
-		// 	icon: <BarChart color='primary' />,
-		// 	label: ITEM_LABEL.RANKING,
-		// 	value: ITEM_LABEL.RANKING,
-		// 	route: SECURED_ROUTES.RANKING,
-		// 	visibilityFunction: () => true,
-		// },
 		{
 			icon: <TouchApp color='primary' />,
 			label: ITEM_LABEL.GAMES,
@@ -55,21 +58,25 @@ export function CHBBottomNav() {
 		},
 	]
 
-	function onChange(event: ChangeEvent<{}>, newValue: string) {
+	function onChange(event: ChangeEvent<{}>, newValue: string, edition?: Partial<Edition>) {
 		setValue(newValue)
-		const menuItem = menuItems.find(item => item.value === newValue)!
+		const menuItem = getMenuItems(edition).find(item => item.value === newValue)!
 		history.push(menuItem.route)
 	}
 
 	return (
-		<div className='CHBBottomNav'>
-			<BottomNavigation value={value} onChange={onChange} showLabels>
-				{menuItems
-					.filter(item => item.visibilityFunction())
-					.map(({ visibilityFunction, ...actionProps }) => (
-						<BottomNavigationAction key={actionProps.route} {...actionProps} />
-					))}
-			</BottomNavigation>
-		</div>
+		<EditionContext.Consumer>
+			{({ edition }) => (
+				<div className='CHBBottomNav'>
+					<BottomNavigation value={value} onChange={(event, newValue) => onChange(event, newValue, edition)} showLabels>
+						{getMenuItems(edition)
+							.filter(item => item.visibilityFunction())
+							.map(({ visibilityFunction, ...actionProps }) => (
+								<BottomNavigationAction key={actionProps.route} {...actionProps} />
+							))}
+					</BottomNavigation>
+				</div>
+			)}
+		</EditionContext.Consumer>
 	)
 }
