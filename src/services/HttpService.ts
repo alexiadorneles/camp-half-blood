@@ -105,7 +105,7 @@ export class HttpService {
 		}
 		return CustomSwal.fire({
 			title: 'Erro',
-			text: err.response.data.error || 'Um erro ocorreu. Tente novamente mais tarde',
+			text: _.get(err, 'response.data.error', 'Um erro ocorreu. Tente novamente mais tarde'),
 			icon: 'error',
 		})
 	}
