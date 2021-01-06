@@ -24,7 +24,7 @@ async function runBuild() {
 
 async function commitBuildFolder() {
   console.log("Adding files to commit...")
-  await execPromised("git add build")
+  await execPromised("git add build -f")
   console.log("Doing Commit...")
   await execPromised("git commit -m 'updating build folder'")
 }
