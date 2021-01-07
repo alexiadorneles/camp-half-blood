@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core'
+import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { SweetAlertOptions } from 'sweetalert2'
 import { ActivityOption, ActivityWithOptions, CamperActivity, Round } from '../../../model/Activity'
@@ -104,7 +105,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 		answerQuestion()
 		setQuestionNumber(questionNumber + 1)
 		setCurrentQuestion(round && round.activities[questionNumber])
-		storeActivity(round && round.activities[questionNumber].idActivity)
+		storeActivity(_.get(round, 'round.activities[questionNumber].idActivity', null))
 	}
 
 	function onAnswerChosen(optionChosen: ActivityOption): void {
