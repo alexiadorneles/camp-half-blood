@@ -294,7 +294,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					<div className='Profile__photoAndNameContainer'>
 						<Avatar className='Profile__photoAndNameContainer--photo' alt='foto de perfil' src={camper.dsImageURL} />
 						<p>{camper.dsName}</p>
-						{/* <p className='Profile__photoAndNameContainer--cabin'>Chalé 6</p> */}
+						<p className='Profile__photoAndNameContainer--email'>{camper.dsEmail}</p>
 					</div>
 
 					{screenMode === ScreenMode.DISPLAY ? renderDisplayMode() : renderEditMode()}
