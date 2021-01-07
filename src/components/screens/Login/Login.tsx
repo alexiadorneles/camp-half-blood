@@ -53,15 +53,13 @@ export function Login({ camperService }: LoginPropTypes) {
 				Bem vindo ao
 				<br />
 				Acampamento
-				<br />
-				Meio-Sangue
 			</p>
 			<div className='Login__google'>
 				<GoogleLogin
-					icon={true}
+					icon={false}
 					className='Login__google--button'
 					clientId={REACT_APP_GOOGLE_KEY!}
-					buttonText='Entrar'
+					buttonText='Entrar com Google'
 					onSuccess={successCallbackGoogle}
 					onFailure={errorCallbackGoogle}
 					cookiePolicy={'single_host_origin'}

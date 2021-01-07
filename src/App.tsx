@@ -17,10 +17,10 @@ const App: React.FC = () => {
 			theme={createMuiTheme({
 				palette: {
 					secondary: {
-						main: 'rgba(0, 0, 0, 0.8)',
+						main: '#383737',
 					},
 					primary: {
-						main: '#FF9800',
+						main: '#c49a6b',
 					},
 				},
 			})}>

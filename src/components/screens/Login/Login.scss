@@ -7,7 +7,6 @@
 	width: 100vw;
 	justify-content: center;
 	align-items: center;
-	// background-image: linear-gradient(to bottom right, #ee5958, #f9b25c);
 	background-color: $secondary;
 	flex-direction: column;
 	overflow: hidden;
@@ -24,16 +23,14 @@
 	&__google {
 		width: 100%;
 		&--button {
-			width: 60%;
+			width: 75%;
 			text-align: center;
 			text-transform: uppercase;
-			background-color: rgba(0, 0, 0, 0.2) !important;
-			// background-color: $primary !important;
+			background-color: $primary !important;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			color: $primary !important;
-			// color: $secondary !important;
+			color: $secondary !important;
 			font-family: inherit !important;
 			font-size: 16px !important;
 			font-size: 20px !important;
@@ -41,14 +38,15 @@
 			border-width: 1px !important;
 
 			span {
+				padding: 14px;
+				font-size: 18px;
 				font-weight: bold !important;
 			}
 
 			div {
 				margin-top: 7px;
 				padding: 0 !important;
-				background-color: rgba(0, 0, 0, 0) !important;
-				// background-color: $primary;
+				background-color: $primary;
 			}
 		}
 	}
