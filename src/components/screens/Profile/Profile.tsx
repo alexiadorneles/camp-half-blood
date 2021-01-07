@@ -1,11 +1,12 @@
 import { Avatar, Button, Checkbox, InputLabel, MenuItem, Select, TextField } from '@material-ui/core'
 import { Done, Edit } from '@material-ui/icons'
 import { KeyboardDatePicker } from '@material-ui/pickers'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
 import { Camper } from '../../../model/Camper'
 import { BrazilianState, Country } from '../../../model/Places'
+import { GlobalContext } from '../../../providers/GlobalContext'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { DateUtils } from '../../../utils'
@@ -27,6 +28,7 @@ export interface ProfilePropTypes {
 
 export function Profile({ camperService }: ProfilePropTypes) {
 	const history = useHistory()
+	const { dispatchCamper } = useContext(GlobalContext)
 
 	const [camper, setCamper] = useState<Camper | null>(null)
 	const [camperLoaded, setCamperLoaded] = useState(false)
@@ -273,6 +275,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				await camperService.update(camper!)
 			} else {
 				await camperService.completeRegister(camper!)
+				dispatchCamper && dispatchCamper({ ...camper, blRegisterCompleted: true })
 				history.push(SECURED_ROUTES.CABIN_CHOICE)
 			}
 			setScreenMode(ScreenMode.DISPLAY)

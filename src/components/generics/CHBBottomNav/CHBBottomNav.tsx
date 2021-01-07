@@ -6,6 +6,7 @@ import { SECURED_ROUTES } from '../../../config/Routes'
 import { Edition } from '../../../model/Edition'
 import { GlobalContext } from '../../../providers/GlobalContext'
 import './CHBBottomNav.scss'
+import { Camper } from '../../../model/Camper'
 
 const ITEM_LABEL = {
 	CABIN_CHOICE: 'Escolher Chalé',
@@ -64,19 +65,28 @@ export function CHBBottomNav() {
 		history.push(menuItem.route)
 	}
 
+	function isCamperRegisteredCompletely(camper: Partial<Camper> | undefined): boolean {
+		return Boolean(camper && camper.blRegisterCompleted)
+	}
+
 	return (
 		<GlobalContext.Consumer>
-			{({ edition }) => (
-				<div className='CHBBottomNav'>
-					<BottomNavigation value={value} onChange={(event, newValue) => onChange(event, newValue, edition)} showLabels>
-						{getMenuItems(edition)
-							.filter(item => item.visibilityFunction())
-							.map(({ visibilityFunction, ...actionProps }) => (
-								<BottomNavigationAction key={actionProps.route} {...actionProps} />
-							))}
-					</BottomNavigation>
-				</div>
-			)}
+			{({ edition, camper }) =>
+				isCamperRegisteredCompletely(camper) && (
+					<div className='CHBBottomNav'>
+						<BottomNavigation
+							value={value}
+							onChange={(event, newValue) => onChange(event, newValue, edition)}
+							showLabels>
+							{getMenuItems(edition)
+								.filter(item => item.visibilityFunction())
+								.map(({ visibilityFunction, ...actionProps }) => (
+									<BottomNavigationAction key={actionProps.route} {...actionProps} />
+								))}
+						</BottomNavigation>
+					</div>
+				)
+			}
 		</GlobalContext.Consumer>
 	)
 }

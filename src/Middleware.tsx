@@ -6,9 +6,11 @@ import { CabinChoice, Game, Login, Profile } from './components/screens'
 import { Edition } from './model/Edition'
 import { GlobalContext } from './providers/GlobalContext'
 import { CabinService, CamperService, EditionService, HttpService, RoundService } from './services'
+import { Camper } from './model/Camper'
 
 export function Middleware() {
 	const [edition, dispatchEdition] = useState<Partial<Edition>>()
+	const [camper, dispatchCamper] = useState<Partial<Camper>>()
 
 	const history = useHistory()
 
@@ -19,9 +21,9 @@ export function Middleware() {
 	const roundService = new RoundService(httpService)
 
 	return (
-		<GlobalContext.Provider value={{ edition, dispatchEdition }}>
+		<GlobalContext.Provider value={{ edition, dispatchEdition, dispatchCamper, camper }}>
 			<Switch>
-				<PrivateRoute editionService={editionService} path='/secured'>
+				<PrivateRoute camperService={camperService} editionService={editionService} path='/secured'>
 					<CHBHeader />
 					<Switch>
 						<Route path='/secured/cabin-choice'>
