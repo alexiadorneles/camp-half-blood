@@ -4,7 +4,7 @@ import React, { ChangeEvent, ReactNode, useState } from 'react'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
 import { Edition } from '../../../model/Edition'
-import { EditionContext } from '../../../providers/EditionContext'
+import { GlobalContext } from '../../../providers/GlobalContext'
 import './CHBBottomNav.scss'
 
 const ITEM_LABEL = {
@@ -65,7 +65,7 @@ export function CHBBottomNav() {
 	}
 
 	return (
-		<EditionContext.Consumer>
+		<GlobalContext.Consumer>
 			{({ edition }) => (
 				<div className='CHBBottomNav'>
 					<BottomNavigation value={value} onChange={(event, newValue) => onChange(event, newValue, edition)} showLabels>
@@ -77,6 +77,6 @@ export function CHBBottomNav() {
 					</BottomNavigation>
 				</div>
 			)}
-		</EditionContext.Consumer>
+		</GlobalContext.Consumer>
 	)
 }

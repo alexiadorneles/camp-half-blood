@@ -4,7 +4,7 @@ import { CHBBottomNav, CHBHeader } from './components/generics'
 import { PrivateRoute } from './components/PrivateRoute'
 import { CabinChoice, Game, Login, Profile } from './components/screens'
 import { Edition } from './model/Edition'
-import { EditionContext } from './providers/EditionContext'
+import { GlobalContext } from './providers/GlobalContext'
 import { CabinService, CamperService, EditionService, HttpService, RoundService } from './services'
 
 export function Middleware() {
@@ -19,7 +19,7 @@ export function Middleware() {
 	const roundService = new RoundService(httpService)
 
 	return (
-		<EditionContext.Provider value={{ edition, dispatchEdition }}>
+		<GlobalContext.Provider value={{ edition, dispatchEdition }}>
 			<Switch>
 				<PrivateRoute editionService={editionService} path='/secured'>
 					<CHBHeader />
@@ -40,6 +40,6 @@ export function Middleware() {
 					<Login camperService={camperService} />
 				</Route>
 			</Switch>
-		</EditionContext.Provider>
+		</GlobalContext.Provider>
 	)
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { Route, Redirect, RouteProps } from 'react-router'
 import { LocalStorageUtils } from '../utils'
-import { EditionContext } from '../providers/EditionContext'
+import { GlobalContext } from '../providers/GlobalContext'
 import { EditionService } from '../services'
 
 export interface PrivateRoutePropTypes extends RouteProps {
@@ -12,7 +12,7 @@ export interface PrivateRoutePropTypes extends RouteProps {
 const hasToken = () => Boolean(LocalStorageUtils.getToken())
 
 export function PrivateRoute({ editionService, children, ...rest }: PrivateRoutePropTypes) {
-	const { dispatchEdition } = useContext(EditionContext)
+	const { dispatchEdition } = useContext(GlobalContext)
 
 	useEffect(() => {
 		async function getEdition() {
