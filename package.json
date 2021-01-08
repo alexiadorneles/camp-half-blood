@@ -10,11 +10,6 @@
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.3.2",
 		"@testing-library/user-event": "^7.1.2",
-		"@types/jest": "^24.0.0",
-		"@types/node": "^12.0.0",
-		"@types/react": "^16.9.0",
-		"@types/react-dom": "^16.9.0",
-		"@types/react-router-dom": "^5.1.5",
 		"axios": "^0.21.1",
 		"date-fns": "^2.16.0",
 		"dotenv": "^8.2.0",
@@ -34,7 +29,7 @@
 		"typescript": "~3.7.2"
 	},
 	"scripts": {
-    "postinstall": "echo 'Build from postinstal...' && npm run build && echo 'Removing development references' && rm -rf src && npm prune --production && echo 'DONE!'",
+		"postinstall": "echo 'Build from postinstal...' && npm run build && echo 'Removing development references' && rm -rf src && npm prune --production && echo 'DONE!'",
 		"start": "node server",
 		"deploy": "node deploy",
 		"dev": "react-scripts start",
@@ -59,6 +54,11 @@
 	},
 	"devDependencies": {
 		"@types/lodash": "^4.14.160",
-		"@types/react-loader-spinner": "^3.1.0"
+		"@types/react-loader-spinner": "^3.1.0",
+		"@types/jest": "^24.0.0",
+		"@types/node": "^12.0.0",
+		"@types/react": "^16.9.0",
+		"@types/react-dom": "^16.9.0",
+		"@types/react-router-dom": "^5.1.5"
 	}
 }
