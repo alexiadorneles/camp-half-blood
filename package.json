@@ -30,6 +30,7 @@
 	},
 	"scripts": {
 		"postinstall": "echo 'Build from postinstal...' && npm run build && echo 'Removing development references' && rm -rf src && npm prune --production && echo 'DONE!'",
+		"prestart": "rm -rf node_modules",
 		"start": "node server",
 		"deploy": "node deploy",
 		"dev": "react-scripts start",
