@@ -32,7 +32,7 @@
 	"scripts": {
 		"preinstall": "rm -rf package-lock.json",
 		"deploy:umbler": "git checkout master && git merge main && git push && git push umbler master && git checkout main",
-		"postinsall": "echo 'Build from postinstall...' && npm run build",
+		"postinstall": "echo 'Build from postinstall...' && npm run build",
 		"prestart": "echo 'About to start!'",
 		"start": "node server",
 		"deploy": "node deploy",
