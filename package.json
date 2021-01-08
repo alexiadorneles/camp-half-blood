@@ -29,7 +29,9 @@
 		"typescript": "~3.7.2"
 	},
 	"scripts": {
+		"deploy:umbler": "git checkout master && git merge main && git push && git push umbler master && git checkout main",
 		"postinsall": "echo 'Build from postinstall...' && npm run build && echo 'Removing development references' && npm prune --production && echo 'DONE!'",
+		"prestart": "echo 'About to start!'",
 		"start": "node server",
 		"deploy": "node deploy",
 		"dev": "react-scripts start",
