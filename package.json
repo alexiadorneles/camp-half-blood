@@ -34,8 +34,7 @@
 		"typescript": "~3.7.2"
 	},
 	"scripts": {
-		"prestart": "npm install",
-		"postinstall": "npm run build",
+    "postinstall": "echo 'Build from postinstal...' && npm run build && echo 'Removing development references' && rm -rf src && npm prune --production && echo 'DONE!'",
 		"start": "node server",
 		"deploy": "node deploy",
 		"dev": "react-scripts start",
