@@ -105,7 +105,7 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 		answerQuestion()
 		setQuestionNumber(questionNumber + 1)
 		setCurrentQuestion(round && round.activities[questionNumber])
-		storeActivity(_.get(round, 'round.activities[questionNumber].idActivity', null))
+		storeActivity(_.get(round, `activities[${questionNumber}].idActivity`, null))
 	}
 
 	function onAnswerChosen(optionChosen: ActivityOption): void {

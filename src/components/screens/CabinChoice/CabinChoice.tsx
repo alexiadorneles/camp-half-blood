@@ -35,7 +35,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 	useEffect(() => {
 		async function getCabins() {
 			const cabins = (await cabinService.findAll()) as Cabin[]
-			setCabins(cabins)
+			setCabins(cabins.sort((a, b) => a.idCabin - b.idCabin))
 		}
 
 		getCabins()
@@ -72,9 +72,10 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 		const isSelected = singleCabinSelected && singleCabinSelected.idCabin === cabin.idCabin
 		const label = isSelected ? 'Sair deste chalé' : 'Escolher este chalé'
 		const callback = isSelected ? unselectSingleCabin : selectSingleCabin.bind(null, cabin)
+		const color = isSelected ? 'primary' : 'secondary'
 
 		return (
-			<Button onClick={callback} disabled={isFull} variant='outlined' color='secondary'>
+			<Button onClick={callback} disabled={isFull} variant='outlined' color={color}>
 				{isFull ? 'Chalé lotado' : label}
 			</Button>
 		)
