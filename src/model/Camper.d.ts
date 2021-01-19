@@ -4,7 +4,7 @@ export interface Camper {
 	idCamper: number
 	idCabin: number
 	dsName: string
-	nrDiscordID: number
+	dsDiscordID: number
 	dsInstagramNick: string
 	dtBirth: Date
 	tpState: BrazilianState

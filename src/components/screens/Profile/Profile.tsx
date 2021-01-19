@@ -82,7 +82,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 				<div className='Profile__container--formItem'>
 					<label>Discord ID: </label>
-					<p>{camper.nrDiscordID}</p>
+					<p>{camper.dsDiscordID}</p>
 				</div>
 
 				<div className='Profile__container--formItem'>
@@ -230,10 +230,10 @@ export function Profile({ camperService }: ProfilePropTypes) {
 						type='number'
 						label='Discord ID'
 						onChange={onFieldChanged}
-						name='nrDiscordID'
+						name='dsDiscordID'
 						variant='outlined'
 						className='Profile__container--formItem-textField'
-						value={camper.nrDiscordID || ''}
+						value={camper.dsDiscordID || ''}
 					/>
 				</div>
 
