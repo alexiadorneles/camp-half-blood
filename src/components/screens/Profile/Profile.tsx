@@ -10,6 +10,7 @@ import { GlobalContext } from '../../../providers/GlobalContext'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { DateUtils } from '../../../utils'
+import DiscordImage from '../../../assets/images/discord-button.png'
 import './Profile.scss'
 
 enum ScreenMode {
@@ -34,6 +35,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	const [camperLoaded, setCamperLoaded] = useState(false)
 	const [screenMode, setScreenMode] = useState(ScreenMode.DISPLAY)
 	const [agreeAllDataIsTrue, setAgreeAllDataIsTrue] = useState(false)
+
+	function openDiscordLogin() {}
 
 	useEffect(() => {
 		getCamper()
@@ -225,15 +228,13 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					/>
 				</div> */}
 
-				<div className='Profile__container--formItem'>
-					<TextField
-						type='number'
-						label='Discord ID'
-						onChange={onFieldChanged}
-						name='dsDiscordID'
-						variant='outlined'
-						className='Profile__container--formItem-textField'
-						value={camper.dsDiscordID || ''}
+				<div className='Profile__container--formItem-down'>
+					<InputLabel>ID do Discord</InputLabel>
+					<img
+						alt='Discord'
+						className='Profile__container--formItem-down--discordImage'
+						src={DiscordImage}
+						onClick={openDiscordLogin}
 					/>
 				</div>
 
