@@ -85,7 +85,8 @@
 			}
 
 			&--discordImage {
-				width: 315px;
+				max-width: 400px;
+				width: 90%;
 				margin-top: 10px;
 			}
 		}

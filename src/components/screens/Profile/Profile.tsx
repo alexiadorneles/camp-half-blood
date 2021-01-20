@@ -12,6 +12,7 @@ import { CamperService } from '../../../services'
 import { DateUtils } from '../../../utils'
 import DiscordImage from '../../../assets/images/discord-button.png'
 import base64url from 'base64url'
+import _ from 'lodash'
 import './Profile.scss'
 
 enum ScreenMode {
@@ -235,16 +236,6 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					/>
 				</div> */}
 
-				<div className='Profile__container--formItem-down'>
-					<InputLabel>ID do Discord</InputLabel>
-					<img
-						alt='Discord'
-						className='Profile__container--formItem-down--discordImage'
-						src={DiscordImage}
-						onClick={openDiscordLogin}
-					/>
-				</div>
-
 				{!camper.blRegisterCompleted && firstTimeFragment()}
 
 				<div className='Profile__container--actionButtonContainer'>
@@ -309,6 +300,19 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					</div>
 
 					{screenMode === ScreenMode.DISPLAY ? renderDisplayMode() : renderEditMode()}
+					{screenMode === ScreenMode.DISPLAY && camper && !camper.dsDiscordID && (
+						<div className='Profile__container--formItem-down'>
+							<InputLabel>
+								Para completar seu cadastro, <br /> entre com o Discord
+							</InputLabel>
+							<img
+								alt='Discord'
+								className='Profile__container--formItem-down--discordImage'
+								src={DiscordImage}
+								onClick={openDiscordLogin}
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 		)
