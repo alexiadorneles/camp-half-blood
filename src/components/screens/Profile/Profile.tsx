@@ -11,6 +11,7 @@ import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { DateUtils } from '../../../utils'
 import DiscordImage from '../../../assets/images/discord-button.png'
+import base64url from 'base64url'
 import './Profile.scss'
 
 enum ScreenMode {
@@ -27,6 +28,9 @@ export interface ProfilePropTypes {
 	camperService: CamperService
 }
 
+const discordUrl =
+	'https://discord.com/api/oauth2/authorize?client_id=800010577929306112&redirect_uri=http%3A%2F%2Flocalhost%3A3333%2Fdiscord%2Fredirect&response_type=code&scope=identify%20email%20guilds'
+
 export function Profile({ camperService }: ProfilePropTypes) {
 	const history = useHistory()
 	const { dispatchCamper } = useContext(GlobalContext)
@@ -36,7 +40,10 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	const [screenMode, setScreenMode] = useState(ScreenMode.DISPLAY)
 	const [agreeAllDataIsTrue, setAgreeAllDataIsTrue] = useState(false)
 
-	function openDiscordLogin() {}
+	function openDiscordLogin() {
+		const idCamper = camper!.idCamper
+		window.open(discordUrl + `&state=${base64url(JSON.stringify({ idCamper }))}`)
+	}
 
 	useEffect(() => {
 		getCamper()
