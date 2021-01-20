@@ -32,7 +32,7 @@
 	},
 	"scripts": {
 		"deploy:umbler": "git checkout master && git merge main && git push && git push umbler master && git checkout main",
-		"prestart": "echo 'Build from prestart...' && npm run build && echo 'Build done!!'",
+		"postinstall": "echo 'Build from postinstall...' && npm run build && echo 'Build done!!'",
 		"start": "node server",
 		"deploy": "node deploy",
 		"dev": "react-scripts start",
