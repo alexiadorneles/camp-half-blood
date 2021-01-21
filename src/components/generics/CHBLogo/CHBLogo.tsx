@@ -6,11 +6,12 @@ import './CHBLogo.scss'
 
 export interface CHBLogoPropTypes {
 	isPrimaryColor?: boolean
+	className?: string
 }
 
-export function CHBLogo({ isPrimaryColor }: CHBLogoPropTypes) {
+export function CHBLogo({ isPrimaryColor, className }: CHBLogoPropTypes) {
 	return (
-		<div className='CHBLogo'>
+		<div className={`CHBLogo ${className || ''}`}>
 			<img className='CHBLogo__image' src={isPrimaryColor ? logoColored : logo} alt='Camp Half Blood Logo' />
 		</div>
 	)

@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
-import { CustomSwal } from '../../../providers/SwalProvider'
-import { CHBLogo } from '../../generics'
-import './Login.scss'
 import { Camper } from '../../../model/Camper'
+import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
+import { CHBLogo } from '../../generics'
+import './Login.scss'
 
 export interface LoginPropTypes {
 	camperService: CamperService
@@ -48,7 +48,7 @@ export function Login({ camperService }: LoginPropTypes) {
 
 	return (
 		<div className='Login'>
-			<CHBLogo isPrimaryColor />
+			<CHBLogo className='Login__logo' isPrimaryColor />
 			<p className='Login__welcomeText'>
 				Bem vindo ao
 				<br />
@@ -64,6 +64,14 @@ export function Login({ camperService }: LoginPropTypes) {
 					onFailure={errorCallbackGoogle}
 					cookiePolicy={'single_host_origin'}
 				/>
+			</div>
+			<div className='Login__terms'>
+				<p>
+					Ao clicar em "Entrar" acima você concorda com os{' '}
+					<a href='https://portalpercyjackson.com/termos/' className='Login__terms-link'>
+						termos do aplicativo.
+					</a>
+				</p>
 			</div>
 		</div>
 	)
