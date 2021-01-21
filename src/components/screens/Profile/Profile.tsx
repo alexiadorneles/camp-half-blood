@@ -3,15 +3,13 @@ import { Done, Edit } from '@material-ui/icons'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import base64url from 'base64url'
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
 import DiscordImage from '../../../assets/images/discord-button.png'
-import { SECURED_ROUTES } from '../../../config/Routes'
 import { Camper } from '../../../model/Camper'
 import { BrazilianState, Country } from '../../../model/Places'
 import { GlobalContext } from '../../../providers/GlobalContext'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
-import { DateUtils } from '../../../utils'
+import { DateUtils, LocalStorageUtils } from '../../../utils'
 import './Profile.scss'
 
 enum ScreenMode {
@@ -32,7 +30,6 @@ const discordUrl =
 	'https://discord.com/api/oauth2/authorize?client_id=800010577929306112&redirect_uri=http%3A%2F%2Flocalhost%3A3333%2Fdiscord%2Fredirect&response_type=code&scope=identify%20email%20guilds'
 
 export function Profile({ camperService }: ProfilePropTypes) {
-	const history = useHistory()
 	const { dispatchCamper } = useContext(GlobalContext)
 
 	const [camper, setCamper] = useState<Camper | null>(null)
@@ -50,7 +47,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	}, [screenMode])
 
 	useEffect(() => {
-		if (camperLoaded && !camper!.blRegisterCompleted) {
+		const userSawMessageOnce = Boolean(LocalStorageUtils.getItem('onboarding_done'))
+		if (camperLoaded && !userSawMessageOnce) {
 			CustomSwal.fire({
 				title: 'Bem vindo!',
 				text:
@@ -59,6 +57,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 				showConfirmButton: true,
 				focusConfirm: false,
 				confirmButtonText: `Entendi!`,
+				onAfterClose: () => LocalStorageUtils.setItem('onboarding_done', true),
 			})
 			setScreenMode(ScreenMode.EDITION)
 		}
@@ -74,17 +73,6 @@ export function Profile({ camperService }: ProfilePropTypes) {
 		if (!camper) return null
 		return (
 			<>
-				{/* TODO: uncoment when screen is ready */}
-				{/* <div className='Profile__container--formItem-down'>
-					<label>Descrição: </label>
-					<p>{camper.dsDescription}</p>
-				</div>
-
-				<div className='Profile__container--formItem'>
-					<label>Pronomes: </label>
-					<p>{camper.dsPronouns}</p>
-				</div> */}
-
 				<div className='Profile__container--formItem'>
 					<label>Instagram: </label>
 					<p>{camper.dsInstagramNick}</p>
@@ -164,17 +152,6 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 		return (
 			<>
-				{/* TODO: uncoment when screen is ready */}
-				{/* <div className='Profile__container--formItem-down'>
-					<textarea
-						placeholder='Conta um pouco sobre você, máximo 200 caracteres'
-						onChange={onFieldChanged}
-						name='dsDescription'
-						maxLength={200}
-						value={camper.dsDescription || ''}
-					/>
-				</div> */}
-
 				<div className='Profile__container--formItem'>
 					<InputLabel htmlFor={'País'}>País*: </InputLabel>
 					<Select
@@ -223,18 +200,6 @@ export function Profile({ camperService }: ProfilePropTypes) {
 					/>
 				</div>
 
-				{/* TODO: uncoment when screen is ready */}
-				{/* <div className='Profile__container--formItem'>
-					<TextField
-						label='Pronomes'
-						variant='outlined'
-						name='dsPronouns'
-						onChange={onFieldChanged}
-						className='Profile__container--formItem-textField'
-						value={camper.dsPronouns || ''}
-					/>
-				</div> */}
-
 				{!camper.blRegisterCompleted && firstTimeFragment()}
 
 				<div className='Profile__container--actionButtonContainer'>
@@ -253,14 +218,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 	}
 
 	function isButtonDisabled(): boolean {
-		return (
-			!agreeAllDataIsTrue ||
-			// TODO: uncoment when screen is ready
-			// !camper!.dsDescription ||
-			!camper!.dsInstagramNick ||
-			!camper!.dtBirth ||
-			!camper!.tpCountry
-		)
+		return !agreeAllDataIsTrue || !camper!.dsInstagramNick || !camper!.dtBirth || !camper!.tpCountry
 	}
 
 	function changeToEditionMode() {
@@ -269,13 +227,8 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 	async function saveChanges() {
 		try {
-			if (camper!.blRegisterCompleted) {
-				await camperService.update(camper!)
-			} else {
-				await camperService.completeRegister(camper!)
-				dispatchCamper && dispatchCamper({ ...camper, blRegisterCompleted: true })
-				history.push(SECURED_ROUTES.CABIN_CHOICE)
-			}
+			await camperService.update(camper!)
+			dispatchCamper && dispatchCamper({ ...camper })
 			setScreenMode(ScreenMode.DISPLAY)
 		} catch (err) {
 			console.error(err)

@@ -7,6 +7,7 @@ import { Edition } from './model/Edition'
 import { GlobalContext } from './providers/GlobalContext'
 import { CabinService, CamperService, EditionService, HttpService, RoundService } from './services'
 import { Camper } from './model/Camper'
+import { MyCabin } from './components/screens/MyCabin/MyCabin'
 
 export function Middleware() {
 	const [edition, dispatchEdition] = useState<Partial<Edition>>()
@@ -28,6 +29,9 @@ export function Middleware() {
 					<Switch>
 						<Route path='/secured/cabin-choice'>
 							<CabinChoice cabinService={cabinService} editionService={editionService} camperService={camperService} />
+						</Route>
+						<Route path='/secured/my-cabin'>
+							<MyCabin />
 						</Route>
 						<Route path='/secured/profile'>
 							<Profile camperService={camperService} />

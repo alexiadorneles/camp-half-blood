@@ -11,6 +11,10 @@
 	flex-direction: column;
 	overflow: hidden;
 
+	&__logo {
+		margin-top: auto;
+	}
+
 	&__welcomeText {
 		color: $primary;
 		font-weight: bold;
@@ -48,6 +52,21 @@
 				padding: 0 !important;
 				background-color: $primary;
 			}
+		}
+	}
+
+	&__terms {
+		font-size: 12px;
+		margin-top: auto;
+		color: $primary;
+		width: 250px;
+		margin-bottom: 15px;
+
+		a {
+			color: #2fa2ff;
+			font-style: italic;
+			font-weight: bold;
+			text-decoration-line: none;
 		}
 	}
 }
