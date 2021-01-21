@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react'
-import { Route, Redirect, RouteProps } from 'react-router'
+import { Route, Redirect, RouteProps, useHistory } from 'react-router'
 import { LocalStorageUtils } from '../utils'
 import { GlobalContext } from '../providers/GlobalContext'
 import { EditionService, CamperService } from '../services'
+import { SECURED_ROUTES } from '../config/Routes'
 
 export interface PrivateRoutePropTypes extends RouteProps {
 	children: JSX.Element | JSX.Element[]
@@ -13,7 +14,8 @@ export interface PrivateRoutePropTypes extends RouteProps {
 const hasToken = () => Boolean(LocalStorageUtils.getToken())
 
 export function PrivateRoute({ editionService, camperService, children, ...rest }: PrivateRoutePropTypes) {
-	const { dispatchEdition, dispatchCamper } = useContext(GlobalContext)
+	const { dispatchEdition, dispatchCamper, camper } = useContext(GlobalContext)
+	const history = useHistory()
 
 	useEffect(() => {
 		async function getEdition() {
@@ -29,6 +31,10 @@ export function PrivateRoute({ editionService, camperService, children, ...rest 
 		getEdition()
 		getCamper()
 	}, [])
+
+	if (camper && !camper.blRegisterCompleted && !window.location.href.includes(SECURED_ROUTES.PROFILE)) {
+		history.push(SECURED_ROUTES.PROFILE)
+	}
 
 	return (
 		<Route
