@@ -19,7 +19,7 @@ if (configs.forcarHTTPS)
 
 app.use(express.static(configs.caminho));
 
-app.get("./serviceWorker", (req, res) => {
+app.get("./service-worker.js", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "serviceWorker.js"));
 });
 
