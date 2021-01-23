@@ -1,7 +1,6 @@
 "use strict";
 // This optional code is used to register a service worker.
 // register() is not called by default.
-exports.__esModule = true;
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)
 // will only see deployed updates on subsequent visits to a page, after all the
@@ -43,7 +42,6 @@ function register(config) {
         });
     }
 }
-exports.register = register;
 function registerValidSW(swUrl, config) {
     navigator.serviceWorker
         .register(swUrl)
@@ -118,4 +116,5 @@ function unregister() {
             });
     }
 }
-exports.unregister = unregister;
+
+register();
