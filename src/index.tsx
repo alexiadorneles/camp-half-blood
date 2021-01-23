@@ -1,11 +1,10 @@
-import dotenv from 'dotenv'
+import './configureEnv'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import './index.css'
 import './serviceWorker'
 
-dotenv.config()
 console.log('process', process && process.env)
 
 // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
