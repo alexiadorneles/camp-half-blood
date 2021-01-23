@@ -14,7 +14,7 @@ export interface LoginPropTypes {
 }
 
 const { REACT_APP_GOOGLE_KEY } = process.env
-console.log(process.env)
+console.log(process && process.env)
 
 export function Login({ camperService }: LoginPropTypes) {
 	const history = useHistory()
