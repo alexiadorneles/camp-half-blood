@@ -36,7 +36,7 @@
 		"postinstall": "echo 'Build from postinstall...' && npm run build && echo 'Build done!!'",
 		"start": "node server",
 		"dev": "react-scripts start",
-		"build": "env-cmd -f .env.production react-scripts build",
+		"build": "node prebuild.js && env-cmd -f .env.production react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
