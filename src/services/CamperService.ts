@@ -38,4 +38,8 @@ export class CamperService extends BaseCRUDService<Camper> {
 	): Promise<CamperActivity> {
 		return this.httpService.post(`/campers/${idCamper}/answer-timed-out`, { idActivity, idEdition, idRound })
 	}
+
+	public async activateInscription(data: { code: string }): Promise<void> {
+		return this.httpService.post('/campers/activate-paid-inscription', data)
+	}
 }

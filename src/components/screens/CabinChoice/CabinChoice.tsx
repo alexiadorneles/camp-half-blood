@@ -1,4 +1,4 @@
-import { Avatar, Button, Fab } from '@material-ui/core'
+import { Avatar, Button, Fab, TextField } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import { Cabin } from '../../../model/Cabin'
@@ -8,6 +8,8 @@ import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
+
+const { REACT_APP_PAID_INSCRIPTION_FLAG } = process.env
 
 export interface CabinChoicePropTypes {
 	editionService: EditionService
@@ -20,6 +22,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 	const [edition, setEdition] = useState<Edition | null>(null)
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
 	const [camper, setCamper] = useState<Camper | null>(null)
+	const [code, setCode] = useState('')
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
@@ -64,6 +67,23 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 			getCamper()
 		} else {
 			CustomSwal.fire('Por favor escolha um chalé', undefined, 'warning')
+		}
+	}
+
+	async function activatePaidInscription() {
+		if (!code) {
+			return CustomSwal.fire('Erro', 'Informe o código para ativar sua inscrição', 'error')
+		}
+
+		try {
+			await camperService.activateInscription({ code })
+			await getCamper()
+		} catch (err) {
+			return CustomSwal.fire(
+				'Erro',
+				'Um erro ocorreu ao tentar ativar sua inscrição. Por favor, contate os administradores',
+				'error',
+			)
 		}
 	}
 
@@ -125,27 +145,19 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 						<p>
 							<h1>Você está no Chalé {camper && camper.idCabin}</h1>
 							<br />
-							Você já escolheu o seu chalé, agora é com a gente!
-							<br />
-							Assim que tivermos novidades sobre os chalés, você será notificado.
-							<br />
-							Enquanto isso que tal passar o tempo?
+							Para entrar no seu chalé no Discord, entre no nosso servidor, vá até chat <b>#quiron</b> e digite !camp
 							<br />
 							<br />
-							Verifique o nosso <a href='https://instagram.com/portalpercyjackson'>Instagram</a>
+							Não se esqueça de conferir nossas <br /> redes sociais:
 							<br />
+							<br />
+							<a href='https://instagram.com/portalpercyjackson'>Instagram</a>
 							<br />
 							Conheça o nosso <a href='https://portalpercyjackson.com'>site</a>
 							<br />
+							Nossa <a href='https://facebook.com/portalpercyjackson'>página no Facebook</a>
 							<br />
-							Verifique a nossa <a href='https://facebook.com/portalpercyjackson'>página no Facebook</a>
-							<br />
-							<br />
-							Verifique o nosso <a href='https://twitter.com/Portal_PJO'>Twitter</a>
-							<br />
-							<br />
-							Participe a nossa <a href='https://discord.gg/9WZD77C'>comunidade do Discord</a>
-							<br />
+							Segue a gente no <a href='https://twitter.com/Portal_PJO'>Twitter</a>
 						</p>
 					</div>
 				</div>
@@ -162,9 +174,38 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 		)
 	}
 
+	function renderPaidInscriptionValidation() {
+		return (
+			<div className='CabinPage'>
+				<p>ATIVAR INSCRIÇÃO PAGA</p>
+				<br />
+				<TextField
+					className='CabinPage__input'
+					variant='outlined'
+					label='código de ativação'
+					value={code}
+					onChange={e => setCode(e.target.value)}
+				/>
+				<Button className='CabinPage__button' size='large' variant='outlined' onClick={activatePaidInscription}>
+					Ativar inscrição
+				</Button>
+				<br />
+				<br />
+				<p className='CabinPage__subtext'>
+					Você recebe um código de ativação quando realiza a compra de uma vaga em um chalé. Ao colar o código e clicar
+					no botão, você será adicionado em seu chalé
+				</p>
+			</div>
+		)
+	}
+
 	function renderPage() {
 		if (camper && camper.idCabin) {
 			return renderCabinAlreadySelected()
+		}
+
+		if (REACT_APP_PAID_INSCRIPTION_FLAG === 'true') {
+			return renderPaidInscriptionValidation()
 		}
 
 		return edition && !edition.dtBegin && <div>{renderCabinSelection()}</div>

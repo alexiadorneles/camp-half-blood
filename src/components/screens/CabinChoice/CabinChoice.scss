@@ -3,6 +3,21 @@
 .CabinPage {
 	@extend .page;
 
+	&__button {
+		margin-top: 20px !important;
+		width: 80%;
+	}
+
+	&__input {
+		width: 80%;
+	}
+
+	&__subtext {
+		padding: 10px;
+		font-weight: 200;
+		font-size: 14px;
+	}
+
 	&__container {
 		@extend .pageContainer;
 
