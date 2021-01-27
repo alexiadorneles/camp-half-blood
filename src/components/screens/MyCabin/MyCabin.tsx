@@ -1,13 +1,9 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../../../providers/GlobalContext'
+import { CHBCabinSelected } from '../../generics/CHBCabinSelected/CHBCabinSelected'
+import { Camper } from '../../../model/Camper'
 
 export function MyCabin() {
 	const { camper } = useContext(GlobalContext)
-	return (
-		<div className='MyCabin'>
-			<br />
-			<br />
-			<h1>Você está no Chalé {camper && camper.idCabin}</h1>
-		</div>
-	)
+	return <CHBCabinSelected camper={camper as Camper} />
 }

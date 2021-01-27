@@ -8,6 +8,7 @@ import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import './CabinChoice.scss'
+import { CHBCabinSelected } from '../../generics/CHBCabinSelected/CHBCabinSelected'
 
 const { REACT_APP_PAID_INSCRIPTION_FLAG } = process.env
 
@@ -138,31 +139,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 	}
 
 	function renderCabinAlreadySelected() {
-		return (
-			<div className='CabinPage'>
-				<div className='CabinPage__container'>
-					<div className='CabinPage__container--inner-textOnly'>
-						<p>
-							<h1>Você está no Chalé {camper && camper.idCabin}</h1>
-							<br />
-							Para entrar no seu chalé no Discord, entre no nosso servidor, vá até chat <b>#quiron</b> e digite !camp
-							<br />
-							<br />
-							Não se esqueça de conferir nossas <br /> redes sociais:
-							<br />
-							<br />
-							<a href='https://instagram.com/portalpercyjackson'>Instagram</a>
-							<br />
-							Conheça o nosso <a href='https://portalpercyjackson.com'>site</a>
-							<br />
-							Nossa <a href='https://facebook.com/portalpercyjackson'>página no Facebook</a>
-							<br />
-							Segue a gente no <a href='https://twitter.com/Portal_PJO'>Twitter</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		)
+		return <CHBCabinSelected camper={camper!} />
 	}
 
 	function renderNotStartedYet() {
