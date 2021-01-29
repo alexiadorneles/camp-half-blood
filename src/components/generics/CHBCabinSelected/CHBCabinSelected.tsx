@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaDiscord, FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { Camper } from '../../../model/Camper'
 import './CHBCabinSelected.scss'
 
@@ -11,8 +12,8 @@ export function CHBCabinSelected({ camper }: CHBCabinSelectedPropTypes) {
 		<div className='CHBCabinSelected'>
 			<div className='CHBCabinSelected__container'>
 				<div className='CHBCabinSelected__container--inner-textOnly'>
+					<h1>Você está no Chalé {camper && camper.idCabin}</h1>
 					<p>
-						<h1>Você está no Chalé {camper && camper.idCabin}</h1>
 						<br />
 						Para entrar no seu chalé no Discord, entre no nosso servidor, vá até chat <b>#quiron</b> e digite !camp
 						<br />
@@ -20,13 +21,33 @@ export function CHBCabinSelected({ camper }: CHBCabinSelectedPropTypes) {
 						Não se esqueça de conferir nossas <br /> redes sociais:
 						<br />
 						<br />
-						<a href='https://instagram.com/portalpercyjackson'>Instagram</a>
-						<br />
-						Conheça o nosso <a href='https://portalpercyjackson.com'>site</a>
-						<br />
-						Nossa <a href='https://facebook.com/portalpercyjackson'>página no Facebook</a>
-						<br />
-						Segue a gente no <a href='https://twitter.com/Portal_PJO'>Twitter</a>
+						<a
+							target='blank'
+							className='CHBCabinSelected__container--anchor'
+							href='https://instagram.com/portalpercyjackson'>
+							<FaInstagram color='#C13584' className='CHBCabinSelected__container--socialIcon' />
+						</a>
+						<a
+							target='blank'
+							className='CHBCabinSelected__container--anchor'
+							href='https://facebook.com/portalpercyjackson'>
+							<FaFacebook color='#4267B2' className='CHBCabinSelected__container--socialIcon' />
+						</a>
+						<a target='blank' className='CHBCabinSelected__container--anchor' href='https://twitter.com/Portal_PJO'>
+							<FaTwitter color='#1DA1F2' className='CHBCabinSelected__container--socialIcon' />
+						</a>
+						<a
+							target='blank'
+							className='CHBCabinSelected__container--anchor'
+							href='https://www.youtube.com/channel/UCzQzFbh6XANIJgKSSj9DCtg'>
+							<FaYoutube color='#FF0000' className='CHBCabinSelected__container--socialIcon' />
+						</a>
+						<a
+							target='blank'
+							className='CHBCabinSelected__container--anchor'
+							href='https://www.youtube.com/channel/UCzQzFbh6XANIJgKSSj9DCtg'>
+							<FaDiscord color='#7289DA' className='CHBCabinSelected__container--socialIcon' />
+						</a>
 					</p>
 				</div>
 			</div>

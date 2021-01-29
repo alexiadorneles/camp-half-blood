@@ -6,7 +6,19 @@
 	&__container {
 		@extend .pageContainer;
 
+		&--anchor {
+			display: contents;
+		}
+
+		&--socialIcon {
+			border-radius: 50%;
+			height: 40px !important;
+			width: 40px !important;
+			margin: 25px 15px;
+		}
+
 		&--inner {
+			flex-direction: column;
 			padding-left: 15px;
 			padding-right: 15px;
 
