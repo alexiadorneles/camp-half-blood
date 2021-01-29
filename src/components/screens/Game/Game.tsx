@@ -137,7 +137,12 @@ export function Game({ roundService, camperService }: GamePropTypes) {
 					Você deve demorar cerca de {TimeUtils.formatTimeFromSeconds(round ? round.activities.length * 40 : 0)} nessa
 					tarefa. Apenas a inicie quando tiver tempo de concluir ela no momento
 				</p>
-				<Button size='large' onClick={renderPopupInformation} variant='outlined' color='secondary'>
+				<Button
+					style={{ width: '75%', margin: '0 auto' }}
+					size='large'
+					onClick={renderPopupInformation}
+					variant='outlined'
+					color='secondary'>
 					Começar
 				</Button>
 			</>

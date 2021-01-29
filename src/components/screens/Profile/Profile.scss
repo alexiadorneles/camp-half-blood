@@ -21,7 +21,7 @@
 		}
 
 		&--email {
-			font-size: 12px;
+			// font-size: 12px;
 			margin-top: 5px !important;
 			margin-bottom: 15px !important;
 		}
@@ -37,7 +37,7 @@
 			align-items: center;
 			padding-left: 15px;
 			padding-right: 15px;
-			margin: 20px 0;
+			margin: 1rem 0;
 			justify-content: center;
 
 			.MuiFormControl-root.MuiTextField-root.MuiFormControl-marginNormal {
@@ -46,12 +46,12 @@
 			}
 
 			label {
-				font-size: 18px;
+				// font-size: 18px;
 				flex: 2;
 			}
 
 			p {
-				font-size: 14px;
+				// font-size: 14px;
 				margin: 0 8px;
 				word-break: break-all;
 				flex: 2;
@@ -96,8 +96,8 @@
 			justify-content: center;
 			width: 80%;
 			align-self: center;
-			margin-top: 20px;
-			margin-bottom: 20px;
+			margin-top: 2rem;
+			margin-bottom: 2rem;
 		}
 	}
 }

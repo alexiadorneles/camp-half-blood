@@ -5,6 +5,11 @@ $secondary: #383737;
 
 * {
 	font-family: 'Sora', sans-serif;
+	font-size: 1.75vh;
+}
+
+h1 {
+	font-size: 2rem;
 }
 
 #root {
@@ -55,4 +60,13 @@ $secondary: #383737;
 	position: absolute !important;
 	bottom: 70px;
 	right: 5px;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
