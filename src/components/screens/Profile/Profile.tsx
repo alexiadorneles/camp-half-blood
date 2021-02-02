@@ -26,8 +26,7 @@ export interface ProfilePropTypes {
 	camperService: CamperService
 }
 
-const discordUrl =
-	'https://discord.com/api/oauth2/authorize?client_id=800010577929306112&redirect_uri=http%3A%2F%2Flocalhost%3A3333%2Fdiscord%2Fredirect&response_type=code&scope=identify%20email%20guilds'
+const { REACT_APP_DISCORD_URL } = process.env
 
 export function Profile({ camperService }: ProfilePropTypes) {
 	const { dispatchCamper } = useContext(GlobalContext)
@@ -39,7 +38,7 @@ export function Profile({ camperService }: ProfilePropTypes) {
 
 	function openDiscordLogin() {
 		const idCamper = camper!.idCamper
-		window.open(discordUrl + `&state=${base64url(JSON.stringify({ idCamper }))}`)
+		window.open(REACT_APP_DISCORD_URL + `&state=${base64url(JSON.stringify({ idCamper }))}`)
 	}
 
 	useEffect(() => {
