@@ -7,10 +7,10 @@ import { Edition } from '../../../model/Edition'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
-import './CabinChoice.scss'
 import { CHBCabinSelected } from '../../generics/CHBCabinSelected/CHBCabinSelected'
+import './CabinChoice.scss'
 
-const { REACT_APP_PAID_INSCRIPTION_FLAG } = process.env
+const { REACT_APP_PAID_INSCRIPTION_FLAG, REACT_APP_PRIORITY_INSCRIPTION_FLAG } = process.env
 
 export interface CabinChoicePropTypes {
 	editionService: EditionService
@@ -24,6 +24,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
 	const [camper, setCamper] = useState<Camper | null>(null)
 	const [code, setCode] = useState('')
+	const [hasPriority, setHasPriority] = useState(false)
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
@@ -43,6 +44,17 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 		}
 
 		getCabins()
+	}, [])
+
+	useEffect(() => {
+		async function validatePriorityInscription() {
+			if (REACT_APP_PRIORITY_INSCRIPTION_FLAG === 'true') {
+				const result = await camperService.validatePriorityInscription()
+				setHasPriority(result)
+			}
+		}
+
+		validatePriorityInscription()
 	}, [])
 
 	async function getCamper() {
@@ -183,6 +195,18 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 		if (REACT_APP_PAID_INSCRIPTION_FLAG === 'true') {
 			return renderPaidInscriptionValidation()
+		}
+
+		if (REACT_APP_PRIORITY_INSCRIPTION_FLAG === 'true' && !hasPriority) {
+			return (
+				<div className='CabinPage'>
+					<h1>Oops!</h1>
+					<p>
+						Parece que você não tem prioridade de inscrição. Por favor verifique com seu conselheiro chefe se seu email
+						foi enviado na lista
+					</p>
+				</div>
+			)
 		}
 
 		return edition && !edition.dtBegin && <div>{renderCabinSelection()}</div>

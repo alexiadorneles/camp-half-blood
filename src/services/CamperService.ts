@@ -42,4 +42,8 @@ export class CamperService extends BaseCRUDService<Camper> {
 	public async activateInscription(data: { code: string }): Promise<void> {
 		return this.httpService.post('/campers/activate-paid-inscription', data)
 	}
+
+	public async validatePriorityInscription(): Promise<boolean> {
+		return this.httpService.get('/campers/priority-inscription')
+	}
 }
