@@ -7,7 +7,7 @@ import { CHBCabinSelected } from '../../generics'
 
 export function MyCabin() {
 	const { camper, edition } = useContext(GlobalContext)
-	if (edition && edition.dtBegin) {
+	if (edition && edition.dtBegin && camper && camper.idCabin) {
 		return <CHBCabinSelected camper={camper as Camper} />
 	}
 
