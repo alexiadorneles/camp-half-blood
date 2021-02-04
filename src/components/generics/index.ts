@@ -3,4 +3,5 @@ export * from './CHBHeader/CHBHeader'
 export * from './CHBLoader/CHBLoader'
 export * from './CHBLogo/CHBLogo'
 export * from './CHBQuizDisplayer/CHBQuizDisplayer'
-
+export * from './CHBSocialMedia/CHBSocialMedia'
+export * from './CHBCabinSelected/CHBCabinSelected'

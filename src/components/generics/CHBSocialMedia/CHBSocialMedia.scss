@@ -1,0 +1,59 @@
+@import '../../../App.scss';
+
+.CHBSocialMedia {
+	&--anchor {
+		display: contents;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	&--button {
+		width: 100%;
+		padding: 10px 15px !important;
+	}
+
+	&--socialIcon {
+		height: 3rem !important;
+		width: 3rem !important;
+		margin: 1% 2%;
+	}
+
+	&--site {
+		display: flex;
+		flex-direction: column;
+
+		&__anchor {
+			@extend .CHBSocialMedia--anchor;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+
+			&--icon {
+				height: 30px !important;
+				width: 30px !important;
+				margin: 0 10px 0 0;
+				animation-name: spin;
+				animation-duration: 5000ms;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+			}
+		}
+	}
+
+	&--inner {
+		flex-direction: column;
+		padding-left: 15px;
+		padding-right: 15px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+
+		&__welcomeText {
+			display: block;
+			margin: 0 auto;
+			width: 75%;
+		}
+	}
+}

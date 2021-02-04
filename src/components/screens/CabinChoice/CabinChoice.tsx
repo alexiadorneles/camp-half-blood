@@ -7,8 +7,9 @@ import { Edition } from '../../../model/Edition'
 import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService, CRUDService, EditionService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
-import { CHBCabinSelected } from '../../generics/CHBCabinSelected/CHBCabinSelected'
 import './CabinChoice.scss'
+import { CHBCabinSelected } from '../../generics'
+import { EditionProvider } from '../../EditionProvider'
 
 const { REACT_APP_PAID_INSCRIPTION_FLAG, REACT_APP_PRIORITY_INSCRIPTION_FLAG } = process.env
 
@@ -156,10 +157,12 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	function renderNotStartedYet() {
 		return (
-			<h2>
-				Nossa edição ainda não começou, por favor cheche nossas redes sociais para mais informações
-				(@portalpercyjackson)
-			</h2>
+			<div className='CabinPage'>
+				<h2>
+					Nossa edição ainda não começou, por favor cheche nossas redes sociais para mais informações
+					(@portalpercyjackson)
+				</h2>
+			</div>
 		)
 	}
 
@@ -209,8 +212,12 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 			)
 		}
 
-		return edition && !edition.dtBegin && <div>{renderCabinSelection()}</div>
+		if (edition && !edition.dtBegin) {
+			return <div>{renderCabinSelection()}</div>
+		}
+
+		return EditionProvider(edition as Edition)
 	}
 
-	return renderPage() || renderNotStartedYet()
+	return renderPage()
 }
