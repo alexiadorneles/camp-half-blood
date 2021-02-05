@@ -3,8 +3,9 @@ export class DateUtils {
 
 	public static calculateAgeFromBirthDate(birthDate: Date | string) {
 		if (typeof birthDate === 'string') {
-			birthDate = new Date(birthDate.split('T').shift()!)
+			birthDate = this.convertStringToDate(birthDate)
 		}
+
 		const today = new Date()
 		let age = today.getFullYear() - birthDate.getFullYear()
 		const m = today.getMonth() - birthDate.getMonth()
@@ -12,5 +13,12 @@ export class DateUtils {
 			age--
 		}
 		return age
+	}
+
+	private static convertStringToDate(date: string): Date {
+		const dateWithoutTimezone = date.split('T').shift()!
+		const dateWithoutTime = dateWithoutTimezone.split(' ').shift()!
+		const [year, month, day] = dateWithoutTime.split('-').map(Number)
+		return new Date(year, month, day)
 	}
 }
