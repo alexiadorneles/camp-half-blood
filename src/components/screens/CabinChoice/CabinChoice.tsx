@@ -29,6 +29,11 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
+	async function getCabins() {
+		const cabins = (await cabinService.findAll()) as Cabin[]
+		setCabins(cabins.sort((a, b) => a.idCabin - b.idCabin))
+	}
+
 	useEffect(() => {
 		async function getEdition() {
 			const edition = await editionService.findCurrent()
@@ -39,11 +44,6 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 	}, [])
 
 	useEffect(() => {
-		async function getCabins() {
-			const cabins = (await cabinService.findAll()) as Cabin[]
-			setCabins(cabins.sort((a, b) => a.idCabin - b.idCabin))
-		}
-
 		getCabins()
 	}, [])
 
@@ -77,8 +77,12 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	async function setCabinToCamper() {
 		if (singleCabinSelected) {
-			await camperService.setCabin(idCamper, singleCabinSelected.idCabin)
-			getCamper()
+			try {
+				await camperService.setCabin(idCamper, singleCabinSelected.idCabin)
+				getCamper()
+			} catch (err) {
+				getCabins()
+			}
 		} else {
 			CustomSwal.fire('Por favor escolha um chalé', undefined, 'warning')
 		}

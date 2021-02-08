@@ -5,7 +5,7 @@ import { CHBSocialMedia } from './generics'
 export function EditionProvider(edition: Edition) {
 	if (!edition) {
 		return (
-			<div className='page'>
+			<div style={{ padding: 15 }} className='page'>
 				<h2>Nossa edição ainda não começou. Fique ligado em nossas redes sociais para mais informações.</h2>
 				<CHBSocialMedia />
 			</div>
@@ -14,7 +14,7 @@ export function EditionProvider(edition: Edition) {
 
 	if (edition && edition.dtBegin) {
 		return (
-			<div className='page'>
+			<div style={{ padding: 15 }} className='page'>
 				<h2>Oops. Parece que você perdeu o prazo de inscrição :(</h2>
 				<br></br>
 				<p>

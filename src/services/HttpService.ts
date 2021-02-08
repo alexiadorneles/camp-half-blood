@@ -90,7 +90,7 @@ export class HttpService {
 			return response && response.data
 		} catch (err) {
 			this.handleError(err)
-			return null
+			throw err
 		}
 	}
 
