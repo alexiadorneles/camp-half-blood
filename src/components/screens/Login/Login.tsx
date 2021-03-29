@@ -1,10 +1,7 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
-import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login'
 import { useHistory } from 'react-router'
 import { SECURED_ROUTES } from '../../../config/Routes'
-import { Camper } from '../../../model/Camper'
-import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { LocalStorageUtils } from '../../../utils/LocalStorageUtils'
 import { CHBLogo } from '../../generics'
@@ -14,37 +11,30 @@ export interface LoginPropTypes {
 	camperService: CamperService
 }
 
-const { REACT_APP_GOOGLE_KEY } = process.env
-
 export function Login({ camperService }: LoginPropTypes) {
 	const history = useHistory()
+
+	const urlParams = new URLSearchParams(window.location.search)
+	const token = urlParams.get('token')
+	const idCamper = urlParams.get('idCamper')
+
+	if (token && idCamper) {
+		LocalStorageUtils.setToken(token)
+		LocalStorageUtils.setItem('idCamper', idCamper)
+		goToProfilePage()
+	}
 
 	if (LocalStorageUtils.getToken()) {
 		history.push(SECURED_ROUTES.PROFILE)
 	}
 
-	async function successCallbackGoogle(response: GoogleLoginResponse | GoogleLoginResponseOffline) {
-		const onlineResponse = response as GoogleLoginResponse
-		const idGoogle = onlineResponse.googleId
-		const profile = onlineResponse.getBasicProfile()
-		const camper: Partial<Camper> = {
-			idGoogle,
-			dsImageURL: profile.getImageUrl(),
-			dsName: profile.getName(),
-			dsEmail: profile.getEmail(),
-		}
-		const createdCamper = await camperService.create(camper)
-		LocalStorageUtils.setItem('idCamper', createdCamper.idCamper)
-		goToProfilePage()
-	}
-
-	function errorCallbackGoogle({ error }: any) {
-		if ((error = 'popup_closed_by_user')) return
-		CustomSwal.fire('ERRO', 'Erro inesperado no login, contate o admin do site', 'error')
-	}
-
 	function goToProfilePage() {
 		history.push(SECURED_ROUTES.PROFILE)
+	}
+
+	const openGoogleLoginPage = async () => {
+		const googleURL = await camperService.login()
+		window.location.href = googleURL
 	}
 
 	return (
@@ -56,7 +46,9 @@ export function Login({ camperService }: LoginPropTypes) {
 				Acampamento
 			</p>
 			<div className="Login__google">
-				<Button className="Login__google--button">Entrar com Google</Button>
+				<Button onClick={openGoogleLoginPage} className="Login__google--button">
+					Entrar com Google
+				</Button>
 			</div>
 			<div className="Login__terms">
 				<p>

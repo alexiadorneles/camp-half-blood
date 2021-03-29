@@ -8,17 +8,16 @@ export class CamperService extends BaseCRUDService<Camper> {
 		super(httpService, '/campers')
 	}
 
+	public async login() {
+		return this.httpService.get('/campers/login')
+	}
+
 	public async completeRegister(camper: Partial<Camper>): Promise<Camper[] | number> {
 		return this.httpService.put('/campers/complete-register', camper)
 	}
 
 	public async getProfile(): Promise<Camper> {
 		return this.httpService.get('/campers/profile')
-	}
-
-	public async create(camper: Partial<Camper>): Promise<Camper> {
-		const data = ((await super.create(camper)) as any) as { camper: Camper }
-		return data.camper
 	}
 
 	public async setCabin(idCamper: number, idCabin: number): Promise<number> {
