@@ -1,4 +1,3 @@
-export * from './CabinRequestService'
 export * from './CabinService'
 export * from './CamperService'
 export * from './CRUDService'
