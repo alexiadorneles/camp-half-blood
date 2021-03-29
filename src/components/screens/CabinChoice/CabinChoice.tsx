@@ -11,7 +11,7 @@ import './CabinChoice.scss'
 import { CHBCabinSelected } from '../../generics'
 import { EditionProvider } from '../../EditionProvider'
 
-const { REACT_APP_PAID_INSCRIPTION_FLAG, REACT_APP_PRIORITY_INSCRIPTION_FLAG } = process.env
+const { REACT_APP_PAID_INSCRIPTION_FLAG } = process.env
 
 export interface CabinChoicePropTypes {
 	editionService: EditionService
@@ -25,7 +25,6 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 	const [singleCabinSelected, setSingleCabinSelected] = useState<Cabin | null>(null)
 	const [camper, setCamper] = useState<Camper | null>(null)
 	const [code, setCode] = useState('')
-	const [hasPriority, setHasPriority] = useState(false)
 
 	const idCamper = Number(LocalStorageUtils.getItem('idCamper'))
 
@@ -45,17 +44,6 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	useEffect(() => {
 		getCabins()
-	}, [])
-
-	useEffect(() => {
-		async function validatePriorityInscription() {
-			if (REACT_APP_PRIORITY_INSCRIPTION_FLAG === 'true') {
-				const result = await camperService.validatePriorityInscription()
-				setHasPriority(result)
-			}
-		}
-
-		validatePriorityInscription()
 	}, [])
 
 	async function getCamper() {
@@ -113,7 +101,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 		const color = isSelected ? 'primary' : 'secondary'
 
 		return (
-			<Button onClick={callback} disabled={isFull} variant='outlined' color={color}>
+			<Button onClick={callback} disabled={isFull} variant="outlined" color={color}>
 				{isFull ? 'Chalé lotado' : label}
 			</Button>
 		)
@@ -123,7 +111,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 		const isSelected = singleCabinSelected && singleCabinSelected.idCabin === cabin.idCabin
 		return (
 			<div key={cabin.idCabin} className={`CabinPage__cabin${isSelected ? '--selected' : ''}`}>
-				<Avatar className='CabinPage__cabin--image' src={cabin.dsImageURL} alt='imagem do chalé' />
+				<Avatar className="CabinPage__cabin--image" src={cabin.dsImageURL} alt="imagem do chalé" />
 				<p>{cabin.dsName}</p>
 				{renderButtonCabinAction(cabin)}
 			</div>
@@ -132,9 +120,9 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	function renderCabinSelection() {
 		return (
-			<div className='CabinPage'>
-				<div className='CabinPage__container'>
-					<div className='CabinPage__container--inner'>
+			<div className="CabinPage">
+				<div className="CabinPage__container">
+					<div className="CabinPage__container--inner">
 						<p>
 							Bem vindo a escolha de chalés!
 							<br />
@@ -148,7 +136,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 						{cabins.filter(cabin => cabin.campers!.length < edition!.nrCabinLimit).map(renderCabin)}
 					</div>
 				</div>
-				<Fab onClick={setCabinToCamper} className='bottom-floating-button' color='secondary'>
+				<Fab onClick={setCabinToCamper} className="bottom-floating-button" color="secondary">
 					<Done />
 				</Fab>
 			</div>
@@ -161,7 +149,7 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	function renderNotStartedYet() {
 		return (
-			<div className='CabinPage'>
+			<div className="CabinPage">
 				<h2>
 					Nossa edição ainda não começou, por favor cheche nossas redes sociais para mais informações
 					(@portalpercyjackson)
@@ -172,22 +160,22 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 	function renderPaidInscriptionValidation() {
 		return (
-			<div className='CabinPage'>
+			<div className="CabinPage">
 				<p>ATIVAR INSCRIÇÃO PAGA</p>
 				<br />
 				<TextField
-					className='CabinPage__input'
-					variant='outlined'
-					label='código de ativação'
+					className="CabinPage__input"
+					variant="outlined"
+					label="código de ativação"
 					value={code}
 					onChange={e => setCode(e.target.value)}
 				/>
-				<Button className='CabinPage__button' size='large' variant='outlined' onClick={activatePaidInscription}>
+				<Button className="CabinPage__button" size="large" variant="outlined" onClick={activatePaidInscription}>
 					Ativar inscrição
 				</Button>
 				<br />
 				<br />
-				<p className='CabinPage__subtext'>
+				<p className="CabinPage__subtext">
 					Você recebe um código de ativação quando realiza a compra de uma vaga em um chalé. Ao colar o código e clicar
 					no botão, você será adicionado em seu chalé
 				</p>
@@ -202,18 +190,6 @@ export function CabinChoice({ editionService, cabinService, camperService }: Cab
 
 		if (REACT_APP_PAID_INSCRIPTION_FLAG === 'true') {
 			return renderPaidInscriptionValidation()
-		}
-
-		if (REACT_APP_PRIORITY_INSCRIPTION_FLAG === 'true' && !hasPriority) {
-			return (
-				<div className='CabinPage'>
-					<h1>Oops!</h1>
-					<p>
-						Parece que você não tem prioridade de inscrição. Por favor verifique com seu conselheiro chefe se seu email
-						foi enviado na lista
-					</p>
-				</div>
-			)
 		}
 
 		if (edition && !edition.dtBegin) {
