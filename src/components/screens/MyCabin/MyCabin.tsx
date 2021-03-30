@@ -97,6 +97,38 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 		</Card>
 	)
 
+	const renderAnsweredAccordion = () => {
+		if (!statistics?.answered?.length) return null
+		return (
+			<Accordion expanded={panel === 'answered'} onChange={handlePanelChange('answered')}>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
+					<Typography className="MyCabin__general--green" display="block" gutterBottom>
+						{statistics?.answered?.length + ' responderam as atividades'}
+					</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<div className="MyCabin__statisticContainer">{statistics?.answered?.map(renderStatistic)}</div>
+				</AccordionDetails>
+			</Accordion>
+		)
+	}
+
+	const renderNotAnsweredAccordion = () => {
+		if (!statistics?.notAnswered) return null
+		return (
+			<Accordion expanded={panel === 'notAnswered'} onChange={handlePanelChange('notAnswered')}>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
+					<Typography className="MyCabin__general--red" display="block" gutterBottom>
+						{statistics?.notAnswered?.length + ' não responderam as atividades'}
+					</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<div className="MyCabin__statisticContainer">{statistics?.notAnswered?.map(renderNotAnswered)}</div>
+				</AccordionDetails>
+			</Accordion>
+		)
+	}
+
 	if (edition && edition.dtBegin && camper && camper.idCabin) {
 		return (
 			<div className="MyCabin">
@@ -118,27 +150,9 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 						}}
 					/>
 					<br />
-					<Accordion expanded={panel === 'answered'} onChange={handlePanelChange('answered')}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
-							<Typography className="MyCabin__general--green" display="block" gutterBottom>
-								{statistics?.answered?.length + ' responderam as atividades'}
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<div className="MyCabin__statisticContainer">{statistics?.answered?.map(renderStatistic)}</div>
-						</AccordionDetails>
-					</Accordion>
+					{renderAnsweredAccordion()}
 					<br />
-					<Accordion expanded={panel === 'notAnswered'} onChange={handlePanelChange('notAnswered')}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
-							<Typography className="MyCabin__general--red" display="block" gutterBottom>
-								{statistics?.notAnswered?.length + ' não responderam as atividades'}
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<div className="MyCabin__statisticContainer">{statistics?.notAnswered?.map(renderNotAnswered)}</div>
-						</AccordionDetails>
-					</Accordion>
+					{renderNotAnsweredAccordion()}
 				</div>
 			</div>
 		)
