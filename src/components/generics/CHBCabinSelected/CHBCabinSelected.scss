@@ -3,6 +3,15 @@
 .CHBCabinSelected {
 	@extend .page;
 
+	&__compact {
+		background-color: rgba(grey, 0.05);
+		border-radius: 75px;
+		margin: 10px;
+		p {
+			margin-bottom: 0;
+		}
+	}
+
 	&__container {
 		@extend .pageContainer;
 
@@ -15,7 +24,20 @@
 			align-items: center;
 			height: 100%;
 
+			&__compact {
+				h1 {
+					font-size: 1.75rem;
+				}
+			}
+
 			&__welcomeText {
+				&__compact {
+					font-size: 12px;
+					display: block;
+					margin: 0 auto;
+					width: 85%;
+				}
+
 				display: block;
 				margin: 0 auto;
 				width: 75%;

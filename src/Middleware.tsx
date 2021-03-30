@@ -31,7 +31,7 @@ export function Middleware() {
 							<CabinChoice cabinService={cabinService} editionService={editionService} camperService={camperService} />
 						</Route>
 						<Route path='/secured/my-cabin'>
-							<MyCabin />
+							<MyCabin camperService={camperService} />
 						</Route>
 						<Route path='/secured/profile'>
 							<Profile camperService={camperService} />

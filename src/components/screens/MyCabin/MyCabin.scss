@@ -1,0 +1,68 @@
+@import '../../../App.scss';
+
+.MyCabin {
+	@extend .page;
+
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	.Statistic {
+		margin: 10px 0;
+		display: flex;
+		text-align: left;
+		flex-direction: row;
+		min-width: 80%;
+
+		&__content {
+			display: flex;
+			text-align: left;
+			flex-direction: column;
+			width: 100%;
+		}
+
+		&__header {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			margin-bottom: 10px;
+			width: 100%;
+
+			p {
+				margin-left: 10px;
+				font-size: 14px;
+			}
+
+			span {
+				margin-left: 10px;
+			}
+
+			p:nth-child(3) {
+				flex: 1;
+				text-align: right;
+			}
+		}
+
+		&__progress {
+			&--red {
+				.MuiLinearProgress-barColorPrimary,
+				.MuiLinearProgress-colorPrimary {
+					background-color: rgb(220, 0, 78) !important;
+				}
+			}
+
+			&--yellow {
+				.MuiLinearProgress-barColorPrimary,
+				.MuiLinearProgress-colorPrimary {
+					background-color: rgb(255, 152, 0);
+				}
+			}
+
+			&--green {
+				.MuiLinearProgress-barColorPrimary,
+				.MuiLinearProgress-colorPrimary {
+					background-color: rgb(76, 175, 80) !important;
+				}
+			}
+		}
+	}
+}

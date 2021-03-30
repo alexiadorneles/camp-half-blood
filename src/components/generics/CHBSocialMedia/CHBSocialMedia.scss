@@ -13,6 +13,11 @@
 	}
 
 	&--socialIcon {
+		&__small {
+			height: 2rem !important;
+			width: 2rem !important;
+			margin-left: 10px;
+		}
 		height: 3rem !important;
 		width: 3rem !important;
 		margin: 1% 2%;
@@ -55,5 +60,12 @@
 			margin: 0 auto;
 			width: 75%;
 		}
+	}
+
+	.animated {
+		animation-name: spin;
+		animation-duration: 5000ms;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
 	}
 }

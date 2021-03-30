@@ -1,11 +1,16 @@
 import { CamperActivity } from '../model/Activity'
 import { Camper } from '../model/Camper'
+import { CabinStatistic } from '../model/Statistic'
 import { BaseCRUDService } from './BaseCRUDService'
 import { HttpService } from './HttpService'
 
 export class CamperService extends BaseCRUDService<Camper> {
 	constructor(httpService: HttpService) {
 		super(httpService, '/campers')
+	}
+
+	public retrieveStatisticByCabinAndDay(idCabin: number, date: string): Promise<CabinStatistic> {
+		return this.httpService.get(`/campers/statistics/${idCabin}/${date}`)
 	}
 
 	public async login() {
