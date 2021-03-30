@@ -64,7 +64,19 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 		return (
 			<div className="MyCabin">
 				<CHBCabinSelected compact camper={camper as Camper} />
-				{statistics?.answered?.map(renderStatistic)}
+				<div className="MyCabin__container">
+					<br />
+					<div className="MyCabin__general">
+						<Typography className="MyCabin__general--green" variant="caption" display="block" gutterBottom>
+							{statistics?.answered?.length + ' responderam as atividades'}
+						</Typography>
+						<Typography className="MyCabin__general--red" variant="caption" display="block" gutterBottom>
+							{statistics?.notAnswered?.length + ' não responderam as atividades'}
+						</Typography>
+					</div>
+					<br />
+					<div className="MyCabin__statisticContainer">{statistics?.answered?.map(renderStatistic)}</div>
+				</div>
 			</div>
 		)
 	}

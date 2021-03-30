@@ -6,6 +6,34 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 
+	&__container {
+		width: 90%;
+	}
+
+	&__general {
+		margin-top: 20px;
+		margin: 0;
+		text-align: start;
+		justify-content: space-between;
+		align-items: center;
+		display: flex;
+
+		&--green {
+			color: rgb(76, 175, 80) !important;
+			font-weight: bold !important;
+		}
+
+		&--red {
+			color: rgb(220, 0, 78) !important;
+			font-weight: bold !important;
+		}
+	}
+
+	&__statisticContainer {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
 	.Statistic {
 		margin: 10px 0;
 		display: flex;
