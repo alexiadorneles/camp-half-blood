@@ -99,14 +99,6 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 				<CHBCabinSelected compact camper={camper as Camper} />
 				<div className="MyCabin__container">
 					<br />
-					{/* <div className="MyCabin__general">
-						<Typography className="MyCabin__general--green" variant="caption" display="block" gutterBottom>
-							{statistics?.answered?.length + ' responderam as atividades'}
-						</Typography>
-						<Typography className="MyCabin__general--red" variant="caption" display="block" gutterBottom>
-							{statistics?.notAnswered?.length + ' não responderam as atividades'}
-						</Typography>
-					</div> */}
 					<Accordion expanded={panel === 'answered'} onChange={handlePanelChange('answered')}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
 							<Typography className="MyCabin__general--green" display="block" gutterBottom>
