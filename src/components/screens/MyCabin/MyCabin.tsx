@@ -8,6 +8,8 @@ import {
 	LinearProgress,
 	Typography,
 } from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 import React, { useContext, useEffect, useState } from 'react'
 import { Camper } from '../../../model/Camper'
 import { Edition } from '../../../model/Edition'
@@ -17,8 +19,6 @@ import { CustomSwal } from '../../../providers/SwalProvider'
 import { CamperService } from '../../../services'
 import { EditionProvider } from '../../EditionProvider'
 import { CHBCabinSelected } from '../../generics'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-
 import './MyCabin.scss'
 
 interface MyCabinPropTypes {
@@ -28,11 +28,16 @@ interface MyCabinPropTypes {
 export function MyCabin({ camperService }: MyCabinPropTypes) {
 	const [statistics, setStatistics] = useState<CabinStatistic>({} as CabinStatistic)
 	const [panel, setPanel] = useState('none')
+	const [date, setDate] = useState<Date | null>(null)
+	const { camper, edition } = useContext(GlobalContext)
 
 	useEffect(() => {
 		const getStatistics = async () => {
+			if (!camper || !date || typeof date !== 'object') return
+
 			try {
-				const data = await camperService.retrieveStatisticByCabinAndDay(6, '2021-02-28')
+				const parsedDate = date.toISOString().split('T')[0]
+				const data = await camperService.retrieveStatisticByCabinAndDay(camper.idCabin!, parsedDate)
 				setStatistics(data)
 			} catch (error) {
 				CustomSwal.fire(
@@ -44,7 +49,7 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 		}
 
 		getStatistics()
-	}, [])
+	}, [camper, date])
 
 	const handlePanelChange = (panel: string) => (_: any, isExpanded: boolean) => {
 		setPanel(isExpanded ? panel : 'false')
@@ -54,7 +59,7 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 		const progressClassName = () => {
 			if (statistic.nrCorrectPercentage <= 60) return 'Statistic__progress Statistic__progress--red'
 			if (statistic.nrCorrectPercentage < 90) return 'Statistic__progress Statistic__progress--yellow'
-			if (statistic.nrCorrectPercentage >= 90) return 'Statistic__progress Statistic__progress--green'
+			return 'Statistic__progress Statistic__progress--green'
 		}
 		return (
 			<Card className="Statistic">
@@ -92,12 +97,26 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 		</Card>
 	)
 
-	const { camper, edition } = useContext(GlobalContext)
 	if (edition && edition.dtBegin && camper && camper.idCabin) {
 		return (
 			<div className="MyCabin">
 				<CHBCabinSelected compact camper={camper as Camper} />
 				<div className="MyCabin__container">
+					<KeyboardDatePicker
+						invalidDateMessage="Selecione a data que deseja ver os resultados"
+						inputVariant="outlined"
+						required
+						disableToolbar
+						variant="inline"
+						format="dd/MM/yyyy"
+						margin="normal"
+						label="Data das Atividades"
+						value={date}
+						onChange={date => setDate(date)}
+						KeyboardButtonProps={{
+							'aria-label': 'change date',
+						}}
+					/>
 					<br />
 					<Accordion expanded={panel === 'answered'} onChange={handlePanelChange('answered')}>
 						<AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header">
