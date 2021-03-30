@@ -7,6 +7,7 @@
 	flex-wrap: wrap;
 
 	&__container {
+		@extend .pageContainer;
 		width: 90%;
 	}
 
@@ -21,15 +22,18 @@
 		&--green {
 			color: rgb(76, 175, 80) !important;
 			font-weight: bold !important;
+			margin: 0 10px;
 		}
 
 		&--red {
 			color: rgb(220, 0, 78) !important;
 			font-weight: bold !important;
+			margin: 0 10px;
 		}
 	}
 
 	&__statisticContainer {
+		flex: 1;
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
@@ -52,7 +56,6 @@
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			margin-bottom: 10px;
 			width: 100%;
 
 			p {
@@ -71,6 +74,8 @@
 		}
 
 		&__progress {
+			margin-top: 12px;
+
 			&--red {
 				.MuiLinearProgress-barColorPrimary,
 				.MuiLinearProgress-colorPrimary {
