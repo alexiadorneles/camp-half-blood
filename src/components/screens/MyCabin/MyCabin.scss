@@ -9,6 +9,7 @@
 	&__container {
 		@extend .pageContainer;
 		width: 90%;
+		overflow-y: visible;
 	}
 
 	&__general {

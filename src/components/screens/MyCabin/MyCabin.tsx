@@ -25,9 +25,11 @@ interface MyCabinPropTypes {
 	camperService: CamperService
 }
 
+type Panel = 'none' | 'notAnswered' | 'answered'
+
 export function MyCabin({ camperService }: MyCabinPropTypes) {
 	const [statistics, setStatistics] = useState<CabinStatistic>({} as CabinStatistic)
-	const [panel, setPanel] = useState('none')
+	const [panel, setPanel] = useState<Panel>('none')
 	const [date, setDate] = useState<Date | null>(null)
 	const { camper, edition } = useContext(GlobalContext)
 
@@ -51,8 +53,8 @@ export function MyCabin({ camperService }: MyCabinPropTypes) {
 		getStatistics()
 	}, [camper, date])
 
-	const handlePanelChange = (panel: string) => (_: any, isExpanded: boolean) => {
-		setPanel(isExpanded ? panel : 'false')
+	const handlePanelChange = (panel: Panel) => (_: any, isExpanded: boolean) => {
+		setPanel(isExpanded ? panel : 'none')
 	}
 
 	const renderStatistic = (statistic: Statistic) => {
